@@ -1,5 +1,5 @@
 import request from '@/api/interceptor.ts';
-import type { Result } from '../../types/axios.t.ts';
+import type { Result } from '../../types/axios.d.ts';
 
 export interface LoginData {
   username: string;
