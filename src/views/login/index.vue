@@ -5,7 +5,27 @@
       <div class="header-text">Arco Admin</div>
     </header>
     <div class="content">
-      <LoginForm />
+      <div class="form-wrapper">
+        <div class="form-title">欢迎使用</div>
+        <a-tabs v-model:active-key="tabActiveKey" animation :justify="true">
+          <a-tab-pane
+            key="1"
+            class="login-form-tab1"
+            title="登录"
+            destroy-on-hide
+          >
+            <LoginForm />
+          </a-tab-pane>
+          <a-tab-pane
+            key="2"
+            class="register-form-tab"
+            title="注册"
+            destroy-on-hide
+          >
+            <RegisterForm />
+          </a-tab-pane>
+        </a-tabs>
+      </div>
     </div>
     <Footer />
   </div>
@@ -14,9 +34,33 @@
 <script lang="ts" setup>
 import LoginForm from './components/login-form.vue';
 import logoSvg from '@/assets/logo.svg';
+import { ref } from 'vue';
+import RegisterForm from '@/views/login/components/register-form.vue';
+
+const tabActiveKey = ref('1');
 </script>
 
 <style lang="less" scoped>
+.form {
+  &-wrapper {
+    width: 450px;
+    height: 100%;
+    padding: 24px 24px 12px;
+    overflow: hidden;
+    background-color: #fff;
+    border: 1px solid var(--color-border-2);
+    border-radius: var(--border-radius-large);
+  }
+
+  &-title {
+    margin-bottom: 16px;
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 32px;
+    color: var(--color-text-1);
+  }
+}
+
 .container {
   display: flex;
   height: 100vh;
@@ -57,6 +101,10 @@ import logoSvg from '@/assets/logo.svg';
       color: rgb(var(--color-text-1));
     }
   }
+}
+
+:deep(.arco-tabs-content) {
+  height: 155px;
 }
 
 @media (max-height: @screen-md) {

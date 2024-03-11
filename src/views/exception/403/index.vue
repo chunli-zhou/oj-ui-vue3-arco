@@ -1,15 +1,9 @@
 <template>
   <div class="container">
-    <Breadcrumb :items="['menu.exception', 'menu.exception.403']" />
+    <Breadcrumb :items="['异常', '403']" />
     <div class="content">
-      <a-result
-        class="result"
-        status="403"
-        :subtitle="$t('exception.result.403.description')"
-      />
-      <a-button key="back" type="primary">
-        {{ $t('exception.result.403.back') }}
-      </a-button>
+      <a-result class="result" status="403" subtitle="无权限" />
+      <a-button key="back" type="primary">返回首页</a-button>
     </div>
   </div>
 </template>

@@ -8,6 +8,14 @@ export interface LoginData {
   uuid: string;
 }
 
+export interface RegisterData {
+  username: string;
+  password: string;
+  checkPassword: string;
+  captcha: string;
+  uuid: string;
+}
+
 export interface LoginResponse {
   token: string;
   id: string;
@@ -15,6 +23,10 @@ export interface LoginResponse {
 
 export function login(data: LoginData) {
   return request.post<Result<LoginResponse>>('/security/login', data);
+}
+
+export function register(data: RegisterData) {
+  return request.post<Result>('/security/register', data);
 }
 
 export function logout() {

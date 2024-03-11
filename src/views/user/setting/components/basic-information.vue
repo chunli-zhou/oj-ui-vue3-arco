@@ -8,76 +8,67 @@
   >
     <a-form-item
       field="email"
-      :label="$t('userSetting.basicInfo.form.label.email')"
+      label="邮箱"
       :rules="[
         {
           required: true,
-          message: $t('userSetting.form.error.email.required')
+          message: '邮箱必填'
         }
       ]"
     >
-      <a-input
-        v-model="formData.email"
-        :placeholder="$t('userSetting.basicInfo.placeholder.email')"
-      />
+      <a-input v-model="formData.email" placeholder="请输入邮箱" />
     </a-form-item>
     <a-form-item
       field="nickname"
-      :label="$t('userSetting.basicInfo.form.label.nickname')"
+      label="昵称"
       :rules="[
         {
           required: true,
-          message: $t('userSetting.form.error.nickname.required')
+          message: '昵称必填'
         }
       ]"
     >
-      <a-input
-        v-model="formData.nickname"
-        :placeholder="$t('userSetting.basicInfo.placeholder.nickname')"
-      />
+      <a-input v-model="formData.nickname" placeholder="请输入昵称" />
     </a-form-item>
     <a-form-item
       field="countryRegion"
-      :label="$t('userSetting.basicInfo.form.label.countryRegion')"
+      label="国家/地区"
       :rules="[
         {
           required: true,
-          message: $t('userSetting.form.error.countryRegion.required')
+          message: '国家地区'
         }
       ]"
     >
-      <a-select
-        v-model="formData.countryRegion"
-        :placeholder="$t('userSetting.basicInfo.placeholder.area')"
-      >
+      <a-select v-model="formData.countryRegion" placeholder="请选择">
         <a-option value="China">中国</a-option>
       </a-select>
     </a-form-item>
     <a-form-item
       field="area"
-      :label="$t('userSetting.basicInfo.form.label.area')"
+      label="所在区域"
       :rules="[
         {
           required: true,
-          message: $t('userSetting.form.error.area.required')
+          message: '城市必填'
         }
       ]"
     >
       <a-cascader
         v-model="formData.area"
-        :placeholder="$t('userSetting.basicInfo.placeholder.area')"
+        placeholder="请选择"
         :options="[
           {
-            label: '北京',
-            value: 'beijing',
+            label: '山东',
+            value: 'shandong',
             children: [
               {
-                label: '北京',
-                value: 'beijing',
+                label: '济南',
+                value: 'jinan',
                 children: [
                   {
-                    label: '朝阳',
-                    value: 'chaoyang'
+                    label: '济阳',
+                    value: 'jiyang'
                   }
                 ]
               }
@@ -87,29 +78,23 @@
         allow-clear
       />
     </a-form-item>
-    <a-form-item
-      field="address"
-      :label="$t('userSetting.basicInfo.form.label.address')"
-    >
-      <a-input
-        v-model="formData.address"
-        :placeholder="$t('userSetting.basicInfo.placeholder.address')"
-      />
+    <a-form-item field="address" label="家庭地址">
+      <a-input v-model="formData.address" placeholder="请输入家庭地址" />
     </a-form-item>
     <a-form-item
       field="profile"
-      :label="$t('userSetting.basicInfo.form.label.profile')"
+      label="个人简介"
       :rules="[
         {
           maxLength: 200,
-          message: $t('userSetting.form.error.profile.maxLength')
+          message: '个人简介'
         }
       ]"
       row-class="keep-margin"
     >
       <a-textarea
         v-model="formData.profile"
-        :placeholder="$t('userSetting.basicInfo.placeholder.profile')"
+        placeholder="请输入个人简介，最多不超过200字"
       />
     </a-form-item>
     <a-form-item>

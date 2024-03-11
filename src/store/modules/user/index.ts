@@ -3,7 +3,9 @@ import {
   getUserInfo,
   login as userLogin,
   type LoginData,
-  logout as userLogout
+  logout as userLogout,
+  register as userRegister,
+  type RegisterData
 } from '@/api/user';
 import { clearToken, setToken } from '@/utils/auth';
 import { removeRouteListener } from '@/utils/route-listener';
@@ -59,6 +61,9 @@ const useUserStore = defineStore('user', {
         clearToken();
         throw err;
       }
+    },
+    async register(registerForm: RegisterData) {
+      await userRegister(registerForm);
     },
     logoutCallBack() {
       this.resetInfo();

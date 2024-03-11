@@ -68,23 +68,23 @@ const file = {
 };
 const renderData = [
   {
-    label: 'userSetting.label.name',
+    label: '姓名',
     value: userStore.name
   },
   {
-    label: 'userSetting.label.certification',
+    label: '认证状态',
     value: userStore.certification
   },
   {
-    label: 'userSetting.label.accountId',
+    label: '账户ID',
     value: userStore.accountId
   },
   {
-    label: 'userSetting.label.phone',
+    label: '手机号',
     value: userStore.phone
   },
   {
-    label: 'userSetting.label.registrationDate',
+    label: '注册日期',
     value: userStore.registrationDate
   }
 ] as DescData[];
