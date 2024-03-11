@@ -35,16 +35,6 @@
         }"
       >
         <template #label="{ label }">{{ $t(label) }} :</template>
-        <template #value="{ value, data }">
-          <a-tag
-            v-if="data.label === 'userSetting.label.certification'"
-            color="green"
-            size="small"
-          >
-            已认证
-          </a-tag>
-          <span v-else>{{ value }}</span>
-        </template>
       </a-descriptions>
     </a-space>
   </a-card>
@@ -72,20 +62,16 @@ const renderData = [
     value: userStore.name
   },
   {
-    label: '认证状态',
-    value: userStore.certification
-  },
-  {
     label: '账户ID',
-    value: userStore.accountId
+    value: userStore.id
   },
   {
     label: '手机号',
-    value: userStore.phone
+    value: userStore.mobile
   },
   {
     label: '注册日期',
-    value: userStore.registrationDate
+    value: userStore.createTime
   }
 ] as DescData[];
 const fileList = ref<FileItem[]>([file]);

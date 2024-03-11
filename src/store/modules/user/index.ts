@@ -14,12 +14,15 @@ import type { UserInfo } from './types';
 const useUserStore = defineStore('user', {
   state: (): UserInfo => ({
     id: undefined,
+    name: undefined,
+    nickName: undefined,
     username: undefined,
     avatar: undefined,
     gender: undefined,
     email: undefined,
     mobile: undefined,
-    role: ''
+    role: '',
+    createTime: undefined
   }),
 
   getters: {
