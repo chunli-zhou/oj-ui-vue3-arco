@@ -99,12 +99,8 @@
     </a-form-item>
     <a-form-item>
       <a-space>
-        <a-button type="primary" @click="validate">
-          {{ $t('userSetting.save') }}
-        </a-button>
-        <a-button type="secondary" @click="reset">
-          {{ $t('userSetting.reset') }}
-        </a-button>
+        <a-button type="primary" @click="validate">保存</a-button>
+        <a-button type="secondary" @click="reset">重置</a-button>
       </a-space>
     </a-form-item>
   </a-form>

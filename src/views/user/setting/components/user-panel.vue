@@ -59,7 +59,7 @@ const file = {
 const renderData = [
   {
     label: '姓名',
-    value: userStore.name
+    value: userStore.realName
   },
   {
     label: '账户ID',
