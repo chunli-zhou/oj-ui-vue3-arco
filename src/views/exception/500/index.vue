@@ -2,7 +2,7 @@
   <div class="container">
     <Breadcrumb :items="['异常', '500']" />
     <div class="content">
-      <a-result class="result" status="500" subtitle="服务器内部错误" />
+      <a-result class="result" status="500" subtitle="内部服务器错误" />
       <a-button key="back" type="primary">返回首页</a-button>
     </div>
   </div>

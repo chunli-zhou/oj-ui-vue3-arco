@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <Breadcrumb :items="['menu.user', 'menu.user.info']" />
+    <Breadcrumb :items="['个人中心', '用户信息']" />
     <UserInfoHeader />
     <div class="content">
       <div class="content-left">
