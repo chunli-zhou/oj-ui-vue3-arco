@@ -1,12 +1,8 @@
 <template>
   <footer class="footer">
     <slot>
-      Arco Admin 版权所有 © 2023 李江辰｜
-      <a-link
-        style="font-size: 12px"
-        href="https://github.com/LIjiAngChen8/arco-admin/blob/main/LICENSE"
-        target="_blank"
-      >
+      Online Judge 2024 |
+      <a-link style="font-size: 12px" href="" target="_blank">
         MIT 使用条款
       </a-link>
     </slot>
