@@ -1,8 +1,10 @@
 import type { AppRouteRecordRaw } from '../types';
+import { DEFAULT_LAYOUT } from '@/router/routes/base.ts';
 
 const FORM: AppRouteRecordRaw = {
   path: '/form',
   name: 'form',
+  component: () => DEFAULT_LAYOUT,
   meta: {
     locale: '表单页',
     icon: 'icon-settings',

@@ -1,8 +1,10 @@
 import type { AppRouteRecordRaw } from '../types';
+import { DEFAULT_LAYOUT } from '@/router/routes/base.ts';
 
 const EXCEPTION: AppRouteRecordRaw = {
   path: '/exception',
   name: 'Exception',
+  component: DEFAULT_LAYOUT,
   meta: {
     locale: '异常页',
     icon: 'icon-exclamation-circle',
