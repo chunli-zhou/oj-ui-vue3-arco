@@ -9,7 +9,9 @@ const RESULT: AppRouteRecordRaw = {
     locale: '结果页',
     icon: 'icon-check-circle',
     requiresAuth: true,
-    order: 5
+    order: 5,
+    hideInMenu: true,
+    noAffix: true
   },
   children: [
     {
@@ -18,8 +20,7 @@ const RESULT: AppRouteRecordRaw = {
       component: () => import('@/views/result/success/index.vue'),
       meta: {
         locale: '成功页',
-        requiresAuth: true,
-        roles: ['*']
+        hideInMenu: true
       }
     },
     {
@@ -28,8 +29,7 @@ const RESULT: AppRouteRecordRaw = {
       component: () => import('@/views/result/error/index.vue'),
       meta: {
         locale: '失败页',
-        requiresAuth: true,
-        roles: ['*']
+        hideInMenu: true
       }
     }
   ]

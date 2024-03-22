@@ -3,13 +3,15 @@ import type { AppRouteRecordRaw } from '../types';
 
 const EXCEPTION: AppRouteRecordRaw = {
   path: '/exception',
-  name: 'exception',
+  name: 'Exception',
   component: DEFAULT_LAYOUT,
   meta: {
-    locale: 'menu.exception',
-    requiresAuth: true,
+    locale: '异常页',
     icon: 'icon-exclamation-circle',
-    order: 6
+    requiresAuth: true,
+    order: 6,
+    hideInMenu: true,
+    noAffix: true
   },
   children: [
     {
@@ -18,8 +20,7 @@ const EXCEPTION: AppRouteRecordRaw = {
       component: () => import('@/views/exception/403/index.vue'),
       meta: {
         locale: '403',
-        requiresAuth: true,
-        roles: ['*']
+        hideInMenu: true
       }
     },
     {
@@ -28,8 +29,7 @@ const EXCEPTION: AppRouteRecordRaw = {
       component: () => import('@/views/exception/404/index.vue'),
       meta: {
         locale: '404',
-        requiresAuth: true,
-        roles: ['*']
+        hideInMenu: true
       }
     },
     {
@@ -38,8 +38,7 @@ const EXCEPTION: AppRouteRecordRaw = {
       component: () => import('@/views/exception/500/index.vue'),
       meta: {
         locale: '500',
-        requiresAuth: true,
-        roles: ['*']
+        hideInMenu: true
       }
     }
   ]
