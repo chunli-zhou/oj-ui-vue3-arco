@@ -11,7 +11,7 @@
         :key="team.id"
         action-layout="horizontal"
       >
-        <a-skeleton v-if="loading" :loading="loading" :animation="true">
+        <a-skeleton v-if="false" :loading="false" :animation="true">
           <a-row :gutter="6">
             <a-col :span="6">
               <a-skeleton-shape shape="circle" />
@@ -34,16 +34,7 @@
   </a-card>
 </template>
 
-<script lang="ts" setup>
-import { queryMyTeamList, MyTeamRecord } from '@/api/user-center';
-import useRequest from '@/hooks/useRequest';
-
-const defaultValue: MyTeamRecord[] = new Array(4).fill({});
-const { loading, response: teamList } = useRequest<MyTeamRecord[]>(
-  queryMyTeamList,
-  defaultValue
-);
-</script>
+<script lang="ts" setup></script>
 
 <style scoped lang="less">
 .general-card {

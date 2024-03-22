@@ -1,31 +1,16 @@
 import request from '@/api/interceptor.ts';
 import type { Result } from '../../types/axios.d.ts';
+import type {
+  LoginRequest,
+  LoginResponse,
+  RegisterRequest
+} from '@/api/gen-api';
 
-export interface LoginData {
-  username: string;
-  password: string;
-  captcha: string;
-  uuid: string;
-}
-
-export interface RegisterData {
-  username: string;
-  password: string;
-  checkPassword: string;
-  captcha: string;
-  uuid: string;
-}
-
-export interface LoginResponse {
-  token: string;
-  id: string;
-}
-
-export function login(data: LoginData) {
+export function login(data: LoginRequest) {
   return request.post<Result<LoginResponse>>('/security/login', data);
 }
 
-export function register(data: RegisterData) {
+export function register(data: RegisterRequest) {
   return request.post<Result>('/security/register', data);
 }
 

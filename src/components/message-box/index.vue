@@ -26,12 +26,6 @@
 <script lang="ts" setup>
 import { ref, reactive, toRefs, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-import {
-  queryMessageList,
-  setMessageStatus,
-  MessageRecord,
-  MessageListType
-} from '@/api/message';
 import useLoading from '@/hooks/useLoading';
 import List from './list.vue';
 
@@ -44,12 +38,9 @@ const { loading, setLoading } = useLoading(true);
 const messageType = ref('message');
 const { t } = useI18n();
 const messageData = reactive<{
-  renderList: MessageRecord[];
-  messageList: MessageRecord[];
-}>({
-  renderList: [],
-  messageList: []
-});
+  renderList: undefined;
+  messageList: undefined;
+}>;
 toRefs(messageData);
 const tabList: TabItem[] = [
   {
@@ -68,17 +59,17 @@ const tabList: TabItem[] = [
 async function fetchSourceData() {
   setLoading(true);
   try {
-    const { data } = await queryMessageList();
-    messageData.messageList = data;
+    // const { data } = await queryMessageList();
+    // messageData.messageList = data;
   } catch (err) {
     // you can report use errorHandler or other
   } finally {
     setLoading(false);
   }
 }
-async function readMessage(data: MessageListType) {
+async function readMessage(data: any) {
   const ids = data.map(item => item.id);
-  await setMessageStatus({ ids });
+  // await setMessageStatus({ ids });
   fetchSourceData();
 }
 const renderList = computed(() => {
@@ -99,7 +90,7 @@ const formatUnreadLength = (type: string) => {
   const list = getUnreadList(type);
   return list.length ? `(${list.length})` : ``;
 };
-const handleItemClick = (items: MessageListType) => {
+const handleItemClick = (items: any) => {
   if (renderList.value.length) readMessage([...items]);
 };
 const emptyList = () => {

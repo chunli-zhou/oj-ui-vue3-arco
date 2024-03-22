@@ -47,14 +47,10 @@
 </template>
 
 <script lang="ts" setup>
-import { queryMyProjectList, MyProjectRecord } from '@/api/user-center';
 import useRequest from '@/hooks/useRequest';
 
-const defaultValue = Array(6).fill({} as MyProjectRecord);
-const { loading, response: projectList } = useRequest<MyProjectRecord[]>(
-  queryMyProjectList,
-  defaultValue
-);
+const defaultValue = Array(6).fill({} as any);
+const { loading, response: projectList } = useRequest<any[]>;
 </script>
 
 <style scoped lang="less">

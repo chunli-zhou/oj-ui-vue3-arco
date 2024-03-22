@@ -95,10 +95,10 @@ import { useRouter } from 'vue-router';
 import { useStorage } from '@vueuse/core';
 import { useUserStore } from '@/store';
 import useLoading from '@/hooks/useLoading';
-import type { LoginData } from '@/api/user';
 import { pick } from 'lodash';
 import { Message } from '@arco-design/web-vue';
 import { nanoid } from 'nanoid';
+import { LoginRequest } from '@/api/gen-api';
 
 const router = useRouter();
 const userStore = useUserStore();
@@ -139,13 +139,13 @@ const handleSubmit = () => {
     }
     setLoading(true);
     try {
-      const userInfoForm: LoginData = pick(form, [
+      const userInfoForm: LoginRequest = pick(form, [
         'username',
         'password',
         'captcha',
         'uuid'
       ]);
-      await userStore.login(userInfoForm as LoginData);
+      await userStore.login(userInfoForm as LoginRequest);
 
       const { redirect, ...othersQuery } = router.currentRoute.value.query;
       router.push({
@@ -157,7 +157,6 @@ const handleSubmit = () => {
       Message.success('登录成功！');
       const { rememberPassword } = loginConfig.value;
       const { username, password } = userInfoForm;
-      // 实际生产环境需要进行加密存储。
       loginConfig.value.username = rememberPassword ? username : '';
       loginConfig.value.password = rememberPassword ? password : '';
     } catch (error) {

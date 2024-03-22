@@ -42,15 +42,14 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-import { queryLatestActivity, LatestActivity } from '@/api/user-center';
 import useLoading from '@/hooks/useLoading';
 
 const { loading, setLoading } = useLoading(true);
-const activityList = ref<LatestActivity[]>(new Array(7).fill({}));
+const activityList = ref<any>(new Array(7).fill({}));
 const fetchData = async () => {
   try {
-    const { data } = await queryLatestActivity();
-    activityList.value = data;
+    // const { data } = await queryLatestActivity();
+    // activityList.value = data;
   } catch (err) {
     // you can report use errorHandler or other
   } finally {

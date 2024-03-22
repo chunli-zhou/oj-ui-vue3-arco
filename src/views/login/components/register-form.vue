@@ -96,9 +96,8 @@ import { onMounted, reactive, ref } from 'vue';
 import { useStorage } from '@vueuse/core';
 import { useUserStore } from '@/store';
 import useLoading from '@/hooks/useLoading.ts';
-import { pick } from 'lodash';
 import { nanoid } from 'nanoid';
-import { RegisterData } from '@/api/user.ts';
+import { RegisterRequest } from '@/api/sys-oj';
 
 const userStore = useUserStore();
 const formRef = ref();
@@ -154,7 +153,7 @@ const handleSubmit = () => {
       if (res) return;
       setLoading(true);
       try {
-        await userStore.register(form as RegisterData);
+        await userStore.register(form as RegisterRequest);
       } catch (error) {
         await getCaptcha();
       } finally {

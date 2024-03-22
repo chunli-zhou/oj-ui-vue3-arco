@@ -1,32 +1,28 @@
 import { defineStore } from 'pinia';
-import {
-  getUserInfo,
-  login as userLogin,
-  type LoginData,
-  logout as userLogout,
-  register as userRegister,
-  type RegisterData
-} from '@/api/user';
 import { clearToken, setToken } from '@/utils/auth';
 import { removeRouteListener } from '@/utils/route-listener';
-import type { UserInfo } from './types';
+import type { LoginRequest, RegisterRequest } from '@/api/gen-api';
+import {
+  LoginService,
+  type SysUserResponse,
+  SysUserService
+} from '@/api/gen-api';
 
 const useUserStore = defineStore('user', {
-  state: (): UserInfo => ({
+  state: (): SysUserResponse => ({
     id: undefined,
-    realName: undefined,
-    nickName: undefined,
     username: undefined,
+    realName: undefined,
     avatar: undefined,
     gender: undefined,
     email: undefined,
     mobile: undefined,
-    role: '',
-    createTime: undefined
+    status: undefined,
+    role: ''
   }),
 
   getters: {
-    userInfo(state: UserInfo): UserInfo {
+    userInfo(state: SysUserResponse): SysUserResponse {
       return { ...state };
     }
   },
@@ -39,7 +35,7 @@ const useUserStore = defineStore('user', {
       });
     },
     // Set user's information
-    setInfo(partial: Partial<UserInfo>) {
+    setInfo(partial: Partial<SysUserResponse>) {
       this.$patch(partial);
     },
 
@@ -50,23 +46,24 @@ const useUserStore = defineStore('user', {
 
     // Get user's information
     async info() {
-      const res = await getUserInfo();
+      const res = await SysUserService.getInfo(this.id);
 
       this.setInfo(res.result);
     },
 
     // Login
-    async login(loginForm: LoginData) {
+    async login(loginForm: LoginRequest) {
       try {
-        const res = await userLogin(loginForm);
+        const res = await LoginService.login(loginForm);
+        this.id = res.result.userId;
         setToken(res.result.token);
       } catch (err) {
         clearToken();
         throw err;
       }
     },
-    async register(registerForm: RegisterData) {
-      await userRegister(registerForm);
+    async register(registerForm: RegisterRequest) {
+      await LoginService.register(registerForm);
     },
     logoutCallBack() {
       this.resetInfo();
@@ -76,7 +73,7 @@ const useUserStore = defineStore('user', {
     // Logout
     async logout() {
       try {
-        await userLogout();
+        await LoginService.logout();
       } finally {
         this.logoutCallBack();
       }
