@@ -70,6 +70,7 @@
     "nanoid": "^5.0.6",
     "nprogress": "^0.2.0",
     "pinia": "^2.1.7",
+    "pinia-plugin-persistedstate": "^3.2.1",
     "query-string": "^9.0.0",
     "sortablejs": "^1.15.2",
     "vue": "^3.4.21",

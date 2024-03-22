@@ -78,7 +78,9 @@ const useUserStore = defineStore('user', {
         this.logoutCallBack();
       }
     }
-  }
+  },
+  // 开启数据持久化
+  persist: true
 });
 
 export default useUserStore;
