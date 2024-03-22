@@ -11,7 +11,7 @@ export interface AppRouteRecordRaw {
   name?: string | symbol; // 名字
   meta?: RouteMeta; // 路由元信息
   redirect?: string; // 重定向地址
-  component: Component | string; // 组件
+  component?: Component | string; // 组件
   children?: AppRouteRecordRaw[]; // 子路由
   alias?: string | string[]; // 别名
   props?: Record<string, any>; // 传递给路由的参数

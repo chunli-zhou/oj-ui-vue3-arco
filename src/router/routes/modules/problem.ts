@@ -1,17 +1,15 @@
 import type { AppRouteRecordRaw } from '@/router/routes/types.ts';
-import { DEFAULT_LAYOUT } from '@/router/routes/base.ts';
 
 const PROBLEM: AppRouteRecordRaw = {
   path: '/problem',
   name: 'Problem',
-  component: DEFAULT_LAYOUT,
+  component: () => import('@/views/problem/index.vue'),
   meta: {
     locale: '题目管理',
     icon: 'icon-select-all',
     requiresAuth: true,
-    order: 4,
-    hideInMenu: true,
-    noAffix: true
+    roles: ['*'],
+    order: 4
   }
 };
 

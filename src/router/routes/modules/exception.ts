@@ -1,10 +1,8 @@
-import { DEFAULT_LAYOUT } from '../base';
 import type { AppRouteRecordRaw } from '../types';
 
 const EXCEPTION: AppRouteRecordRaw = {
   path: '/exception',
   name: 'Exception',
-  component: DEFAULT_LAYOUT,
   meta: {
     locale: '异常页',
     icon: 'icon-exclamation-circle',
