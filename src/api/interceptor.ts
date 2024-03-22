@@ -1,8 +1,4 @@
-import type {
-  AxiosRequestConfig,
-  AxiosResponse,
-  InternalAxiosRequestConfig
-} from 'axios';
+import type { AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 import axios from 'axios';
 import { Message, Modal } from '@arco-design/web-vue';
 import { useUserStore } from '@/store';
@@ -55,7 +51,7 @@ service.interceptors.response.use(
       }
       return Promise.reject(new Error(res.message || '网络错误'));
     }
-    return res;
+    return response;
   },
   error => {
     Message.error({
@@ -66,43 +62,4 @@ service.interceptors.response.use(
   }
 );
 
-// 封装 get 方法
-const get: <Result>(
-  url: string,
-  params?: object,
-  config?: AxiosRequestConfig
-) => Promise<Result> = async (url, params, config) => {
-  return await service.get(url, { params, ...config });
-};
-
-// 封装 post 方法
-const post: <Result>(
-  url: string,
-  data?: any,
-  config?: AxiosRequestConfig
-) => Promise<Result> = async (url, data = {}, config = {}) => {
-  return await service.post(url, data, { ...config });
-};
-
-// 封装 put 方法
-const put: <Result>(
-  url: string,
-  data?: any,
-  config?: AxiosRequestConfig
-) => Promise<Result> = async (url, data = {}, config = {}) => {
-  return await service.put(url, data, { ...config });
-};
-
-// 封装 delete 方法
-const _delete: <Result>(
-  url: string,
-  config?: AxiosRequestConfig
-) => Promise<Result> = async (url, config = {}) => {
-  const response = await service.delete(url, config);
-  return response.data;
-};
-
-// 使用 request 统一调用，包括封装的get、post、put、delete等方法
-const request = { get, post, put, delete: _delete };
-
-export default request;
+export default service;

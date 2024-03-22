@@ -138,32 +138,34 @@ const handleSubmit = () => {
       return Message.info('请阅读并同意服务协议和隐私政策');
     }
     setLoading(true);
-    try {
-      const userInfoForm: LoginRequest = pick(form, [
-        'username',
-        'password',
-        'captcha',
-        'uuid'
-      ]);
-      await userStore.login(userInfoForm as LoginRequest);
-
-      const { redirect, ...othersQuery } = router.currentRoute.value.query;
-      router.push({
-        name: (redirect as string) || 'Workplace',
-        query: {
-          ...othersQuery
-        }
+    const userInfoForm: LoginRequest = pick(form, [
+      'username',
+      'password',
+      'captcha',
+      'uuid'
+    ]);
+    await userStore
+      .login(userInfoForm as LoginRequest)
+      .then(() => {
+        const { redirect, ...othersQuery } = router.currentRoute.value.query;
+        router.push({
+          name: (redirect as string) || 'Info',
+          query: {
+            ...othersQuery
+          }
+        });
+        Message.success('登录成功！');
+        const { rememberPassword } = loginConfig.value;
+        const { username, password } = userInfoForm;
+        loginConfig.value.username = rememberPassword ? username : '';
+        loginConfig.value.password = rememberPassword ? password : '';
+      })
+      .catch(() => {
+        getCaptcha();
+      })
+      .finally(() => {
+        setLoading(false);
       });
-      Message.success('登录成功！');
-      const { rememberPassword } = loginConfig.value;
-      const { username, password } = userInfoForm;
-      loginConfig.value.username = rememberPassword ? username : '';
-      loginConfig.value.password = rememberPassword ? password : '';
-    } catch (error) {
-      await getCaptcha();
-    } finally {
-      setLoading(false);
-    }
   });
 };
 

@@ -1,18 +1,18 @@
-import axios from 'axios';
 import type {
   AxiosError,
+  AxiosInstance,
   AxiosRequestConfig,
-  AxiosResponse,
-  AxiosInstance
+  AxiosResponse
 } from 'axios';
+import axios from 'axios';
 import FormData from 'form-data';
 
-import { ApiError } from './ApiError';
 import type { ApiRequestOptions } from './ApiRequestOptions';
 import type { ApiResult } from './ApiResult';
-import { CancelablePromise } from './CancelablePromise';
 import type { OnCancel } from './CancelablePromise';
+import { CancelablePromise } from './CancelablePromise';
 import type { OpenAPIConfig } from './OpenAPI';
+import service from '@/api/interceptor.ts';
 
 export const isDefined = <T>(
   value: T | null | undefined
@@ -45,15 +45,14 @@ export const isFormData = (value: any): value is FormData => {
   return value instanceof FormData;
 };
 
-export const isSuccess = (status: number): boolean => {
-  return status >= 200 && status < 300;
+export const isSuccess = (code: number): boolean => {
+  return code >= 200 && code < 300;
 };
 
 export const base64 = (str: string): string => {
   try {
     return btoa(str);
   } catch (err) {
-    // @ts-expect-error
     return Buffer.from(str).toString('base64');
   }
 };
@@ -270,45 +269,6 @@ export const getResponseBody = (response: AxiosResponse<any>): any => {
   return undefined;
 };
 
-export const catchErrorCodes = (
-  options: ApiRequestOptions,
-  result: ApiResult
-): void => {
-  const errors: Record<number, string> = {
-    400: 'Bad Request',
-    401: 'Unauthorized',
-    403: 'Forbidden',
-    404: 'Not Found',
-    500: 'Internal Server Error',
-    502: 'Bad Gateway',
-    503: 'Service Unavailable',
-    ...options.errors
-  };
-
-  const error = errors[result.status];
-  if (error) {
-    throw new ApiError(options, result, error);
-  }
-
-  if (!result.ok) {
-    const errorStatus = result.status ?? 'unknown';
-    const errorStatusText = result.statusText ?? 'unknown';
-    const errorBody = (() => {
-      try {
-        return JSON.stringify(result.body, null, 2);
-      } catch (e) {
-        return undefined;
-      }
-    })();
-
-    throw new ApiError(
-      options,
-      result,
-      `Generic Error: status: ${errorStatus}; status text: ${errorStatusText}; body: ${errorBody}`
-    );
-  }
-};
-
 /**
  * Request method
  * @param config The OpenAPI configuration object
@@ -320,7 +280,7 @@ export const catchErrorCodes = (
 export const request = <T>(
   config: OpenAPIConfig,
   options: ApiRequestOptions,
-  axiosClient: AxiosInstance = axios
+  axiosClient: AxiosInstance = service
 ): CancelablePromise<T> => {
   return new CancelablePromise(async (resolve, reject, onCancel) => {
     try {
@@ -353,9 +313,6 @@ export const request = <T>(
           statusText: response.statusText,
           body: responseHeader ?? responseBody
         };
-
-        catchErrorCodes(options, result);
-
         resolve(result.body);
       }
     } catch (error) {
