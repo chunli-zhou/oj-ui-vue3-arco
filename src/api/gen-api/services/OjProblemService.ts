@@ -61,8 +61,8 @@ export class OjProblemService {
       method: 'GET',
       url: '/ojProblem/page',
       query: {
-        page: page,
-        req: req
+        ...page,
+        ...req
       }
     });
   }
