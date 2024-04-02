@@ -10,6 +10,7 @@ import '@/api/interceptor';
 import ArcoVueIcon from '@arco-design/web-vue/es/icon';
 // import '@arco-themes/vue-fillet/index.less'
 import '@arco-themes/vue-ant-border-radius/css/arco.css';
+import 'md-editor-v3/lib/style.css';
 // import '@arco-design/web-vue/es/message/style/index.less';
 // import '@arco-design/web-vue/es/notification/style/index.less';
 // import '@arco-design/web-vue/es/modal/style/index.less';

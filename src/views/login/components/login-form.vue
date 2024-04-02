@@ -1,5 +1,11 @@
 <template>
-  <a-form ref="formRef" layout="horizontal" :model="form" :rules="rules">
+  <a-form
+    ref="formRef"
+    layout="horizontal"
+    :model="form"
+    :rules="rules"
+    @keyup.enter="handleSubmit"
+  >
     <a-form-item field="username" validate-trigger="blur" hide-label>
       <a-input
         v-model="form.username"

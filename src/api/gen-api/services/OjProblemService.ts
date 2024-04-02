@@ -35,7 +35,7 @@ export class OjProblemService {
    * @returns ResultBoolean OK
    * @throws ApiError
    */
-  public static save1(
+  public static save(
     requestBody: OjProblemAddRequest
   ): CancelablePromise<ResultBoolean> {
     return __request(OpenAPI, {

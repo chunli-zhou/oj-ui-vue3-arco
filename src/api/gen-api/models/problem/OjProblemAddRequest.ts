@@ -7,26 +7,30 @@ export type OjProblemAddRequest = {
   /**
    * 标题
    */
-  title: string;
+  title?: string;
   /**
    * 内容
    */
-  content: string;
+  content?: string;
   /**
    * 标签列表
    */
-  tags: Array<string>;
+  tags?: Array<string>;
   /**
    * 题目难度，0简单，1中等，2困难
    */
-  difficulty: number;
+  difficulty?: number;
+  /**
+   * 题目答案语言
+   */
+  ansLanguage?: string;
   /**
    * 题目答案
    */
-  answer: string;
+  answer?: string;
   /**
    * 判题用例
    */
-  judgeCase: Array<JudgeCase>;
+  judgeCase?: Array<JudgeCase>;
   judgeConfig?: JudgeConfig;
 };
