@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import { onMounted, reactive, ref, unref } from 'vue';
-import { PaginationProps, TableColumnData } from '@arco-design/web-vue';
+import {
+  Message,
+  PaginationProps,
+  TableColumnData
+} from '@arco-design/web-vue';
 import {
   type OjProblemQueryRequest,
   OjProblemService,
@@ -158,8 +162,26 @@ const reset = () => {
   pageData();
 };
 
-onMounted(() => {
-  pageData();
+const popoverVisibleList = ref([]);
+
+/**
+ * 取消删除操作
+ */
+const handleCancelDel = (rowIndex: number) => {
+  popoverVisibleList.value[rowIndex] = false;
+};
+
+const handleDel = (record: OjProblemVo, rowIndex: number) => {
+  OjProblemService.remove(record.id).then(() => {
+    Message.success('删除成功');
+    pageData();
+  });
+  popoverVisibleList.value[rowIndex] = false;
+};
+
+onMounted(async () => {
+  await pageData();
+  data.problemList.forEach(() => popoverVisibleList.value.push(false));
 });
 </script>
 
@@ -268,8 +290,29 @@ onMounted(() => {
             </a-tag>
           </span>
         </template>
-        <template #Controls>
-          <a-link>操作</a-link>
+        <template #Controls="{ record, rowIndex }">
+          <a-link>编辑</a-link>
+          <a-popover
+            v-model:popup-visible="popoverVisibleList[rowIndex]"
+            title="确定要删除吗？"
+            trigger="click"
+          >
+            <template #content>
+              <a-space>
+                <a-button size="mini" @click="handleCancelDel(rowIndex)">
+                  取消
+                </a-button>
+                <a-button
+                  size="mini"
+                  type="primary"
+                  @click="handleDel(record, rowIndex)"
+                >
+                  确定
+                </a-button>
+              </a-space>
+            </template>
+            <a-link status="danger">删除</a-link>
+          </a-popover>
         </template>
       </a-table>
     </a-card>

@@ -91,9 +91,7 @@ export class OjProblemService {
    * @returns ResultString OK
    * @throws ApiError
    */
-  public static remove1(
-    id: Record<string, any>
-  ): CancelablePromise<ResultString> {
+  public static remove(id: number): CancelablePromise<ResultString> {
     return __request(OpenAPI, {
       method: 'DELETE',
       url: '/ojProblem/remove/{id}',
