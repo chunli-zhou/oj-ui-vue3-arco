@@ -9,12 +9,21 @@
 
 <script setup lang="ts">
 import * as monaco from 'monaco-editor';
-import { onMounted, ref, toRaw, withDefaults, defineProps, watch } from 'vue';
+import {
+  onMounted,
+  ref,
+  toRaw,
+  withDefaults,
+  defineProps,
+  watch,
+  nextTick
+} from 'vue';
 
 /**
  * 定义组件属性类型
  */
 interface Props {
+  value?: string;
   language?: string;
   theme?: string;
   handleChange: (v: string) => void;
@@ -54,6 +63,17 @@ watch(
     if (codeEditor.value) {
       monaco.editor.setTheme(props.theme);
     }
+  }
+);
+
+watch(
+  () => props.value,
+  () => {
+    nextTick(() => {
+      if (props.value) {
+        toRaw(codeEditor.value).setValue(props.value);
+      }
+    });
   }
 );
 

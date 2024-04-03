@@ -36,6 +36,18 @@ const PROBLEM: AppRouteRecordRaw = {
         roles: ['*'],
         order: 1
       }
+    },
+    {
+      path: 'edit',
+      name: 'ProblemEdit',
+      component: () => import('@/views/problem/update/index.vue'),
+      meta: {
+        hideInMenu: true,
+        locale: '编辑题目',
+        requiresAuth: true,
+        roles: ['*'],
+        order: 1
+      }
     }
   ]
 };

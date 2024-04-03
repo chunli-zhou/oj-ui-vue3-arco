@@ -1,10 +1,7 @@
-import type { JudgeConfig } from './JudgeConfig';
-import type { JudgeCase } from '@/api/gen-api';
-
 /**
- * 题目响应体
+ * 题目响应体-分页查询
  */
-export type OjProblemVo = {
+export type OjProblemPageVo = {
   /**
    * id
    */
@@ -24,15 +21,7 @@ export type OjProblemVo = {
   /**
    * 题目难度，简单，中等，困难
    */
-  difficulty?: number;
-  /**
-   * 题目答案语言
-   */
-  ansLanguage?: string;
-  /**
-   * 题目答案
-   */
-  answer?: string;
+  difficulty?: string;
   /**
    * 题目提交数
    */
@@ -41,11 +30,6 @@ export type OjProblemVo = {
    * 题目通过数
    */
   acceptedNum?: number;
-  /**
-   * 判题用例
-   */
-  judgeCase?: Array<JudgeCase>;
-  judgeConfig?: JudgeConfig;
   /**
    * 点赞数
    */

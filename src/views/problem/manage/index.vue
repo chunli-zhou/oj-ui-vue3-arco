@@ -13,6 +13,7 @@ import {
 } from '@/api/gen-api';
 import { SelectOptionData } from '@arco-design/web-vue/es/select/interface';
 import { useRouter } from 'vue-router';
+import { OjProblemPageVo } from '@/api/gen-api/models/problem/OjProblemPageVo.ts';
 
 const router = useRouter();
 const columns: TableColumnData[] = [
@@ -105,7 +106,7 @@ const contentTypeOptions: SelectOptionData[] = [
 ];
 const loading = ref(false);
 const data = reactive({
-  problemList: [] as OjProblemVo[]
+  problemList: [] as OjProblemPageVo[]
 });
 const pagination = reactive<PaginationProps>({
   showTotal: true,
@@ -177,6 +178,13 @@ const handleDel = (record: OjProblemVo, rowIndex: number) => {
     pageData();
   });
   popoverVisibleList.value[rowIndex] = false;
+};
+
+/**
+ * 跳转编辑页面
+ */
+const handleEdit = (record: OjProblemVo) => {
+  router.push({ name: 'ProblemEdit', query: { id: record.id } });
 };
 
 onMounted(async () => {
@@ -291,7 +299,7 @@ onMounted(async () => {
           </span>
         </template>
         <template #Controls="{ record, rowIndex }">
-          <a-link>编辑</a-link>
+          <a-link @click="handleEdit(record)">编辑</a-link>
           <a-popover
             v-model:popup-visible="popoverVisibleList[rowIndex]"
             title="确定要删除吗？"

@@ -1,9 +1,9 @@
 <template>
   <div class="container">
-    <Breadcrumb :items="['题库', '题目管理', '添加题目']" />
+    <Breadcrumb :items="['题库', '题目管理', '编辑题目']" />
     <a-spin style="width: 100%">
       <a-card class="general-card">
-        <template #title>添加题目</template>
+        <template #title>编辑题目</template>
         <div class="wrapper">
           <a-steps v-model:current="step" line-less class="steps">
             <a-space :size="75">
@@ -16,15 +16,29 @@
           </a-steps>
           <a-divider style="margin: 35px" />
           <keep-alive>
-            <ProblemBaseInfo v-if="step === 1" @change-step="changeStep" />
-            <ProblemDesc v-else-if="step === 2" @change-step="changeStep" />
-            <ProblemAnswer v-else-if="step === 3" @change-step="changeStep" />
+            <ProblemBaseInfo
+              v-if="step === 1"
+              v-model:data="submitModel"
+              @change-step="changeStep"
+            />
+            <ProblemDesc
+              v-else-if="step === 2"
+              v-model:data="submitModel"
+              @change-step="changeStep"
+            />
+            <ProblemAnswer
+              v-else-if="step === 3"
+              v-model:data="submitModel"
+              @change-step="changeStep"
+            />
             <ProblemJudgeCase
               v-else-if="step === 4"
+              v-model:data="submitModel"
               @change-step="changeStep"
             />
             <ProblemJudgeConfig
               v-else-if="step === 5"
+              v-model:data="submitModel"
               @change-step="changeStep"
             />
           </keep-alive>
@@ -35,18 +49,24 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import ProblemJudgeConfig from '@/views/problem/components/problem-judge-config.vue';
 import ProblemBaseInfo from '@/views/problem/components/problem-base-info.vue';
-import { OjProblemAddRequest, OjProblemService } from '@/api/gen-api';
 import ProblemDesc from '@/views/problem/components/problem-desc.vue';
 import ProblemAnswer from '@/views/problem/components/problem-answer.vue';
 import ProblemJudgeCase from '@/views/problem/components/problem-judge-case.vue';
-import ProblemJudgeConfig from '@/views/problem/components/problem-judge-config.vue';
+import {
+  OjProblemAddRequest,
+  OjProblemService,
+  OjProblemUpdateRequest
+} from '@/api/gen-api';
 import { Message } from '@arco-design/web-vue';
-import { useRouter } from 'vue-router';
+import { onMounted, ref } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 
 const step = ref(1);
-const submitModel = ref<OjProblemAddRequest>({} as OjProblemAddRequest);
+const submitModel = ref({} as OjProblemAddRequest);
+const route = useRoute();
+const id = route.query.id as string;
 const router = useRouter();
 
 const changeStep = (direction: string | number, model: OjProblemAddRequest) => {
@@ -61,8 +81,13 @@ const changeStep = (direction: string | number, model: OjProblemAddRequest) => {
       ...model
     };
     if (direction === 'submit') {
-      OjProblemService.save(submitModel.value).then(() => {
-        Message.success('添加成功');
+      let idN = Number(id);
+      const updateModel: OjProblemUpdateRequest = {
+        id: idN,
+        ...submitModel.value
+      };
+      OjProblemService.update(updateModel).then(() => {
+        Message.success('修改成功');
         setTimeout(() => {}, 500);
         router.push({ name: 'Manage' });
       });
@@ -73,12 +98,14 @@ const changeStep = (direction: string | number, model: OjProblemAddRequest) => {
     step.value -= 1;
   }
 };
-</script>
 
-<script lang="ts">
-export default {
-  name: 'ProblemAdd'
-};
+onMounted(() => {
+  OjProblemService.getInfo(id).then(res => {
+    const { thumbNum, favourNum, submitNum, acceptedNum, ...result } =
+      res.result;
+    submitModel.value = { ...result };
+  });
+});
 </script>
 
 <style scoped lang="less">

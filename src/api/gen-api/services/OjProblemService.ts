@@ -18,7 +18,7 @@ export class OjProblemService {
    * @returns ResultBoolean OK
    * @throws ApiError
    */
-  public static update1(
+  public static update(
     requestBody: OjProblemUpdateRequest
   ): CancelablePromise<ResultBoolean> {
     return __request(OpenAPI, {
@@ -73,9 +73,7 @@ export class OjProblemService {
    * @returns ResultOjProblemVo OK
    * @throws ApiError
    */
-  public static getInfo2(
-    id: Record<string, any>
-  ): CancelablePromise<ResultOjProblemVo> {
+  public static getInfo(id: string): CancelablePromise<ResultOjProblemVo> {
     return __request(OpenAPI, {
       method: 'GET',
       url: '/ojProblem/getInfo/{id}',
