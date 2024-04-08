@@ -263,6 +263,9 @@ export const getResponseHeader = (
 };
 
 export const getResponseBody = (response: AxiosResponse<any>): any => {
+  if (!response) {
+    return undefined;
+  }
   if (response.status !== 204) {
     return response.data;
   }
@@ -305,12 +308,7 @@ export const request = <T>(
           response,
           options.responseHeader
         );
-
         const result: ApiResult = {
-          url,
-          ok: isSuccess(response.status),
-          status: response.status,
-          statusText: response.statusText,
           body: responseHeader ?? responseBody
         };
         resolve(result.body);

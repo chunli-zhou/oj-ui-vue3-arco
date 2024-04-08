@@ -28,6 +28,9 @@ service.interceptors.request.use(
 service.interceptors.response.use(
   (response: AxiosResponse) => {
     const res = response.data;
+    if (!res.code) {
+      return;
+    }
     if (res.code !== 200) {
       Message.error({
         content: res.message || '网络错误',

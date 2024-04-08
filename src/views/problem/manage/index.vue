@@ -34,14 +34,14 @@ const columns: TableColumnData[] = [
     dataIndex: 'content',
     ellipsis: true,
     align: 'center',
-    width: 200
+    width: 150
   },
   {
     title: '标签',
     dataIndex: 'tags',
     slotName: 'Tags',
     align: 'center',
-    width: 120
+    width: 170
   },
   {
     title: '难度',
@@ -163,6 +163,13 @@ const reset = () => {
   pageData();
 };
 
+const handleExport = () => {
+  const url = '/ojProblem/export';
+  // HACK: 待修改
+  const proxy = 'http://localhost:8101/api';
+  window.location.href = proxy + url;
+};
+
 const popoverVisibleList = ref([]);
 
 /**
@@ -267,7 +274,7 @@ onMounted(async () => {
           :span="12"
           style="display: flex; align-items: center; justify-content: end"
         >
-          <a-button>
+          <a-button @click="handleExport">
             <template #icon>
               <icon-download />
             </template>

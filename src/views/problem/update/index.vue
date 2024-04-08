@@ -3,6 +3,9 @@
     <Breadcrumb :items="['题库', '题目管理', '编辑题目']" />
     <a-spin style="width: 100%">
       <a-card class="general-card">
+        <template #extra>
+          <a-button type="primary" @click="handleSubmit">提交</a-button>
+        </template>
         <template #title>编辑题目</template>
         <div class="wrapper">
           <a-steps v-model:current="step" line-less class="steps">
@@ -81,22 +84,26 @@ const changeStep = (direction: string | number, model: OjProblemAddRequest) => {
       ...model
     };
     if (direction === 'submit') {
-      let idN = Number(id);
-      const updateModel: OjProblemUpdateRequest = {
-        id: idN,
-        ...submitModel.value
-      };
-      OjProblemService.update(updateModel).then(() => {
-        Message.success('修改成功');
-        setTimeout(() => {}, 500);
-        router.push({ name: 'Manage' });
-      });
+      handleSubmit();
       return;
     }
     step.value += 1;
   } else if (direction === 'backward') {
     step.value -= 1;
   }
+};
+
+const handleSubmit = () => {
+  let idN = Number(id);
+  const updateModel: OjProblemUpdateRequest = {
+    id: idN,
+    ...submitModel.value
+  };
+  OjProblemService.update(updateModel).then(() => {
+    Message.success('修改成功');
+    setTimeout(() => {}, 500);
+    router.push({ name: 'Manage' });
+  });
 };
 
 onMounted(() => {
