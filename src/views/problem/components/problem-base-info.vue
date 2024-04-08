@@ -89,7 +89,7 @@ const contentTypeOptions: SelectOptionData[] = [
 const onNextClick = async () => {
   const res = await formRef.value?.validate();
   if (!res) {
-    emits('changeStep', 'forward', { ...formData.value });
+    emits('changeStep', 'forward');
   }
 };
 
@@ -118,19 +118,14 @@ watch(
   () => formData.value,
   () => {
     if (props.data) {
-      emits('update:data', { ...formData.value });
+      const data = props.data;
+      emits('update:data', { ...data, ...formData.value });
     }
   },
   {
     deep: true
   }
 );
-
-onMounted(() => {
-  if (!props.data) {
-    loading.value = false;
-  }
-});
 </script>
 
 <style scoped lang="less">

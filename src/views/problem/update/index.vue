@@ -72,22 +72,16 @@ const route = useRoute();
 const id = route.query.id as string;
 const router = useRouter();
 
-const changeStep = (direction: string | number, model: OjProblemAddRequest) => {
+const changeStep = (direction: string | number) => {
   if (typeof direction === 'number') {
     step.value = direction;
     return;
   }
-
-  if (direction === 'forward' || direction === 'submit') {
-    submitModel.value = {
-      ...submitModel.value,
-      ...model
-    };
-    if (direction === 'submit') {
-      handleSubmit();
-      return;
-    }
+  if (direction === 'forward') {
     step.value += 1;
+  } else if (direction === 'submit') {
+    handleSubmit();
+    return;
   } else if (direction === 'backward') {
     step.value -= 1;
   }

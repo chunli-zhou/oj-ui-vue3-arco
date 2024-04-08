@@ -295,15 +295,17 @@ onMounted(async () => {
         @page-size-change="handlePageSizeChange"
       >
         <template #Tags="{ rowIndex }">
-          <span
-            v-for="tag in data.problemList[rowIndex].tags"
-            :key="tag"
-            style="margin: 2px"
-          >
-            <a-tag>
-              {{ tag }}
-            </a-tag>
-          </span>
+          <a-space wrap>
+            <span
+              v-for="tag in data.problemList[rowIndex].tags"
+              :key="tag"
+              style="text-align: center"
+            >
+              <a-tag>
+                {{ tag }}
+              </a-tag>
+            </span>
+          </a-space>
         </template>
         <template #Controls="{ record, rowIndex }">
           <a-link @click="handleEdit(record)">编辑</a-link>

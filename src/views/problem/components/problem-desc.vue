@@ -20,7 +20,7 @@
 </template>
 
 <script setup lang="ts">
-import { nextTick, onMounted, ref, unref, watch } from 'vue';
+import { onMounted, ref, unref, watch } from 'vue';
 import { OjProblemAddRequest, OjProblemVo } from '@/api/gen-api';
 import { MdEditor } from 'md-editor-v3';
 import { Message } from '@arco-design/web-vue';
@@ -39,7 +39,7 @@ const onNextClick = async () => {
     Message.warning('请输入问题描述');
     return;
   }
-  emits('changeStep', 'forward', { ...formData.value });
+  emits('changeStep', 'forward');
 };
 
 const props = defineProps<{
@@ -52,18 +52,20 @@ watch(
   () => formData.value,
   () => {
     if (props.data) {
-      emits('update:data', { ...formData.value });
+      const data = props.data;
+      emits('update:data', { ...data, ...formData.value });
     }
+  },
+  {
+    deep: true
   }
 );
 
 onMounted(() => {
   if (props.data) {
-    const form = unref(formData);
-    const { content } = props.data;
-    form.content = content;
+    formData.value.content = props.data.content;
+    loading.value = false;
   }
-  loading.value = false;
 });
 </script>
 

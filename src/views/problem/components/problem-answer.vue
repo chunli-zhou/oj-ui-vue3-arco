@@ -31,7 +31,7 @@
           </a-space>
         </template>
         <CodeEditor
-          :value="formData.answer"
+          v-model:value="formData.answer"
           :theme="theme"
           :language="formData.ansLanguage"
           @handle-change="handleChange"
@@ -90,9 +90,11 @@ watch(
   () => formData.value,
   () => {
     if (props.data) {
-      emits('update:data', { ...formData.value });
+      const data = props.data;
+      emits('update:data', { ...data, ...formData.value });
     }
-  }
+  },
+  { deep: true }
 );
 
 onMounted(() => {
@@ -101,8 +103,8 @@ onMounted(() => {
     const { ansLanguage, answer } = props.data;
     form.ansLanguage = ansLanguage;
     form.answer = answer;
+    loading.value = false;
   }
-  loading.value = false;
 });
 </script>
 

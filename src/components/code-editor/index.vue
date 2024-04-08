@@ -10,13 +10,13 @@
 <script setup lang="ts">
 import * as monaco from 'monaco-editor';
 import {
+  defineProps,
+  nextTick,
   onMounted,
   ref,
   toRaw,
-  withDefaults,
-  defineProps,
   watch,
-  nextTick
+  withDefaults
 } from 'vue';
 
 /**
@@ -26,7 +26,6 @@ interface Props {
   value?: string;
   language?: string;
   theme?: string;
-  handleChange: (v: string) => void;
 }
 
 /**
@@ -35,12 +34,10 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
   language: () => 'java',
   theme: () => 'vs-dark',
-  handleChange: (v: string) => {
-    console.log(v);
-  }
+  value: () => ''
 });
 
-const emits = defineEmits(['handleChange']);
+const emits = defineEmits(['handleChange', 'update:value']);
 
 const codeEditorRef = ref();
 const codeEditor = ref();
@@ -66,17 +63,6 @@ watch(
   }
 );
 
-watch(
-  () => props.value,
-  () => {
-    nextTick(() => {
-      if (props.value) {
-        toRaw(codeEditor.value).setValue(props.value);
-      }
-    });
-  }
-);
-
 onMounted(() => {
   if (!codeEditorRef.value) {
     return;
@@ -99,6 +85,12 @@ onMounted(() => {
   // 编辑 监听内容变化
   codeEditor.value.onDidChangeModelContent(() => {
     emits('handleChange', toRaw(codeEditor.value).getValue());
+  });
+
+  nextTick(() => {
+    if (props.value) {
+      toRaw(codeEditor.value).setValue(props.value);
+    }
   });
 });
 </script>
