@@ -94,9 +94,8 @@ const changeStep = (direction: string | number, model: OjProblemAddRequest) => {
 };
 
 const handleSubmit = () => {
-  let idN = Number(id);
   const updateModel: OjProblemUpdateRequest = {
-    id: idN,
+    id: id,
     ...submitModel.value
   };
   OjProblemService.update(updateModel).then(() => {

@@ -120,6 +120,9 @@ watch(
     if (props.data) {
       emits('update:data', { ...formData.value });
     }
+  },
+  {
+    deep: true
   }
 );
 

@@ -32,5 +32,5 @@ export type OjProblemUpdateRequest = {
   /**
    * 主键
    */
-  id: number;
+  id: string;
 };
