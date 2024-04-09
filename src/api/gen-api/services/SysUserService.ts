@@ -8,9 +8,27 @@ import type { SysUserRequest } from '@/api/gen-api/models/sys/SysUserRequest.ts'
 import type { CancelablePromise } from '@/api/gen-api/core/CancelablePromise.ts';
 import { OpenAPI } from '@/api/gen-api/core/OpenAPI.ts';
 import { request as __request } from '../core/request.ts';
+import type { SysUserUpdateRequest } from '@/api/gen-api/models/sys/SysUserUpdateRequest.ts';
 
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export class SysUserService {
+  /**
+   * 修改用户信息--开放给个人用户使用
+   * @param requestBody
+   * @returns ResultBoolean OK
+   * @throws ApiError
+   */
+  public static updateUserInfo(
+    requestBody: SysUserUpdateRequest
+  ): CancelablePromise<ResultBoolean> {
+    return __request(OpenAPI, {
+      method: 'PUT',
+      url: '/sys/sysUser/update',
+      body: requestBody,
+      mediaType: 'application/json'
+    });
+  }
+
   /**
    * 启用用户
    * @param id 主键
@@ -82,15 +100,10 @@ export class SysUserService {
    * @returns ResultSysUserResponse OK
    * @throws ApiError
    */
-  public static getInfo(
-    id: Record<string, any>
-  ): CancelablePromise<ResultSysUserResponse> {
+  public static getInfo(): CancelablePromise<ResultSysUserResponse> {
     return __request(OpenAPI, {
       method: 'GET',
-      url: '/sys/sysUser/getInfo/{id}',
-      path: {
-        id: id
-      }
+      url: '/sys/sysUser/getInfo'
     });
   }
 }

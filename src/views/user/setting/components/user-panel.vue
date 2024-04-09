@@ -69,6 +69,10 @@ const renderData = [
     value: userStore.mobile
   },
   {
+    label: '邮箱',
+    value: userStore.email
+  },
+  {
     label: '注册日期',
     value: userStore.registerTime
   }

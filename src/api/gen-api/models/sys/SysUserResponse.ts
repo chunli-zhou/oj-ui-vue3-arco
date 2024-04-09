@@ -11,6 +11,10 @@ export type SysUserResponse = {
    */
   username?: string;
   /**
+   * 昵称
+   */
+  nickName?: string;
+  /**
    * 姓名
    */
   realName?: string;
@@ -38,6 +42,10 @@ export type SysUserResponse = {
    * 注册时间
    */
   registerTime?: string;
+  /**
+   * 个人介绍
+   */
+  introduce?: string;
   /**
    * 权限
    */

@@ -31,6 +31,10 @@ export type SysUser = {
    */
   gender?: number;
   /**
+   * 个人介绍
+   */
+  introduce?: string;
+  /**
    * 邮箱
    */
   email?: string;

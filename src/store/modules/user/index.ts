@@ -18,7 +18,10 @@ const useUserStore = defineStore('user', {
     email: undefined,
     mobile: undefined,
     status: undefined,
-    role: ''
+    role: '',
+    nickName: undefined,
+    introduce: undefined,
+    registerTime: undefined
   }),
 
   getters: {
@@ -44,10 +47,9 @@ const useUserStore = defineStore('user', {
       this.$reset();
     },
 
-    // Get user's information
+    // 获取用户信息
     async info() {
-      const res = await SysUserService.getInfo(this.id);
-
+      const res = await SysUserService.getInfo();
       this.setInfo(res.result);
     },
 
