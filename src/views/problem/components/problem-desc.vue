@@ -20,7 +20,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, unref, watch } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import { OjProblemAddRequest, OjProblemVo } from '@/api/gen-api';
 import { MdEditor } from 'md-editor-v3';
 import { Message } from '@arco-design/web-vue';
@@ -64,8 +64,8 @@ watch(
 onMounted(() => {
   if (props.data) {
     formData.value.content = props.data.content;
-    loading.value = false;
   }
+  loading.value = false;
 });
 </script>
 

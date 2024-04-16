@@ -95,6 +95,7 @@ const onNextClick = async () => {
 
 const props = defineProps<{
   data?: OjProblemVo;
+  addFlag?: false;
 }>();
 
 const loading = ref(true);
@@ -126,6 +127,12 @@ watch(
     deep: true
   }
 );
+
+onMounted(() => {
+  if (props.addFlag) {
+    loading.value = false;
+  }
+});
 </script>
 
 <style scoped lang="less">

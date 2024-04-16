@@ -103,8 +103,8 @@ onMounted(() => {
     const { ansLanguage, answer } = props.data;
     form.ansLanguage = ansLanguage;
     form.answer = answer;
-    loading.value = false;
   }
+  loading.value = false;
 });
 </script>
 

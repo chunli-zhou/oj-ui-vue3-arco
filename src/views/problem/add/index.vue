@@ -16,7 +16,11 @@
           </a-steps>
           <a-divider style="margin: 35px" />
           <keep-alive>
-            <ProblemBaseInfo v-if="step === 1" @change-step="changeStep" />
+            <ProblemBaseInfo
+              v-if="step === 1"
+              :add-flag="true"
+              @change-step="changeStep"
+            />
             <ProblemDesc v-else-if="step === 2" @change-step="changeStep" />
             <ProblemAnswer v-else-if="step === 3" @change-step="changeStep" />
             <ProblemJudgeCase
