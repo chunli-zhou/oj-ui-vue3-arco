@@ -47,6 +47,7 @@ const columns: TableColumnData[] = [
     title: '难度',
     dataIndex: 'difficulty',
     align: 'center',
+    slotName: 'Difficulty',
     width: 80
   },
   {
@@ -306,6 +307,17 @@ onMounted(async () => {
               </a-tag>
             </span>
           </a-space>
+        </template>
+        <template #Difficulty="{ record }">
+          <a-tag v-if="record.difficulty === '简单'" color="green">
+            {{ record.difficulty }}
+          </a-tag>
+          <a-tag v-else-if="record.difficulty === '中等'" color="orange">
+            {{ record.difficulty }}
+          </a-tag>
+          <a-tag v-else color="red">
+            {{ record.difficulty }}
+          </a-tag>
         </template>
         <template #Controls="{ record, rowIndex }">
           <a-link @click="handleEdit(record)">编辑</a-link>

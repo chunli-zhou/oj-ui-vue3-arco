@@ -32,32 +32,28 @@
       </a-input-password>
     </a-form-item>
     <a-form-item field="captcha" validate-trigger="blur" hide-label>
-      <a-row>
-        <a-col :span="17">
-          <a-input
-            v-model="form.captcha"
-            style="height: 40px"
-            placeholder="请输入验证码"
-            allow-clear
-          >
-            <template #prefix>
-              <icon-bold />
-            </template>
-          </a-input>
-        </a-col>
-        <a-col :span="6" :offset="1">
-          <a-tooltip content="点击获取">
-            <a-image
-              style="cursor: pointer"
-              alt="验证码"
-              :src="captchaUrl"
-              :preview="false"
-              show-loader
-              @click="getCaptcha"
-            />
-          </a-tooltip>
-        </a-col>
-      </a-row>
+      <a-space size="large">
+        <a-input
+          v-model="form.captcha"
+          style="height: 40px"
+          placeholder="请输入验证码"
+          allow-clear
+        >
+          <template #prefix>
+            <icon-bold />
+          </template>
+        </a-input>
+        <a-tooltip content="点击获取">
+          <a-image
+            style="cursor: pointer"
+            alt="验证码"
+            :src="captchaUrl"
+            :preview="false"
+            show-loader
+            @click="getCaptcha"
+          />
+        </a-tooltip>
+      </a-space>
     </a-form-item>
     <a-checkbox
       checked="rememberPassword"
