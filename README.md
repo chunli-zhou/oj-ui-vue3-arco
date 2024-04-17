@@ -4,7 +4,7 @@
   <img width="180" src="./docs/logo.svg" alt="Arco admin logo">
 </a>
 
-<h1 align="center">Arco Admin</h1>
+<h1 align="center">Online Judge</h1>
 <p align="center">一款开箱即用、功能丰富的中后台管理系统框架，最新技术栈的标准化规范项目。</p> 
 
 简体中文 | [English](./README.en-US.md)

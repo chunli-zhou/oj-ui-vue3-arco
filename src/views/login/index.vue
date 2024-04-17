@@ -2,7 +2,7 @@
   <div class="container">
     <header class="header">
       <logoSvg style="width: 36px; color: #165fdd"></logoSvg>
-      <div class="header-text">Arco Admin</div>
+      <div class="header-text">Online Judge</div>
     </header>
     <div class="content">
       <div class="form-wrapper">
