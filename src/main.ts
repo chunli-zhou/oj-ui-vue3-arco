@@ -8,6 +8,7 @@ import App from './App.vue';
 import '@/assets/style/global.less';
 import '@/api/interceptor';
 import ArcoVueIcon from '@arco-design/web-vue/es/icon';
+import '@/assets/style/tailwind.css';
 // import '@arco-themes/vue-fillet/index.less'
 import '@arco-themes/vue-ant-border-radius/css/arco.css';
 import 'md-editor-v3/lib/style.css';

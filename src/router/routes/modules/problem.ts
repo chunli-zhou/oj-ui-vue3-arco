@@ -14,6 +14,17 @@ const PROBLEM: AppRouteRecordRaw = {
   },
   children: [
     {
+      path: 'find',
+      name: 'FindProblem',
+      component: () => import('@/views/problem/find/index.vue'),
+      meta: {
+        locale: '找题',
+        requiresAuth: true,
+        roles: ['*'],
+        order: 1
+      }
+    },
+    {
       path: 'manage',
       name: 'Manage',
       component: () => import('@/views/problem/manage/index.vue'),

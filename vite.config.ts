@@ -1,6 +1,8 @@
 import { resolve } from 'path';
 import { pluginsList } from './config';
 import { type ConfigEnv, loadEnv, type UserConfigExport } from 'vite';
+import autoprefixer from 'autoprefixer';
+import tailwindcss from 'tailwindcss';
 
 export default ({ mode }: ConfigEnv): UserConfigExport => {
   const { VITE_PORT, VITE_BASE } = loadEnv(mode, process.cwd());
@@ -16,6 +18,9 @@ export default ({ mode }: ConfigEnv): UserConfigExport => {
       }
     },
     css: {
+      postcss: {
+        plugins: [tailwindcss, autoprefixer]
+      },
       preprocessorOptions: {
         less: {
           modifyVars: {
