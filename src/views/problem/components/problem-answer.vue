@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="flex items-center">
     <a-spin :loading="loading">
       <a-card class="card" title="请输入题目答案">
         <template #extra>

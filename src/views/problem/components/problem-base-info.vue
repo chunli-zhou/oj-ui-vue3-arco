@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="flex items-center">
     <a-spin :loading="loading" tip="加载中...">
       <a-form
         ref="formRef"
