@@ -2,19 +2,19 @@
   <a-card :bordered="false">
     <a-space :size="54">
       <a-upload
-        :custom-request="customRequest"
         list-type="picture-card"
         :file-list="fileList"
-        :show-upload-button="true"
         :show-file-list="false"
-        @change="uploadChange"
+        @progress="upload"
       >
         <template #upload-button>
-          <a-avatar :size="100" class="info-avatar">
-            <template #trigger-icon>
-              <icon-camera />
-            </template>
+          <a-avatar trigger-type="mask" :size="100" class="info-avatar">
             <img v-if="fileList.length" :src="fileList[0].url" />
+            <template #trigger-icon>
+              <a-space>
+                <icon-edit />
+              </a-space>
+            </template>
           </a-avatar>
         </template>
       </a-upload>
@@ -42,12 +42,11 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-import type {
-  FileItem,
-  RequestOption
-} from '@arco-design/web-vue/es/upload/interfaces';
+import type { FileItem } from '@arco-design/web-vue/es/upload/interfaces';
 import { useUserStore } from '@/store';
 import type { DescData } from '@arco-design/web-vue/es/descriptions/interface';
+import { SysUserService } from '@/api/gen-api';
+import { Message } from '@arco-design/web-vue';
 
 const userStore = useUserStore();
 const file = {
@@ -78,41 +77,15 @@ const renderData = [
   }
 ] as DescData[];
 const fileList = ref<FileItem[]>([file]);
-const uploadChange = (_fileItemList: FileItem[], fileItem: FileItem) => {
+const upload = (fileItem: FileItem) => {
   fileList.value = [fileItem];
-};
-const customRequest = (options: RequestOption) => {
-  // docs: https://axios-http.com/docs/cancellation
-  const controller = new AbortController();
-
-  (async function requestWrap() {
-    const { onProgress, onError, onSuccess, fileItem, name = 'file' } = options;
-    onProgress(20);
-    const formData = new FormData();
-    formData.append(name as string, fileItem.file as Blob);
-    const onUploadProgress = (event: ProgressEvent) => {
-      let percent;
-      if (event.total > 0) {
-        percent = (event.loaded / event.total) * 100;
-      }
-      onProgress(parseInt(String(percent), 10), event);
-    };
-
-    try {
-      // const res = await userUploadApi(formData, {
-      //   controller,
-      //   onUploadProgress
-      // });
-      // onSuccess(res);
-    } catch (error) {
-      onError(error);
+  SysUserService.upload({
+    file: fileList.value[0].file
+  }).then(res => {
+    if (res.result) {
+      Message.success('上传成功！');
     }
-  })();
-  return {
-    abort() {
-      controller.abort();
-    }
-  };
+  });
 };
 </script>
 

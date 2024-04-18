@@ -106,4 +106,21 @@ export class SysUserService {
       url: '/sys/sysUser/getInfo'
     });
   }
+
+  /**
+   * 上传头像
+   * @param requestBody
+   * @returns ResultString OK
+   * @throws ApiError
+   */
+  public static upload(requestBody?: {
+    file: Blob;
+  }): CancelablePromise<ResultString> {
+    return __request(OpenAPI, {
+      method: 'POST',
+      url: '/sys/sysUser/upload/avatar',
+      body: requestBody,
+      mediaType: 'multipart/form-data'
+    });
+  }
 }
