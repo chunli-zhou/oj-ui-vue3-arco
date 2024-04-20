@@ -98,13 +98,7 @@
         </a-popover>
       </li>
       <li>
-        <a-tooltip
-          :content="
-            isFullscreen
-              ? $t('settings.navbar.screen.toExit')
-              : $t('settings.navbar.screen.toFull')
-          "
-        >
+        <a-tooltip :content="isFullscreen ? '退出全屏' : '全屏'">
           <div class="nav-btn" @click="toggleFullScreen">
             <icon-fullscreen-exit v-if="isFullscreen" />
             <icon-fullscreen v-else />
@@ -112,7 +106,7 @@
         </a-tooltip>
       </li>
       <li>
-        <a-tooltip :content="$t('settings.title')">
+        <a-tooltip content="应用配置">
           <div class="nav-btn" @click="setVisible">
             <icon-settings />
           </div>
@@ -121,39 +115,31 @@
       <li>
         <a-dropdown trigger="click">
           <a-avatar style="margin-right: 8px; cursor: pointer" :size="32">
-            <IconUser />
+            <img :src="userInfo.avatar" />
           </a-avatar>
           <template #content>
             <a-doption>
               <a-space @click="switchRoles">
                 <icon-tag />
-                <span>
-                  {{ $t('messageBox.switchRoles') }}
-                </span>
+                <span>切换权限</span>
               </a-space>
             </a-doption>
             <a-doption>
               <a-space @click="$router.push({ name: 'Info' })">
                 <icon-user />
-                <span>
-                  {{ $t('messageBox.userCenter') }}
-                </span>
+                <span>用户中心</span>
               </a-space>
             </a-doption>
             <a-doption>
               <a-space @click="$router.push({ name: 'Setting' })">
                 <icon-settings />
-                <span>
-                  {{ $t('messageBox.userSettings') }}
-                </span>
+                <span>用户设置</span>
               </a-space>
             </a-doption>
             <a-doption>
               <a-space @click="handleLogout">
                 <icon-export />
-                <span>
-                  {{ $t('messageBox.logout') }}
-                </span>
+                <span>退出登录</span>
               </a-space>
             </a-doption>
           </template>
@@ -175,6 +161,7 @@ import Menu from '@/components/menu/index.vue';
 import MessageBox from '../message-box/index.vue';
 import logoSvg from '@/assets/logo.svg';
 
+const userInfo = useUserStore();
 const appStore = useAppStore();
 const userStore = useUserStore();
 const { logout } = useUser();

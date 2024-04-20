@@ -13,13 +13,16 @@
     @ok="copySettings"
     @cancel="cancel"
   >
-    <template #title>{{ $t('settings.title') }}</template>
-    <a-alert type="warning">{{ $t('settings.alertContent') }}</a-alert>
-    <Block :options="contentOpts" :title="$t('settings.content')" />
-    <Block :options="othersOpts" :title="$t('settings.otherSettings')" />
+    <template #title>应用配置</template>
+    <a-alert type="warning">
+      当前更改仅是实时预览配置效果。要真正作用于项目，点击下方的「复制配置」按钮，将配置粘贴到
+      src/config/settings.ts 中即可。
+    </a-alert>
+    <Block :options="contentOpts" title="内容区域" />
+    <Block :options="othersOpts" title="其他设置" />
     <template #footer>
       <a-button type="primary" style="margin: 0" shape="round" long>
-        {{ $t('settings.copySettings') }}
+        复制配置
       </a-button>
     </template>
   </a-drawer>

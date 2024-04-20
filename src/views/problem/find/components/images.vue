@@ -4,13 +4,14 @@
     :auto-play="true"
     :move-speed="1000"
     animation-name="fade"
-    show-arrow="never"
+    show-arrow="hover"
   >
-    <a-carousel-item v-for="image in images">
+    <a-carousel-item v-for="image in images" class="carousel-item">
       <img
         :src="image"
         :style="{
-          width: '100%'
+          width: '100%',
+          height: '100%'
         }"
       />
     </a-carousel-item>
@@ -35,6 +36,10 @@ export default {
 <style lang="less" scoped>
 .carousel {
   width: 100%;
-  height: 240px;
+  height: 200px;
+
+  &-item {
+    border-radius: 10px;
+  }
 }
 </style>

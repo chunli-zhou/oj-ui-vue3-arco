@@ -82,7 +82,6 @@
   },
   "devDependencies": {
     "@arco-plugins/vite-vue": "^1.4.5",
-    "@arco-themes/vue-ant-border-radius": "^0.0.7",
     "@commitlint/cli": "^19.0.3",
     "@commitlint/config-conventional": "^19.0.3",
     "@commitlint/types": "^19.0.3",

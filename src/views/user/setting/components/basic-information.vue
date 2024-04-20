@@ -71,7 +71,7 @@ const handleSubmit = async () => {
 };
 
 const reset = async () => {
-  formRef.value.resetFields();
+  formData.value = {} as SysUserUpdateRequest;
 };
 </script>
 
