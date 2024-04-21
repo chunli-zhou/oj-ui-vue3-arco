@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container-login">
     <header class="header">
       <logoSvg style="width: 36px; color: #165fdd"></logoSvg>
       <div class="header-text">Online Judge</div>
@@ -61,7 +61,7 @@ const tabActiveKey = ref('1');
   }
 }
 
-.container {
+.container-login {
   display: flex;
   height: 100vh;
   background-image: url('../../assets/images/background.png');
