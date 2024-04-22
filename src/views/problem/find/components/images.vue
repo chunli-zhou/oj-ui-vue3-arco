@@ -22,9 +22,9 @@
 export default {
   setup() {
     const images = [
-      'https://p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/cd7a1aaea8e1c5e3d26fe2591e561798.png~tplv-uwbnlip3yd-webp.webp',
-      'https://p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/6480dbc69be1b5de95010289787d64f1.png~tplv-uwbnlip3yd-webp.webp',
-      'https://p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/0265a04fddbd77a19602a15d9d55d797.png~tplv-uwbnlip3yd-webp.webp'
+      'http://127.0.0.1:9005/oj-bucket/zrxzrx-123615944728158208/2024-04-21/Dqc8Db9v4q-你的名字动漫壁纸_彼岸壁纸.jpg',
+      'http://127.0.0.1:9005/oj-bucket/zrxzrx-123615944728158208/2024-04-21/HrMQ9L7zXP-报纸墙 可爱马尾辫少女粉色长发动漫壁纸_彼岸壁纸.jpg',
+      'http://127.0.0.1:9005/oj-bucket/zrxzrx-123615944728158208/2024-04-21/lHrFioqYuD-《你的名字 》立花泷 宫水三叶桌面壁纸_彼岸壁纸.jpg'
     ];
     return {
       images

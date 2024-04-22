@@ -1,28 +1,33 @@
 <template>
-  <div class="container">
+  <div class="container-do">
     <Breadcrumb :items="['题库', '做题']" />
-
-    <!--    <a-row :gutter="[6, 12]">-->
-    <!--      <a-col :span="12">-->
-    <!--        <a-card class="general-card h-screen" title="题目详情" />-->
-    <!--      </a-col>-->
-    <!--      <a-col :span="12">-->
-    <!--        <div class="h-screen">-->
-    <!--          <div class="h-3/5">-->
-    <!--            <a-card class="general-card h-full" title="做题" />-->
-    <!--          </div>-->
-    <!--          <div class="h-2/5">-->
-    <!--            <a-card class="general-card h-full" title="判题状态" />-->
-    <!--          </div>-->
-    <!--        </div>-->
-    <!--      </a-col>-->
-    <!--    </a-row>-->
-    <a-grid :cols="3" :colGap="12" :rowGap="16">
-      <a-grid-item class="demo-item">item</a-grid-item>
-      <a-grid-item class="demo-item">item</a-grid-item>
-      <a-grid-item class="demo-item">item</a-grid-item>
-      <a-grid-item class="demo-item" :offset="1">item | offset - 1</a-grid-item>
-    </a-grid>
+    <a-split>
+      <template #resize-trigger>
+        <div class="trigger-vertical">
+          <div class="trigger-vertical-line" />
+        </div>
+      </template>
+      <template #first>
+        <a-card class="general-card h-screen" title="题目详情" />
+      </template>
+      <template #second>
+        <div>
+          <a-split class="h-screen" direction="vertical">
+            <template #resize-trigger>
+              <div class="trigger-horizontal">
+                <div class="line" />
+              </div>
+            </template>
+            <template #first>
+              <a-card class="general-card h-full" title="做题" />
+            </template>
+            <template #second>
+              <a-card class="general-card h-full" title="判题状态" />
+            </template>
+          </a-split>
+        </div>
+      </template>
+    </a-split>
   </div>
 </template>
 
@@ -36,8 +41,52 @@ onMounted(() => {
 });
 </script>
 
-<style scoped lang="less">
-.container {
+<style lang="less" scoped>
+.container-do {
   padding: 0 20px 20px 20px;
+}
+
+.general-card {
+  border-radius: 10px;
+}
+
+.trigger-vertical {
+  display: flex;
+  position: relative;
+  width: 3px;
+  height: 100vh;
+  flex-direction: column;
+
+  &-line {
+    flex: 1;
+  }
+
+  &-line:hover {
+    background-color: rgb(var(--arcoblue-6));
+  }
+}
+
+.trigger-horizontal {
+  display: flex;
+  position: relative;
+  width: 100%;
+  height: 3px;
+  background-color: var(--color-bg-2);
+
+  &-line {
+    flex: 1;
+  }
+
+  &-line:hover {
+    background-color: rgb(var(--arcoblue-6));
+  }
+}
+
+.line {
+  flex: 1;
+}
+
+.line:hover {
+  background-color: rgb(var(--arcoblue-6));
 }
 </style>

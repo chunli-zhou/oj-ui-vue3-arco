@@ -28,6 +28,7 @@
               v-model="queryReq.difficulty"
               :options="contentTypeOptions"
               placeholder="请选择题目难度"
+              allow-clear
             />
           </a-form-item>
         </a-col>

@@ -63,7 +63,9 @@ const handleSubmit = async () => {
   SysUserService.updateUserInfo(formData.value).then(res => {
     if (res) {
       Message.success('更新成功');
-      window.location.reload();
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
     } else {
       Message.error('更新失败，请联系管理员');
     }
