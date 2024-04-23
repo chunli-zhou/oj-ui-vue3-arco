@@ -1,9 +1,12 @@
 <template>
   <a-card class="general-card h-screen problem-info">
-    <a-typography>
-      <a-typography-title heading="5">{{ problem.title }}</a-typography-title>
-      <MdPreview :model-value="problem.content" />
-    </a-typography>
+    <a-scrollbar style="height: 87vh; overflow: auto">
+      <a-typography>
+        <a-typography-title heading="5">{{ problem.title }}</a-typography-title>
+        <MdPreview :model-value="problem.content" />
+      </a-typography>
+    </a-scrollbar>
+
     <a-card-meta>
       <template #title>
         <a-space size="mini">
