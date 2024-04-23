@@ -8,18 +8,18 @@
         </div>
       </template>
       <template #first>
-        <a-card class="general-card h-screen" title="题目详情" />
+        <problem-info :id="problemId" />
       </template>
       <template #second>
         <div>
           <a-split class="h-screen" direction="vertical">
             <template #resize-trigger>
               <div class="trigger-horizontal">
-                <div class="line" />
+                <div class="trigger-horizontal-line" />
               </div>
             </template>
             <template #first>
-              <a-card class="general-card h-full" title="做题" />
+              <do-problem />
             </template>
             <template #second>
               <a-card class="general-card h-full" title="判题状态" />
@@ -33,11 +33,15 @@
 
 <script setup lang="ts">
 import { useRoute } from 'vue-router';
-import { onMounted } from 'vue';
+import { onMounted, ref } from 'vue';
+import ProblemInfo from '@/views/problem/do/components/problem-info.vue';
+import DoProblem from '@/views/problem/do/components/do-problem.vue';
+
+const problemId = ref();
 
 const route = useRoute();
 onMounted(() => {
-  console.log(route.query.id);
+  problemId.value = route.query.id;
 });
 </script>
 
@@ -82,11 +86,8 @@ onMounted(() => {
   }
 }
 
-.line {
-  flex: 1;
-}
-
-.line:hover {
-  background-color: rgb(var(--arcoblue-6));
+.problem-info {
+  overflow: auto;
+  text-overflow: ellipsis;
 }
 </style>

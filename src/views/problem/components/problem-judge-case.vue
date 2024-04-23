@@ -46,9 +46,16 @@
 <script setup lang="ts">
 import { Message } from '@arco-design/web-vue';
 import { onMounted, ref, unref, watch } from 'vue';
-import { OjProblemAddRequest, OjProblemVo } from '@/api/gen-api';
+import {
+  type JudgeCase,
+  OjProblemAddRequest,
+  OjProblemVo
+} from '@/api/gen-api';
 
 const emits = defineEmits(['changeStep', 'update:data']);
+const formData = ref<OjProblemAddRequest>({
+  judgeCase: [] as Array<JudgeCase>
+});
 
 const handleAdd = () => {
   formData.value.judgeCase.push({
@@ -59,10 +66,6 @@ const handleAdd = () => {
 const handleDelete = (index: number) => {
   formData.value.judgeCase.splice(index, 1);
 };
-
-const formData = ref<OjProblemAddRequest>({
-  judgeCase: []
-});
 
 const goPrev = () => {
   emits('changeStep', 'backward');
@@ -93,13 +96,15 @@ watch(
   () => formData.value,
   () => {
     if (props.data) {
-      emits('update:data', { ...formData.value });
+      emits('update:data', { ...props.data, ...formData.value });
     }
-  }
+  },
+  { deep: true }
 );
 
 onMounted(() => {
-  if (props.data) {
+  const { judgeCase } = props.data;
+  if (props.data && judgeCase) {
     const form = unref(formData);
     const { judgeCase } = props.data;
     form.judgeCase = judgeCase;

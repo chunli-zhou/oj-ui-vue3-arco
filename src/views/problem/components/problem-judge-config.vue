@@ -116,13 +116,14 @@ watch(
   () => formData.value,
   () => {
     if (props.data) {
-      emits('update:data', { ...formData.value });
+      emits('update:data', { ...props.data, ...formData.value });
     }
-  }
+  },
+  { deep: true }
 );
 
 onMounted(() => {
-  if (props.data) {
+  if (props.data && props.data.judgeConfig) {
     const form = formData.value;
     const { judgeConfig } = props.data;
     judgeConfig.stackLimit = Number(judgeConfig.stackLimit);
@@ -130,7 +131,6 @@ onMounted(() => {
     judgeConfig.memoryLimit = Number(judgeConfig.memoryLimit);
     form.judgeConfig = judgeConfig;
   }
-  console.log(formData.value, 'from.value');
   loading.value = false;
 });
 </script>
