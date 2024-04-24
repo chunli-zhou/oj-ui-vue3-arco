@@ -34,7 +34,9 @@
         </a-col>
         <a-col :span="1">
           <a-space size="mini">
-            <a-button type="primary" @click="pageData">查询</a-button>
+            <a-button type="primary" @click="pageData" @keyup.enter="pageData">
+              查询
+            </a-button>
             <a-tooltip content="重置">
               <a-button type="primary" status="danger" @click="reset">
                 <template #icon>

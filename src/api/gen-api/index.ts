@@ -24,12 +24,15 @@ export type { ResultPageSysUserResponse } from '@/api/gen-api/models/result/Resu
 export type { ResultString } from '@/api/gen-api/models/result/ResultString.ts';
 export type { ResultSysUser } from '@/api/gen-api/models/result/ResultSysUser.ts';
 export type { ResultSysUserResponse } from '@/api/gen-api/models/result/ResultSysUserResponse.ts';
-export type { SysRole } from '@/api/gen-api/models/sys/SysRole.ts';
 export type { SysUser } from '@/api/gen-api/models/sys/SysUser.ts';
 export type { SysUserRequest } from '@/api/gen-api/models/sys/SysUserRequest.ts';
 export type { SysUserResponse } from '@/api/gen-api/models/sys/SysUserResponse.ts';
+export type { PageSysRoleResponse } from '@/api/gen-api/models/sys/role/PageSysRoleResponse.ts';
+export type { ResultPageSysRoleResponse } from '@/api/gen-api/models/sys/role/ResultPageSysRoleResponse.ts';
+export type { SysRoleRequest } from '@/api/gen-api/models/sys/role/SysRoleRequest.ts';
+export type { SysRoleResponse } from '@/api/gen-api/models/sys/role/SysRoleResponse.ts';
 
 export { LoginService } from './services/LoginService.ts';
 export { OjProblemService } from './services/OjProblemService.ts';
-export { SysRoleService } from './services/SysRoleService.ts';
 export { SysUserService } from './services/SysUserService.ts';
+export { SysRoleService } from './services/SysRoleService.ts';

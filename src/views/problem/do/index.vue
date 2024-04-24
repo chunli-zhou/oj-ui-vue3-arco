@@ -85,9 +85,4 @@ onMounted(() => {
     background-color: rgb(var(--arcoblue-6));
   }
 }
-
-.problem-info {
-  overflow: auto;
-  text-overflow: ellipsis;
-}
 </style>
