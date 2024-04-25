@@ -37,6 +37,9 @@ service.interceptors.response.use(
         response.config.url !== '/api/user/info'
       ) {
         Modal.error({
+          bodyStyle: {
+            textAlign: 'center'
+          },
           title: '登录信息已过期',
           content: '登录信息已过期，请重新登录',
           okText: '去登录',

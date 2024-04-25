@@ -105,7 +105,9 @@
           <a-link @click="handleEditRole(record)">赋权</a-link>
         </span>
         <span>
-          <a-link @click="handleKick(record)">强制下线</a-link>
+          <a-link :disabled="!record.online" @click="handleKick(record)">
+            强制下线
+          </a-link>
         </span>
         <span>
           <a-popconfirm
