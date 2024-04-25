@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container-i">
     <Breadcrumb :items="['个人中心', '用户信息']" />
     <UserInfoHeader />
     <div class="content">
@@ -72,6 +72,9 @@ export default {
 </style>
 
 <style lang="less" scoped>
+.container-i {
+  padding: 0 20px 20px;
+}
 .mobile {
   .content {
     display: block;

@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container-u">
     <Breadcrumb :items="['题库', '题目管理', '编辑题目']" />
     <a-spin style="width: 100%">
       <a-card class="general-card">
@@ -109,7 +109,7 @@ onMounted(() => {
 </script>
 
 <style scoped lang="less">
-.container {
+.container-u {
   padding: 0 20px 20px;
 }
 

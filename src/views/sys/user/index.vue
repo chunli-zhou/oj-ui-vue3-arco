@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container-u">
     <Breadcrumb :items="['系统管理', '用户管理']" />
     <a-card>
       <user-table />
@@ -12,7 +12,7 @@ import UserTable from '@/views/sys/user/components/user-table.vue';
 </script>
 
 <style scoped lang="less">
-.container {
+.container-u {
   padding: 0 20px 20px;
 }
 </style>

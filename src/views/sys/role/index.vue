@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container-r">
     <Breadcrumb :items="['系统管理', '角色管理']" />
     <a-card>
       <role-table />
@@ -12,7 +12,7 @@ import RoleTable from '@/views/sys/role/components/role-table.vue';
 </script>
 
 <style scoped lang="less">
-.container {
+.container-r {
   padding: 0 20px 20px;
 }
 </style>

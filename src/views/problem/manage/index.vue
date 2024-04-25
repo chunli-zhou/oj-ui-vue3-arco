@@ -202,7 +202,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="container">
+  <div class="container-m">
     <Breadcrumb :items="['题库', '题目管理']" />
     <a-card class="general-card" title="题目管理">
       <a-row>
@@ -349,7 +349,7 @@ onMounted(async () => {
 </template>
 
 <style scoped lang="less">
-.container {
+.container-m {
   padding: 0 20px 20px;
 }
 </style>

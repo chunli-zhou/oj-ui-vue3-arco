@@ -32,12 +32,8 @@ service.interceptors.response.use(
       return;
     }
     if (res.code !== 200) {
-      Message.error({
-        content: res.message || '网络错误',
-        duration: 5 * 1000
-      });
       if (
-        [50008, 50012, 50014].includes(res.code) &&
+        [50008, 50012, 50014, 40001].includes(res.code) &&
         response.config.url !== '/api/user/info'
       ) {
         Modal.error({
@@ -51,7 +47,12 @@ service.interceptors.response.use(
             window.location.reload();
           }
         });
+        return;
       }
+      Message.error({
+        content: res.message || '网络错误',
+        duration: 5 * 1000
+      });
       return Promise.reject(new Error(res.message || '网络错误'));
     }
     return response;

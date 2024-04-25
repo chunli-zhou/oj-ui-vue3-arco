@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container-s">
     <Breadcrumb :items="['个人中心', '用户信息']" />
     <a-row style="margin-bottom: 16px">
       <a-col :span="24">
@@ -34,7 +34,7 @@ export default {
 </script>
 
 <style scoped lang="less">
-.container {
+.container-s {
   padding: 0 20px 20px;
 }
 

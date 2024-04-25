@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container-a">
     <Breadcrumb :items="['题库', '题目管理', '添加题目']" />
     <a-spin style="width: 100%">
       <a-card class="general-card">
@@ -96,7 +96,7 @@ export default {
 </script>
 
 <style scoped lang="less">
-.container {
+.container-a {
   padding: 0 20px 20px;
 }
 

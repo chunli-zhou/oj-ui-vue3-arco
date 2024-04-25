@@ -123,4 +123,20 @@ export class SysUserService {
       mediaType: 'multipart/form-data'
     });
   }
+
+  /**
+   * 强制踢人下线
+   * @param id 主键
+   * @returns ResultBoolean OK
+   * @throws ApiError
+   */
+  public static kick(id: number): CancelablePromise<ResultBoolean> {
+    return __request(OpenAPI, {
+      method: 'PUT',
+      url: '/sys/sysUser/kick/{id}',
+      path: {
+        id: id
+      }
+    });
+  }
 }

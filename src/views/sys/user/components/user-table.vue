@@ -84,9 +84,11 @@
       <span>{{ record.gender === 0 ? '男' : '女' }}</span>
     </template>
     <template #Roles="{ record }">
-      <a-tag v-for="(item, index) in record.roles" :key="index">
-        {{ item }}
-      </a-tag>
+      <a-space size="mini">
+        <a-tag v-for="(item, index) in record.roles" :key="index">
+          {{ item }}
+        </a-tag>
+      </a-space>
     </template>
     <template #Status="{ record }">
       <a-tag :color="record.status === 0 ? 'green' : 'red'">
@@ -97,6 +99,9 @@
       <a-space size="mini">
         <span>
           <a-link @click="handleEditRole(record)">赋权</a-link>
+        </span>
+        <span>
+          <a-link @click="handleKick(record)">强制下线</a-link>
         </span>
         <span>
           <a-popconfirm
@@ -207,6 +212,15 @@ const handleEnable = (record: SysRoleResponse) => {
   SysUserService.enable(record.id).then(() => {
     Message.success('启用成功');
     pageData();
+  });
+};
+
+const handleKick = (record: SysRoleResponse) => {
+  SysUserService.kick(record.id).then(res => {
+    if (res.result) {
+      Message.success('强制下线成功');
+      pageData();
+    }
   });
 };
 

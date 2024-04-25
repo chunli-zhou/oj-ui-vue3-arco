@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container-e">
     <Breadcrumb :items="['结果页', '失败页']" />
     <div class="wrapper">
       <a-result
@@ -46,7 +46,7 @@ export default {
 </script>
 
 <style scoped lang="less">
-.container {
+.container-e {
   padding: 0 20px 20px;
 }
 

@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container-f">
     <Breadcrumb :items="['题库', '找题']" />
     <div class="layout">
       <div class="layout-left-side">
@@ -40,8 +40,8 @@ import UserList from '@/views/problem/find/components/user-list.vue';
 </script>
 
 <style scoped lang="less">
-.container {
-  padding: 0 20px 20px 20px;
+.container-f {
+  padding: 0 20px 20px;
 }
 
 .layout {
