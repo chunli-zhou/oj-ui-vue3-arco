@@ -14,7 +14,7 @@ const USER: AppRouteRecordRaw = {
   children: [
     {
       path: 'info',
-      name: 'Info',
+      name: 'UserInfo',
       component: () => import('@/views/user/info/index.vue'),
       meta: {
         locale: '用户信息',
@@ -24,7 +24,7 @@ const USER: AppRouteRecordRaw = {
     },
     {
       path: 'setting',
-      name: 'Setting',
+      name: 'UserSetting',
       component: () => import('@/views/user/setting/index.vue'),
       meta: {
         locale: '用户设置',

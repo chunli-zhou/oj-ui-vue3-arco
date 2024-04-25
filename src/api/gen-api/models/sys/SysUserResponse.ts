@@ -50,4 +50,8 @@ export type SysUserResponse = {
    * 权限
    */
   role?: string;
+  /**
+   * 角色列表
+   */
+  roles?: Array<string>;
 };

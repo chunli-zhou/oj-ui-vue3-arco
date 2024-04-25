@@ -149,13 +149,7 @@ const handleSubmit = () => {
     await userStore
       .login(userInfoForm as LoginRequest)
       .then(() => {
-        const { redirect, ...othersQuery } = router.currentRoute.value.query;
-        router.push({
-          name: (redirect as string) || 'Info',
-          query: {
-            ...othersQuery
-          }
-        });
+        router.push({ name: 'UserSetting' });
         Message.success('登录成功！');
         const { rememberPassword } = loginConfig.value;
         const { username, password } = userInfoForm;

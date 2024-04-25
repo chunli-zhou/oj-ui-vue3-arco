@@ -35,7 +35,7 @@ export class SysUserService {
    * @returns ResultBoolean OK
    * @throws ApiError
    */
-  public static enable(id: string): CancelablePromise<ResultBoolean> {
+  public static enable(id: number): CancelablePromise<ResultBoolean> {
     return __request(OpenAPI, {
       method: 'PUT',
       url: '/sys/sysUser/enable/{id}',
@@ -51,7 +51,7 @@ export class SysUserService {
    * @returns ResultString OK
    * @throws ApiError
    */
-  public static disable(id: string): CancelablePromise<ResultString> {
+  public static disable(id: number): CancelablePromise<ResultString> {
     return __request(OpenAPI, {
       method: 'PUT',
       url: '/sys/sysUser/disable/{id}',
@@ -76,8 +76,8 @@ export class SysUserService {
       method: 'GET',
       url: '/sys/sysUser/page',
       query: {
-        page: page,
-        request: request
+        ...page,
+        ...request
       }
     });
   }

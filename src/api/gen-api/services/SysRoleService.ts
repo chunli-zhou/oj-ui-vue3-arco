@@ -7,6 +7,8 @@ import {
 } from '@/api/gen-api';
 import type { ResultPageSysRoleResponse } from '@/api/gen-api/models/sys/role/ResultPageSysRoleResponse.ts';
 import { request as __request } from '../core/request.ts';
+import { ResultListSysRoleResponse } from '@/api/gen-api/models/sys/role/ResultListSysRoleResponse.ts';
+import { UpdateUserRoleRequest } from '@/api/gen-api/models/sys/role/UpdateUserRoleRequest.ts';
 
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export class SysRoleService {
@@ -24,6 +26,18 @@ export class SysRoleService {
       url: '/sys/role/update',
       body: requestBody,
       mediaType: 'application/json'
+    });
+  }
+
+  /**
+   * 查询所有系统角色
+   * @returns ResultListSysRoleResponse OK
+   * @throws ApiError
+   */
+  public static list(): CancelablePromise<ResultListSysRoleResponse> {
+    return __request(OpenAPI, {
+      method: 'GET',
+      url: '/sys/role/list'
     });
   }
 
@@ -78,6 +92,23 @@ export class SysRoleService {
       path: {
         id: id
       }
+    });
+  }
+
+  /**
+   * 修改系统用户角色
+   * @param requestBody
+   * @returns ResultBoolean OK
+   * @throws ApiError
+   */
+  public static updateUserRole(
+    requestBody: UpdateUserRoleRequest
+  ): CancelablePromise<ResultBoolean> {
+    return __request(OpenAPI, {
+      method: 'PUT',
+      url: '/sys/role/update/userRole',
+      body: requestBody,
+      mediaType: 'application/json'
     });
   }
 }

@@ -21,6 +21,16 @@ const SYS: AppRouteRecordRaw = {
         requiresAuth: true,
         roles: ['*']
       }
+    },
+    {
+      path: 'user',
+      name: 'UserManage',
+      component: () => import('@/views/sys/user/index.vue'),
+      meta: {
+        locale: '用户管理',
+        requiresAuth: true,
+        roles: ['*']
+      }
     }
   ]
 };

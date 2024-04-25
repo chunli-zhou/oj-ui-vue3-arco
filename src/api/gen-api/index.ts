@@ -31,6 +31,7 @@ export type { PageSysRoleResponse } from '@/api/gen-api/models/sys/role/PageSysR
 export type { ResultPageSysRoleResponse } from '@/api/gen-api/models/sys/role/ResultPageSysRoleResponse.ts';
 export type { SysRoleRequest } from '@/api/gen-api/models/sys/role/SysRoleRequest.ts';
 export type { SysRoleResponse } from '@/api/gen-api/models/sys/role/SysRoleResponse.ts';
+export type { UpdateUserRoleRequest } from '@/api/gen-api/models/sys/role/UpdateUserRoleRequest.ts';
 
 export { LoginService } from './services/LoginService.ts';
 export { OjProblemService } from './services/OjProblemService.ts';

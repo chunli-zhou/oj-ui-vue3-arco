@@ -13,7 +13,7 @@
           <a-input v-model="req.roleCode" placeholder="请输入角色编码" />
         </a-form-item>
         <a-form-item field="remark" label="备注">
-          <a-textarea v-model="req.remark" placeholder="请输入备注" />
+          <a-input v-model="req.remark" placeholder="请输入备注" />
         </a-form-item>
       </a-form>
     </div>
