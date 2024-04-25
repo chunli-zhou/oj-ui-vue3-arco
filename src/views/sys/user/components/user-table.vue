@@ -95,6 +95,10 @@
         {{ record.status === 0 ? '正常' : '停用' }}
       </a-tag>
     </template>
+    <template #Online="{ record }">
+      <a-badge v-if="record.online" status="success" text="在线" />
+      <a-badge v-else status="normal" text="离线" />
+    </template>
     <template #Controls="{ record }">
       <a-space size="mini">
         <span>

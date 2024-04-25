@@ -52,6 +52,12 @@ const columns: TableColumnData[] = [
     slotName: 'Status'
   },
   {
+    title: '是否在线',
+    dataIndex: 'online',
+    align: 'center',
+    slotName: 'Online'
+  },
+  {
     slotName: 'Controls',
     title: '操作',
     fixed: 'right',

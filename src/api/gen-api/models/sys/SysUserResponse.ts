@@ -54,4 +54,8 @@ export type SysUserResponse = {
    * 角色列表
    */
   roles?: Array<string>;
+  /**
+   * 是否在线
+   */
+  online?: boolean;
 };
