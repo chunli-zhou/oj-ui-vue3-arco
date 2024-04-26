@@ -8,7 +8,6 @@ const RESULT: AppRouteRecordRaw = {
   meta: {
     locale: '结果页',
     icon: 'icon-check-circle',
-    requiresAuth: true,
     order: 5,
     hideInMenu: true,
     noAffix: true

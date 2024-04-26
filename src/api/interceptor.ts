@@ -33,7 +33,7 @@ service.interceptors.response.use(
     }
     if (res.code !== 200) {
       if (
-        [50008, 50012, 50014, 40001].includes(res.code) &&
+        [40001].includes(res.code) &&
         response.config.url !== '/api/user/info'
       ) {
         Modal.error({
