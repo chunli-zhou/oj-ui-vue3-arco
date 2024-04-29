@@ -1,11 +1,20 @@
 <template>
   <a-card class="general-card h-screen problem-info">
-    <a-scrollbar style="height: 87vh; overflow: auto">
-      <a-typography>
-        <a-typography-title heading="5">{{ problem.title }}</a-typography-title>
-        <MdPreview :model-value="problem.content" />
-      </a-typography>
-    </a-scrollbar>
+    <a-tabs default-active-key="1">
+      <a-tab-pane key="1" title="题目详情">
+        <a-scrollbar style="height: 80vh; overflow: auto">
+          <a-typography>
+            <a-typography-title heading="5">
+              {{ problem.title }}
+            </a-typography-title>
+            <MdPreview :model-value="problem.content" />
+          </a-typography>
+        </a-scrollbar>
+      </a-tab-pane>
+      <a-tab-pane key="2" title="评论">
+        <problem-comment :problem-id="props.id" />
+      </a-tab-pane>
+    </a-tabs>
 
     <a-card-meta>
       <template #title>
@@ -30,6 +39,7 @@
 import { MdPreview } from 'md-editor-v3';
 import { nextTick, onMounted, ref } from 'vue';
 import { OjProblemService, OjProblemVo } from '@/api/gen-api';
+import ProblemComment from '@/views/problem/components/problem-comment.vue';
 
 const problem = ref<OjProblemVo>({});
 

@@ -32,8 +32,12 @@ export type { ResultPageSysRoleResponse } from '@/api/gen-api/models/sys/role/Re
 export type { SysRoleRequest } from '@/api/gen-api/models/sys/role/SysRoleRequest.ts';
 export type { SysRoleResponse } from '@/api/gen-api/models/sys/role/SysRoleResponse.ts';
 export type { UpdateUserRoleRequest } from '@/api/gen-api/models/sys/role/UpdateUserRoleRequest.ts';
+export type { ProblemCommentRequest } from '@/api/gen-api/models/problem/ProblemCommentRequest.ts';
+export type { ProblemCommentVo } from '@/api/gen-api/models/problem/ProblemCommentVo.ts';
+export type { ResultListProblemCommentVo } from '@/api/gen-api/models/problem/ResultListProblemCommentVo.ts';
 
 export { LoginService } from './services/LoginService.ts';
 export { OjProblemService } from './services/OjProblemService.ts';
 export { SysUserService } from './services/SysUserService.ts';
 export { SysRoleService } from './services/SysRoleService.ts';
+export { ProblemCommentControllerService } from './services/ProblemCommentControllerService.ts';

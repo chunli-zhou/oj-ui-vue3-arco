@@ -3,8 +3,8 @@ import NProgress from 'nprogress';
 import 'nprogress/nprogress.css';
 
 import { appRoutes } from './routes';
-import { REDIRECT_MAIN, NOT_FOUND_ROUTE } from './routes/base';
-import { DEFAULT_ROUTE_NAME, LOGIN_ROUTE_NAME } from './constants';
+import { NOT_FOUND_ROUTE, REDIRECT_MAIN } from './routes/base';
+import { LOGIN_ROUTE_NAME } from './constants';
 import createRouteGuard from './guard';
 
 NProgress.configure({ showSpinner: false });
@@ -14,7 +14,7 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      redirect: DEFAULT_ROUTE_NAME
+      redirect: 'user/setting'
     },
     {
       path: '/login',

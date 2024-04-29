@@ -52,32 +52,28 @@
       </a-input-number>
     </a-form-item>
     <a-form-item field="captcha" validate-trigger="blur" hide-label>
-      <a-row>
-        <a-col :span="17">
-          <a-input
-            v-model="form.captcha"
-            style="height: 40px"
-            placeholder="请输入验证码"
-            allow-clear
-          >
-            <template #prefix>
-              <icon-bold />
-            </template>
-          </a-input>
-        </a-col>
-        <a-col :span="6" :offset="1">
-          <a-tooltip content="点击获取">
-            <a-image
-              style="cursor: pointer"
-              alt="验证码"
-              :src="captchaUrl"
-              :preview="false"
-              show-loader
-              @click="getCaptcha"
-            />
-          </a-tooltip>
-        </a-col>
-      </a-row>
+      <a-space size="large">
+        <a-input
+          v-model="form.captcha"
+          style="height: 40px"
+          placeholder="请输入验证码"
+          allow-clear
+        >
+          <template #prefix>
+            <icon-bold />
+          </template>
+        </a-input>
+        <a-tooltip content="点击获取">
+          <a-image
+            style="cursor: pointer"
+            alt="验证码"
+            :src="captchaUrl"
+            :preview="false"
+            show-loader
+            @click="getCaptcha"
+          />
+        </a-tooltip>
+      </a-space>
     </a-form-item>
     <a-button
       type="primary"
@@ -98,6 +94,7 @@ import { useUserStore } from '@/store';
 import useLoading from '@/hooks/useLoading.ts';
 import { nanoid } from 'nanoid';
 import { RegisterRequest } from '@/api/sys-oj';
+import { Message } from '@arco-design/web-vue';
 
 const userStore = useUserStore();
 const formRef = ref();
@@ -153,7 +150,9 @@ const handleSubmit = () => {
       if (res) return;
       setLoading(true);
       try {
-        await userStore.register(form as RegisterRequest);
+        await userStore.register(form as RegisterRequest).then(() => {
+          Message.success('注册成功');
+        });
       } catch (error) {
         await getCaptcha();
       } finally {
