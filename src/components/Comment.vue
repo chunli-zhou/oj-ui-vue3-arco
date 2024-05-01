@@ -4,9 +4,11 @@
     :key="index"
     :author="comment.authorName"
     :avatar="comment.authorAvatar"
-    :content="comment.content"
     :datetime="comment.createTime"
   >
+    <template #content>
+      <MdPreview :modelValue="comment.content" />
+    </template>
     <template #actions>
       <a-popover :popup-visible="comment.replyFlag" trigger="click">
         <template #content>
@@ -65,7 +67,7 @@ import {
 } from '@/api/gen-api';
 import { PropType, ref } from 'vue';
 import { IconMessage } from '@arco-design/web-vue/es/icon';
-import { MdEditor } from 'md-editor-v3';
+import { MdEditor, MdPreview } from 'md-editor-v3';
 import { Message } from '@arco-design/web-vue';
 
 const props = defineProps({
