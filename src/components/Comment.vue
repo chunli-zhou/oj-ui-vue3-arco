@@ -1,4 +1,9 @@
 <template>
+  <a-result
+    v-if="props.comments.length === 0"
+    status="404"
+    subtitle="还木有评论哦~ 点击评论输入本题第一条评论"
+  />
   <a-comment
     v-for="(comment, index) in props.comments"
     :key="index"
@@ -13,7 +18,7 @@
           <MdEditor
             v-model="recoverComment.content"
             placeholder="支持 Markdown"
-            style="height: 200px; width: 250px"
+            style="width: 250px; height: 200px"
             :preview="false"
             :toolbars="['preview', 'pageFullscreen', 'uploadImg']"
             @onUploadImg="onUploadImg"
@@ -107,11 +112,11 @@ const doRecoverComment = (comment: ProblemCommentVo) => {
 .action {
   display: inline-block;
   padding: 0 4px;
-  color: var(--color-text-1);
   line-height: 24px;
+  color: var(--color-text-1);
+  cursor: pointer;
   background: transparent;
   border-radius: 2px;
-  cursor: pointer;
   transition: all 0.1s ease;
 }
 

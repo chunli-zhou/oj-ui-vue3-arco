@@ -1,5 +1,5 @@
 <template>
-  <a-card class="general-card" title="我的项目">
+  <a-card class="general-card" title="我的题目">
     <template #extra>
       <a-link>更多</a-link>
     </template>
