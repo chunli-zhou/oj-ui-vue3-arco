@@ -50,4 +50,8 @@ export type ProblemCommentVo = {
    * 是否展开-默认false，不展开
    */
   expandedFlag?: boolean;
+  /**
+   * 是否展开回复框-默认false，不展开
+   */
+  replyFlag?: false;
 };

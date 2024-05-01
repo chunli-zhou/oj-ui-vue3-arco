@@ -12,7 +12,9 @@
         </a-scrollbar>
       </a-tab-pane>
       <a-tab-pane key="2" title="评论">
-        <problem-comment :problem-id="props.id" />
+        <a-scrollbar style="overflow: auto; height: 80vh">
+          <problem-comment :problem-id="props.id" />
+        </a-scrollbar>
       </a-tab-pane>
     </a-tabs>
 

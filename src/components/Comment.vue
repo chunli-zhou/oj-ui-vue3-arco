@@ -8,10 +8,34 @@
     :datetime="comment.createTime"
   >
     <template #actions>
-      <span class="action">
-        <IconMessage />
-        回复
-      </span>
+      <a-popover :popup-visible="comment.replyFlag" trigger="click">
+        <template #content>
+          <MdEditor
+            v-model="recoverComment.content"
+            placeholder="支持 Markdown"
+            style="height: 200px; width: 250px"
+            :preview="false"
+            :toolbars="['preview', 'pageFullscreen', 'uploadImg']"
+            @onUploadImg="onUploadImg"
+          />
+          <a-row class="pt-1.5">
+            <a-col :flex="1" />
+            <a-col :span="5.5">
+              <a-button
+                type="primary"
+                style="text-align: right"
+                @click="doRecoverComment(comment)"
+              >
+                提交
+              </a-button>
+            </a-col>
+          </a-row>
+        </template>
+        <span class="action" @click="handleRecoverComment(comment)">
+          <IconMessage />
+          回复
+        </span>
+      </a-popover>
       <a-link
         v-if="!comment.expandedFlag && comment.children"
         class="action"
@@ -34,9 +58,15 @@
 </template>
 
 <script setup lang="ts">
-import { ProblemCommentVo } from '@/api/gen-api';
-import { PropType } from 'vue';
+import {
+  ProblemCommentControllerService,
+  ProblemCommentRequest,
+  ProblemCommentVo
+} from '@/api/gen-api';
+import { PropType, ref } from 'vue';
 import { IconMessage } from '@arco-design/web-vue/es/icon';
+import { MdEditor } from 'md-editor-v3';
+import { Message } from '@arco-design/web-vue';
 
 const props = defineProps({
   comments: {
@@ -45,13 +75,32 @@ const props = defineProps({
   }
 });
 
-// const commentList = ref<ProblemCommentVo[]>();
+const recoverComment = ref<ProblemCommentRequest>({
+  content: '',
+  problemId: null,
+  parentId: null
+});
 
-// onMounted(() => {
-//   nextTick(() => {
-//     commentList.value = props.comments;
-//   })
-// })
+const handleRecoverComment = (comment: ProblemCommentVo) => {
+  recoverComment.value.parentId = comment.id;
+  recoverComment.value.problemId = comment.problemId;
+};
+
+/**
+ * 提交回复
+ */
+const doRecoverComment = (comment: ProblemCommentVo) => {
+  ProblemCommentControllerService.save(recoverComment.value).then(res => {
+    if (res.result) {
+      recoverComment.value.content = '';
+      Message.success('回复成功');
+      comment.replyFlag = false;
+      ProblemCommentControllerService.list(comment.problemId).then(res => {
+        comment.children = res.result;
+      });
+    }
+  });
+};
 </script>
 
 <style scoped lang="less">

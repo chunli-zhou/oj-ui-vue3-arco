@@ -15,7 +15,7 @@ export class ProblemCommentControllerService {
    * @returns ResultBoolean OK
    * @throws ApiError
    */
-  public static save1(
+  public static save(
     requestBody: ProblemCommentRequest
   ): CancelablePromise<ResultBoolean> {
     return __request(OpenAPI, {
@@ -40,24 +40,6 @@ export class ProblemCommentControllerService {
       url: '/problem/comment/list',
       query: {
         problemId: problemId
-      }
-    });
-  }
-
-  /**
-   * 获取子节点评论
-   * @param id
-   * @returns ResultListProblemCommentVo OK
-   * @throws ApiError
-   */
-  public static listChildren(
-    id: number
-  ): CancelablePromise<ResultListProblemCommentVo> {
-    return __request(OpenAPI, {
-      method: 'GET',
-      url: '/problem/comment/listChildren',
-      query: {
-        id: id
       }
     });
   }

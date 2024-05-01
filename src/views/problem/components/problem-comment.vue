@@ -2,16 +2,21 @@
   <a-card :bordered="false" class="comment-container">
     <Comment :comments="commentList" />
     <template #actions>
-      <a-tooltip v-if="!commentVisible" content="参与评论">
-        <span v-if="!commentVisible" @click="commentVisible = !commentVisible">
+      <a-button
+        v-if="!commentVisible"
+        type="primary"
+        shape="round"
+        @click="commentVisible = !commentVisible"
+      >
+        <template #icon>
           <IconMessage />
-          评论
-        </span>
-      </a-tooltip>
+        </template>
+        评论
+      </a-button>
     </template>
     <div v-if="commentVisible" class="md-editor-container">
       <MdEditor
-        v-model="comment"
+        v-model="commentContent"
         placeholder="支持 Markdown"
         style="height: 250px"
         :preview="false"
@@ -45,15 +50,30 @@ import {
 import { nextTick, onMounted, ref } from 'vue';
 import { MdEditor } from 'md-editor-v3';
 import { IconMessage } from '@arco-design/web-vue/es/icon';
+import { Message } from '@arco-design/web-vue';
 
 const commentVisible = ref(false);
-const comment = ref('');
+const commentContent = ref('');
 const props = defineProps({
   problemId: {
     type: Number,
     default: null
   }
 });
+
+const submitComment = () => {
+  ProblemCommentControllerService.save({
+    content: commentContent.value,
+    problemId: props.problemId
+  }).then(res => {
+    if (res.result) {
+      Message.success('评论成功');
+      commentVisible.value = false;
+      commentContent.value = '';
+      getRootComment();
+    }
+  });
+};
 
 const commentList = ref<ProblemCommentVo[]>([]);
 onMounted(() => {
