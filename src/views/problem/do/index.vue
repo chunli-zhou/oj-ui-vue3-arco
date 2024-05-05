@@ -22,7 +22,7 @@
               <do-problem />
             </template>
             <template #second>
-              <a-card class="general-card h-full" title="判题状态" />
+              <judge-status />
             </template>
           </a-split>
         </div>
@@ -36,6 +36,7 @@ import { useRoute } from 'vue-router';
 import { onMounted, ref } from 'vue';
 import ProblemInfo from '@/views/problem/do/components/problem-info.vue';
 import DoProblem from '@/views/problem/do/components/do-problem.vue';
+import JudgeStatus from '@/views/problem/do/components/judge-status.vue';
 
 const problemId = ref();
 

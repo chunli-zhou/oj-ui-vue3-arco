@@ -62,7 +62,6 @@ const handleChange = (ans: string) => {
 /* 为 .code-editor 添加样式以适应 .general-card 的高度 */
 .code-editor {
   border-radius: 10px;
-  height: 100vh;
   width: 100%;
   box-sizing: border-box;
   position: absolute; /* 使 CodeEditor 脱离文档流，以便适应父容器 */
