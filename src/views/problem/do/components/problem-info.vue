@@ -2,7 +2,10 @@
   <a-card class="general-card h-screen problem-info">
     <a-tabs default-active-key="1">
       <a-tab-pane key="1" title="题目详情">
-        <a-scrollbar style="height: 80vh; overflow: auto">
+        <a-scrollbar
+          v-if="problem.content !== ''"
+          style="height: 80vh; overflow: auto"
+        >
           <a-typography>
             <a-typography-title heading="5">
               {{ problem.title }}
@@ -10,6 +13,14 @@
             <MdPreview :model-value="problem.content" />
           </a-typography>
         </a-scrollbar>
+        <a-skeleton v-if="problem.content === ''" animation :loading="true">
+          <a-space direction="vertical" :style="{ width: '100%' }" size="large">
+            <a-skeleton-line
+              :rows="10"
+              :widths="[800, 800, 800, 800, 800, 800, 800, 800, 800, 500]"
+            />
+          </a-space>
+        </a-skeleton>
       </a-tab-pane>
       <a-tab-pane key="2" title="评论">
         <a-scrollbar style="overflow: auto; height: 80vh">
@@ -43,7 +54,9 @@ import { nextTick, onMounted, ref } from 'vue';
 import { OjProblemService, OjProblemVo } from '@/api/gen-api';
 import ProblemComment from '@/views/problem/components/problem-comment.vue';
 
-const problem = ref<OjProblemVo>({});
+const problem = ref<OjProblemVo>({
+  content: ''
+});
 
 const props = defineProps({
   id: {

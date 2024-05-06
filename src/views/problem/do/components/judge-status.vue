@@ -1,9 +1,9 @@
 <template>
   <a-card class="general-card h-full" title="判题状态">
     <div class="spin">
-      <a-spin dot>
+      <a-spin v-if="visible" dot>
         <template #tip>
-          判题中
+          正在提交判题
           <transition-group name="fade" tag="span" class="dot-spinner">
             <span
               v-for="(dot, index) in dots"
@@ -16,6 +16,18 @@
         </template>
         <template #icon></template>
       </a-spin>
+      <div>
+        <a-button v-if="visible" type="primary" @click="startJudge">
+          开始判题
+        </a-button>
+        <a-progress
+          v-if="!visible"
+          animation
+          :stroke-width="2"
+          type="circle"
+          :percent="judgePercent"
+        />
+      </div>
     </div>
   </a-card>
 </template>
@@ -24,7 +36,16 @@
 import { onMounted, onUnmounted, ref } from 'vue';
 
 const dots = ['.', '.', '.', ''];
+const visible = ref(true);
 const currentDot = ref(0);
+const judgePercent = ref(0);
+
+const startJudge = () => {
+  visible.value = !visible.value;
+  setInterval(() => {
+    judgePercent.value = judgePercent.value + 0.2;
+  }, 1000);
+};
 
 onMounted(() => {
   const intervalId = setInterval(() => {

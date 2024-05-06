@@ -1,36 +1,39 @@
 <template>
   <a-card
     class="general-card"
-    title="Team"
+    title="团队"
     :header-style="{ paddingBottom: '18px' }"
     :body-style="{ paddingBottom: '12px' }"
   >
-    <a-list :bordered="false">
-      <a-list-item
-        v-for="team in teamList"
-        :key="team.id"
-        action-layout="horizontal"
-      >
-        <a-skeleton v-if="false" :loading="false" :animation="true">
-          <a-row :gutter="6">
-            <a-col :span="6">
-              <a-skeleton-shape shape="circle" />
-            </a-col>
-            <a-col :span="16">
-              <a-skeleton-line :widths="['100%', '40%']" :rows="2" />
-            </a-col>
-          </a-row>
-        </a-skeleton>
-        <a-list-item-meta v-else :title="team.name">
-          <template #avatar>
-            <a-avatar>
-              <img :src="team.avatar" />
-            </a-avatar>
-          </template>
-          <template #description>共{{ team.peopleNumber }}人</template>
-        </a-list-item-meta>
-      </a-list-item>
-    </a-list>
+    <a-result status="404">
+      <template #subtitle>无数据</template>
+    </a-result>
+    <!--    <a-list :bordered="false">-->
+    <!--      <a-list-item-->
+    <!--        v-for="team in teamList"-->
+    <!--        :key="team.id"-->
+    <!--        action-layout="horizontal"-->
+    <!--      >-->
+    <!--        <a-skeleton v-if="false" :loading="false" :animation="true">-->
+    <!--          <a-row :gutter="6">-->
+    <!--            <a-col :span="6">-->
+    <!--              <a-skeleton-shape shape="circle" />-->
+    <!--            </a-col>-->
+    <!--            <a-col :span="16">-->
+    <!--              <a-skeleton-line :widths="['100%', '40%']" :rows="2" />-->
+    <!--            </a-col>-->
+    <!--          </a-row>-->
+    <!--        </a-skeleton>-->
+    <!--        <a-list-item-meta v-else :title="team.name">-->
+    <!--          <template #avatar>-->
+    <!--            <a-avatar>-->
+    <!--              <img :src="team.avatar" />-->
+    <!--            </a-avatar>-->
+    <!--          </template>-->
+    <!--          <template #description>共{{ team.peopleNumber }}人</template>-->
+    <!--        </a-list-item-meta>-->
+    <!--      </a-list-item>-->
+    <!--    </a-list>-->
   </a-card>
 </template>
 

@@ -3,55 +3,53 @@
     <template #extra>
       <a-link>更多</a-link>
     </template>
-    <a-row :gutter="16">
-      <a-col
-        v-for="(project, index) in projectList"
-        :key="index"
-        :xs="12"
-        :sm="12"
-        :md="12"
-        :lg="12"
-        :xl="8"
-        :xxl="8"
-        class="my-project-item"
-      >
-        <a-card>
-          <a-skeleton v-if="loading" :loading="loading" :animation="true">
-            <a-skeleton-line :rows="3" />
-          </a-skeleton>
-          <a-space v-else direction="vertical">
-            <a-typography-text bold>{{ project.name }}</a-typography-text>
-            <a-typography-text type="secondary">
-              {{ project.description }}
-            </a-typography-text>
-            <a-space>
-              <a-avatar-group :size="24">
-                {{ project.contributors }}
-                <a-avatar
-                  v-for="(contributor, idx) in project.contributors"
-                  :key="idx"
-                  :size="32"
-                >
-                  <img alt="avatar" :src="contributor.avatar" />
-                </a-avatar>
-              </a-avatar-group>
-              <a-typography-text type="secondary">
-                等{{ project.peopleNumber }}人
-              </a-typography-text>
-            </a-space>
-          </a-space>
-        </a-card>
-      </a-col>
-    </a-row>
+    <a-result status="404">
+      <template #subtitle>无数据</template>
+    </a-result>
+    <!--    <a-row :gutter="16">-->
+    <!--      <a-col-->
+    <!--        v-for="(project, index) in projectList"-->
+    <!--        :key="index"-->
+    <!--        :xs="12"-->
+    <!--        :sm="12"-->
+    <!--        :md="12"-->
+    <!--        :lg="12"-->
+    <!--        :xl="8"-->
+    <!--        :xxl="8"-->
+    <!--        class="my-project-item"-->
+    <!--      >-->
+    <!--        <a-card>-->
+    <!--          <a-skeleton v-if="loading" :loading="loading" :animation="true">-->
+    <!--            <a-skeleton-line :rows="3" />-->
+    <!--          </a-skeleton>-->
+    <!--          <a-space v-else direction="vertical">-->
+    <!--            <a-typography-text bold>{{ project.name }}</a-typography-text>-->
+    <!--            <a-typography-text type="secondary">-->
+    <!--              {{ project.description }}-->
+    <!--            </a-typography-text>-->
+    <!--            <a-space>-->
+    <!--              <a-avatar-group :size="24">-->
+    <!--                {{ project.contributors }}-->
+    <!--                <a-avatar-->
+    <!--                  v-for="(contributor, idx) in project.contributors"-->
+    <!--                  :key="idx"-->
+    <!--                  :size="32"-->
+    <!--                >-->
+    <!--                  <img alt="avatar" :src="contributor.avatar" />-->
+    <!--                </a-avatar>-->
+    <!--              </a-avatar-group>-->
+    <!--              <a-typography-text type="secondary">-->
+    <!--                等{{ project.peopleNumber }}人-->
+    <!--              </a-typography-text>-->
+    <!--            </a-space>-->
+    <!--          </a-space>-->
+    <!--        </a-card>-->
+    <!--      </a-col>-->
+    <!--    </a-row>-->
   </a-card>
 </template>
 
-<script lang="ts" setup>
-import useRequest from '@/hooks/useRequest';
-
-const defaultValue = Array(6).fill({} as any);
-const { loading, response: projectList } = useRequest<any[]>;
-</script>
+<script lang="ts" setup></script>
 
 <style scoped lang="less">
 :deep(.arco-card-body) {

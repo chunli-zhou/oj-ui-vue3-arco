@@ -1,62 +1,65 @@
 <template>
-  <a-card class="general-card" title="最新活动">
+  <a-card class="general-card" title="已做题目">
     <template #extra>
       <a-link>查看所有</a-link>
     </template>
-    <a-list :bordered="false">
-      <a-list-item
-        v-for="activity in activityList"
-        :key="activity.id"
-        action-layout="horizontal"
-      >
-        <a-skeleton
-          v-if="loading"
-          :loading="loading"
-          :animation="true"
-          class="skeleton-item"
-        >
-          <a-row :gutter="6">
-            <a-col :span="2">
-              <a-skeleton-shape shape="circle" />
-            </a-col>
-            <a-col :span="22">
-              <a-skeleton-line :widths="['40%', '100%']" :rows="2" />
-            </a-col>
-          </a-row>
-        </a-skeleton>
-        <a-list-item-meta
-          v-else
-          :title="activity.title"
-          :description="activity.description"
-        >
-          <template #avatar>
-            <a-avatar>
-              <img :src="activity.avatar" />
-            </a-avatar>
-          </template>
-        </a-list-item-meta>
-      </a-list-item>
-    </a-list>
+    <a-result status="404">
+      <template #subtitle>无数据</template>
+    </a-result>
+    <!--    <a-list :bordered="false">-->
+    <!--      <a-list-item-->
+    <!--        v-for="activity in activityList"-->
+    <!--        :key="activity.id"-->
+    <!--        action-layout="horizontal"-->
+    <!--      >-->
+    <!--        <a-skeleton-->
+    <!--          v-if="loading"-->
+    <!--          :loading="loading"-->
+    <!--          :animation="true"-->
+    <!--          class="skeleton-item"-->
+    <!--        >-->
+    <!--          <a-row :gutter="6">-->
+    <!--            <a-col :span="2">-->
+    <!--              <a-skeleton-shape shape="circle" />-->
+    <!--            </a-col>-->
+    <!--            <a-col :span="22">-->
+    <!--              <a-skeleton-line :widths="['40%', '100%']" :rows="2" />-->
+    <!--            </a-col>-->
+    <!--          </a-row>-->
+    <!--        </a-skeleton>-->
+    <!--        <a-list-item-meta-->
+    <!--          v-else-->
+    <!--          :title="activity.title"-->
+    <!--          :description="activity.description"-->
+    <!--        >-->
+    <!--          <template #avatar>-->
+    <!--            <a-avatar>-->
+    <!--              <img :src="activity.avatar" />-->
+    <!--            </a-avatar>-->
+    <!--          </template>-->
+    <!--        </a-list-item-meta>-->
+    <!--      </a-list-item>-->
+    <!--    </a-list>-->
   </a-card>
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
-import useLoading from '@/hooks/useLoading';
+// import { ref } from 'vue';
+// import useLoading from '@/hooks/useLoading';
 
-const { loading, setLoading } = useLoading(true);
-const activityList = ref<any>(new Array(7).fill({}));
-const fetchData = async () => {
-  try {
-    // const { data } = await queryLatestActivity();
-    // activityList.value = data;
-  } catch (err) {
-    // you can report use errorHandler or other
-  } finally {
-    setLoading(false);
-  }
-};
-fetchData();
+// const { loading, setLoading } = useLoading(true);
+// const activityList = ref<any>(new Array(7).fill({}));
+// const fetchData = async () => {
+//   try {
+//     // const { data } = await queryLatestActivity();
+//     // activityList.value = data;
+//   } catch (err) {
+//     // you can report use errorHandler or other
+//   } finally {
+//     setLoading(false);
+//   }
+// };
+// fetchData();
 </script>
 
 <style scoped lang="less">
