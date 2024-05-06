@@ -45,6 +45,24 @@ export class ProblemCommentControllerService {
   }
 
   /**
+   * 根据父节点id获取题目子评论
+   * @param commentId
+   * @returns ResultListProblemCommentVo OK
+   * @throws ApiError
+   */
+  public static listChild(
+    commentId: number
+  ): CancelablePromise<ResultListProblemCommentVo> {
+    return __request(OpenAPI, {
+      method: 'GET',
+      url: '/problem/comment/listChildren',
+      query: {
+        problemId: commentId
+      }
+    });
+  }
+
+  /**
    * 根据主键删除题目评论
    * @param id 题目评论主键
    * @returns ResultBoolean OK

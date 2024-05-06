@@ -43,7 +43,7 @@ const judgePercent = ref(0);
 const startJudge = () => {
   visible.value = !visible.value;
   setInterval(() => {
-    judgePercent.value = judgePercent.value + 0.2;
+    judgePercent.value = judgePercent.value + 0.5;
   }, 1000);
 };
 

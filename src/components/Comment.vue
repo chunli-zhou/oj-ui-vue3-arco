@@ -1,18 +1,18 @@
 <template>
   <a-result
-    v-if="props.comments.length === 0"
+    v-if="comments.length === 0"
     status="404"
     subtitle="还木有评论哦~ 点击评论输入本题第一条评论"
   />
   <a-comment
-    v-for="(comment, index) in props.comments"
+    v-for="(comment, index) in comments"
     :key="index"
     :author="comment.authorName"
     :avatar="comment.authorAvatar"
     :datetime="comment.createTime"
   >
     <template #content>
-      <MdPreview :modelValue="comment.content" />
+      <MdPreview style="padding: 0; margin: 0" :modelValue="comment.content" />
     </template>
     <template #actions>
       <a-popover :popup-visible="comment.replyFlag" trigger="click">
@@ -102,7 +102,7 @@ const doRecoverComment = (comment: ProblemCommentVo) => {
       recoverComment.value.content = '';
       Message.success('回复成功');
       comment.replyFlag = false;
-      ProblemCommentControllerService.list(comment.problemId).then(res => {
+      ProblemCommentControllerService.listChild(comment.id).then(res => {
         comment.children = res.result;
       });
     }
