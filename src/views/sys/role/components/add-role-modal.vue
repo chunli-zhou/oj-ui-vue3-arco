@@ -15,6 +15,12 @@
         <a-form-item field="remark" label="备注">
           <a-input v-model="req.remark" placeholder="请输入备注" />
         </a-form-item>
+        <a-form-item field="sort" label="排序">
+          <a-input-number
+            v-model="req.sort"
+            placeholder="请输入排序，数字越小，表名角色权限越大"
+          />
+        </a-form-item>
       </a-form>
     </div>
   </a-modal>
@@ -30,12 +36,14 @@ const emit = defineEmits(['addFlag']);
 const visible = ref(false);
 const req = ref<SysRoleRequest>({
   roleCode: '',
-  remark: ''
+  remark: '',
+  sort: null
 });
 const formRef = ref<FormInstance>();
 const rules = {
   roleCode: [{ required: true, message: '请输入角色编码' }],
-  remark: [{ required: true, message: '请输入备注' }]
+  remark: [{ required: true, message: '请输入备注' }],
+  sort: [{ required: true, message: '请输入排序' }]
 };
 const handleAdd = () => {
   visible.value = true;

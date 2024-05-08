@@ -18,4 +18,8 @@ export type SysRoleRequest = {
    * 部门ID
    */
   deptId?: string;
+  /**
+   * 排序
+   */
+  sort?: number;
 };
