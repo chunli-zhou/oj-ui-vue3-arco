@@ -1,5 +1,6 @@
 import type { AppRouteRecordRaw } from '@/router/routes/types.ts';
 import { DEFAULT_LAYOUT } from '@/router/routes/base.ts';
+import { AUTH_CONST } from '@/router/AuthConst.ts';
 
 const PROBLEM: AppRouteRecordRaw = {
   path: '/problem',
@@ -32,7 +33,7 @@ const PROBLEM: AppRouteRecordRaw = {
         hideChildrenMenu: true,
         locale: '题目管理',
         requiresAuth: true,
-        roles: ['*'],
+        roles: [AUTH_CONST.SUPER_ADMIN],
         order: 1
       }
     },

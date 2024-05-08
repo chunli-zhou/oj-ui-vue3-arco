@@ -10,7 +10,7 @@ const SYS: AppRouteRecordRaw = {
     locale: '系统管理',
     icon: 'icon-user',
     requiresAuth: true,
-    roles: [AUTH_CONST.SUPER_ADMIN],
+    roles: [AUTH_CONST.SUPER_ADMIN, AUTH_CONST.ADMIN],
     order: 1
   },
   children: [
@@ -21,7 +21,7 @@ const SYS: AppRouteRecordRaw = {
       meta: {
         locale: '角色管理',
         requiresAuth: true,
-        roles: [AUTH_CONST.SUPER_ADMIN]
+        roles: [AUTH_CONST.SUPER_ADMIN, AUTH_CONST.ADMIN]
       }
     },
     {
@@ -31,7 +31,7 @@ const SYS: AppRouteRecordRaw = {
       meta: {
         locale: '用户管理',
         requiresAuth: true,
-        roles: [AUTH_CONST.SUPER_ADMIN]
+        roles: [AUTH_CONST.SUPER_ADMIN, AUTH_CONST.ADMIN]
       }
     }
   ]
