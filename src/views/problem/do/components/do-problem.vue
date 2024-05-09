@@ -1,5 +1,5 @@
 <template>
-  <a-card class="general-card h-full" title="Just Do It">
+  <a-card class="general-card-do h-full" title="Just Do It">
     <template #extra>
       <a-space>
         <span>
@@ -28,6 +28,23 @@
         </span>
       </a-space>
     </template>
+    <template #actions>
+      <transition>
+        <a-button
+          v-if="submitButtonVisible"
+          ref="submitButton"
+          class="submit-button"
+          :loading="submitButtonLoading"
+          type="primary"
+          @click="handleSubmit"
+        >
+          提交
+          <template #icon>
+            <icon-thunderbolt />
+          </template>
+        </a-button>
+      </transition>
+    </template>
     <CodeEditor
       v-model:value="answer"
       class="code-editor"
@@ -51,23 +68,54 @@ const theme = ref('vs-light');
 const handleChange = (ans: string) => {
   answer.value = ans;
 };
+
+const submitButtonLoading = ref(false);
+const submitButtonVisible = ref(true);
+const handleSubmit = () => {
+  submitButtonLoading.value = true;
+  setTimeout(() => {
+    submitButtonVisible.value = false;
+  }, 2000);
+};
 </script>
 
 <style scoped lang="less">
-.general-card {
+.general-card-do {
   border-radius: 10px;
   overflow: hidden;
 }
 
 /* 为 .code-editor 添加样式以适应 .general-card 的高度 */
 .code-editor {
-  border-radius: 10px;
   width: 100%;
+  height: 100%;
   box-sizing: border-box;
-  position: absolute; /* 使 CodeEditor 脱离文档流，以便适应父容器 */
-  top: 45px; /* 与 .general-card 顶部对齐 */
-  bottom: 0; /* 与 .general-card 底部对齐 */
-  left: 0; /* 与 .general-card 左侧对齐 */
-  right: 0; /* 与 .general-card 右侧对齐 */
+  position: absolute;
+  top: 45px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.submit-button {
+  background: linear-gradient(to right, #ff6424, rgba(227, 45, 173, 0.89));
+  border-radius: 4px;
+  border: none;
+  color: white;
+}
+
+.submit-button:active {
+  transition: 1s;
+  background: linear-gradient(to right, #9a3c15, rgba(154, 30, 121, 0.89));
+}
+
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.2s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
 }
 </style>

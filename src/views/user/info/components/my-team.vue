@@ -1,7 +1,7 @@
 <template>
   <a-card
     class="general-card"
-    title="团队"
+    title="组织"
     :header-style="{ paddingBottom: '18px' }"
     :body-style="{ paddingBottom: '12px' }"
   >

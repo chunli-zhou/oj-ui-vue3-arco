@@ -1,41 +1,48 @@
 <template>
   <a-card class="general-card h-full" title="判题状态">
-    <div class="spin">
-      <a-spin v-if="visible" dot>
-        <template #tip>
-          正在提交判题
-          <transition-group name="fade" tag="span" class="dot-spinner">
-            <span
-              v-for="(dot, index) in dots"
-              :key="index"
-              :class="{ active: index < currentDot }"
-            >
-              {{ dot }}
-            </span>
-          </transition-group>
-        </template>
-        <template #icon></template>
-      </a-spin>
+    <div class="spin-container">
+      <transition name="slide-up">
+        <div v-if="visible">
+          <a-spin dot>
+            <template #tip>
+              提交判题中
+              <transition-group name="fade" tag="span" class="dot-spinner">
+                <span
+                  v-for="(dot, index) in dots"
+                  :key="index"
+                  :class="{ active: index < currentDot }"
+                >
+                  {{ dot }}
+                </span>
+              </transition-group>
+            </template>
+            <template #icon></template>
+          </a-spin>
+        </div>
+        <div v-else-if="!visible">
+          <a-progress
+            animation
+            :stroke-width="2"
+            type="circle"
+            :percent="judgePercent"
+          />
+        </div>
+      </transition>
+    </div>
+    <template #extra>
       <div>
         <a-button v-if="visible" type="primary" @click="startJudge">
           开始判题
         </a-button>
-        <a-progress
-          v-if="!visible"
-          animation
-          :stroke-width="2"
-          type="circle"
-          :percent="judgePercent"
-        />
       </div>
-    </div>
+    </template>
   </a-card>
 </template>
 
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref } from 'vue';
 
-const dots = ['.', '.', '.', ''];
+const dots = ['.', '.', '.', '.', '.', ''];
 const visible = ref(true);
 const currentDot = ref(0);
 const judgePercent = ref(0);
@@ -43,8 +50,8 @@ const judgePercent = ref(0);
 const startJudge = () => {
   visible.value = !visible.value;
   setInterval(() => {
-    judgePercent.value = judgePercent.value + 0.5;
-  }, 1000);
+    judgePercent.value = judgePercent.value + 0.95;
+  }, 500);
 };
 
 onMounted(() => {
@@ -62,7 +69,7 @@ onMounted(() => {
   height: 70%;
 }
 
-.spin {
+.spin-container {
   position: absolute;
   left: 50%;
   top: 50%;
@@ -83,13 +90,18 @@ onMounted(() => {
   opacity: 1;
 }
 
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.5s;
+.slide-up-enter-active,
+.slide-up-leave-active {
+  transition: all 0.2s ease-out;
 }
 
-.fade-enter,
-.fade-leave-to {
+.slide-up-enter-from {
   opacity: 0;
+  transform: translateX(-50%) translateY(-50%);
+}
+
+.slide-up-leave-to {
+  opacity: 0;
+  transform: translateY(-30px);
 }
 </style>

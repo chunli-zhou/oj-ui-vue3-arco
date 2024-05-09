@@ -35,6 +35,8 @@ export type { UpdateUserRoleRequest } from '@/api/gen-api/models/sys/role/Update
 export type { ProblemCommentRequest } from '@/api/gen-api/models/problem/ProblemCommentRequest.ts';
 export type { ProblemCommentVo } from '@/api/gen-api/models/problem/ProblemCommentVo.ts';
 export type { ResultListProblemCommentVo } from '@/api/gen-api/models/problem/ResultListProblemCommentVo.ts';
+export type { ProblemSubmitAddRequest } from '@/api/gen-api/models/problem/ProblemSubmitAddRequest.ts';
+export type { ResultOjProblemSubmitVo } from '@/api/gen-api/models/problem/ResultOjProblemSubmitVo.ts';
 
 export { LoginService } from './services/LoginService.ts';
 export { OjProblemService } from './services/OjProblemService.ts';
