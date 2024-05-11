@@ -19,10 +19,14 @@
               </div>
             </template>
             <template #first>
-              <do-problem />
+              <do-problem :question-id="problemId" @submit="handleSubmitCode" />
             </template>
             <template #second>
-              <judge-status />
+              <judge-status
+                :flag="flag"
+                :req="req"
+                @submit-error="handleSubmitError"
+              />
             </template>
           </a-split>
         </div>
@@ -37,6 +41,7 @@ import { onMounted, ref } from 'vue';
 import ProblemInfo from '@/views/problem/do/components/problem-info.vue';
 import DoProblem from '@/views/problem/do/components/do-problem.vue';
 import JudgeStatus from '@/views/problem/do/components/judge-status.vue';
+import { ProblemSubmitAddRequest } from '@/api/gen-api';
 
 const problemId = ref();
 
@@ -44,6 +49,16 @@ const route = useRoute();
 onMounted(() => {
   problemId.value = route.query.id;
 });
+
+const flag = ref('');
+const req = ref<ProblemSubmitAddRequest>();
+const handleSubmitCode = (param: string, obj: ProblemSubmitAddRequest) => {
+  flag.value = param;
+  req.value = obj;
+};
+const handleSubmitError = () => {
+  flag.value = '';
+};
 </script>
 
 <style lang="less" scoped>

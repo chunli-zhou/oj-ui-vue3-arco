@@ -29,21 +29,18 @@
       </a-space>
     </template>
     <template #actions>
-      <transition>
-        <a-button
-          v-if="submitButtonVisible"
-          ref="submitButton"
-          class="submit-button"
-          :loading="submitButtonLoading"
-          type="primary"
-          @click="handleSubmit"
-        >
-          提交
-          <template #icon>
-            <icon-thunderbolt />
-          </template>
-        </a-button>
-      </transition>
+      <a-button
+        ref="submitButton"
+        class="submit-button"
+        :loading="submitButtonLoading"
+        type="primary"
+        @click="handleSubmit"
+      >
+        提交
+        <template #icon>
+          <icon-thunderbolt />
+        </template>
+      </a-button>
     </template>
     <CodeEditor
       v-model:value="answer"
@@ -57,6 +54,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
+import { ProblemSubmitAddRequest } from '@/api/gen-api';
 
 const answer = ref('');
 const ansLanguage = ref('java');
@@ -70,12 +68,31 @@ const handleChange = (ans: string) => {
 };
 
 const submitButtonLoading = ref(false);
-const submitButtonVisible = ref(true);
+
+const emits = defineEmits(['submit']);
+const props = defineProps({
+  questionId: {
+    type: Number,
+    default: 0
+  }
+});
+
+const req = ref<ProblemSubmitAddRequest>({
+  code: '',
+  language: '',
+  questionId: null
+});
+
 const handleSubmit = () => {
   submitButtonLoading.value = true;
   setTimeout(() => {
-    submitButtonVisible.value = false;
-  }, 2000);
+    // 设置提交判题
+    req.value.code = answer.value;
+    req.value.language = ansLanguage.value;
+    req.value.questionId = props.questionId;
+    emits('submit', 'submit', req);
+    submitButtonLoading.value = false;
+  }, 1000);
 };
 </script>
 
@@ -107,15 +124,5 @@ const handleSubmit = () => {
 .submit-button:active {
   transition: 1s;
   background: linear-gradient(to right, #9a3c15, rgba(154, 30, 121, 0.89));
-}
-
-.v-enter-active,
-.v-leave-active {
-  transition: opacity 0.2s ease;
-}
-
-.v-enter-from,
-.v-leave-to {
-  opacity: 0;
 }
 </style>
