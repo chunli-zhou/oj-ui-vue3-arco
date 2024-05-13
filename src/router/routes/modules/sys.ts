@@ -8,7 +8,7 @@ const SYS: AppRouteRecordRaw = {
   component: DEFAULT_LAYOUT,
   meta: {
     locale: '系统管理',
-    icon: 'icon-user',
+    icon: 'icon-settings',
     requiresAuth: true,
     roles: [AUTH_CONST.SUPER_ADMIN, AUTH_CONST.ADMIN],
     order: 1
