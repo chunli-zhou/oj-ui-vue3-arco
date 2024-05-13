@@ -14,6 +14,7 @@ import {
 import { SelectOptionData } from '@arco-design/web-vue/es/select/interface';
 import { useRouter } from 'vue-router';
 import { OjProblemPageVo } from '@/api/gen-api/models/problem/OjProblemPageVo.ts';
+import { getQueryString } from '@/api/gen-api/core/request.ts';
 
 const router = useRouter();
 const columns: TableColumnData[] = [
@@ -168,7 +169,11 @@ const handleExport = () => {
   const url = '/ojProblem/export';
   // HACK: 待修改
   const proxy = 'http://localhost:8101/api';
-  window.location.href = proxy + url;
+  const query = getQueryString({
+    ...queryReq.value,
+    ...paging
+  });
+  window.location.href = proxy + url + query;
 };
 
 const popoverVisibleList = ref([]);

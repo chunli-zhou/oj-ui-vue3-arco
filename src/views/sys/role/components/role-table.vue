@@ -86,12 +86,12 @@ const columns: TableColumnData[] = [
     ellipsis: true,
     align: 'center'
   },
-  {
-    title: '部门ID',
-    dataIndex: 'deptId',
-    slotName: 'Tags',
-    align: 'center'
-  },
+  // {
+  //   title: '部门ID',
+  //   dataIndex: 'deptId',
+  //   slotName: 'Tags',
+  //   align: 'center'
+  // },
   {
     slotName: 'Controls',
     title: '操作',
