@@ -62,22 +62,40 @@
             </a-form-item>
             <a-form-item label="消耗内存：">
               <a-alert class="alert" type="normal" :show-icon="false">
-                {{
-                  submitInfo.judgeInfo.memory === null
-                    ? 'Non'
-                    : submitInfo.judgeInfo.memory
-                }}
-                MB
+                <a-statistic
+                  animation
+                  :animation-duration="1000"
+                  separator="."
+                  :value="
+                    Number(
+                      submitInfo.judgeInfo.memory === null
+                        ? 0
+                        : submitInfo.judgeInfo.memory
+                    )
+                  "
+                  :value-style="{ fontSize: '1.0em' }"
+                  show-group-separator
+                />
+                mb
               </a-alert>
             </a-form-item>
             <a-form-item label="消耗时间：">
               <a-alert class="alert" type="warning" :show-icon="false">
-                {{
-                  submitInfo.judgeInfo.time === null
-                    ? 'Non'
-                    : submitInfo.judgeInfo.time
-                }}
-                毫秒
+                <a-statistic
+                  animation
+                  :animation-duration="1000"
+                  separator="."
+                  :value="
+                    Number(
+                      submitInfo.judgeInfo.time === null
+                        ? 0
+                        : submitInfo.judgeInfo.time
+                    )
+                  "
+                  :value-style="{ fontSize: '1.0em' }"
+                  show-group-separator
+                />
+                ms
               </a-alert>
             </a-form-item>
           </a-space>
