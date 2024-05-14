@@ -122,6 +122,8 @@ watch(
   () => {
     if (props.zone) {
       req.value.zone = props.zone;
+      list.value = [];
+      getPostList();
     }
   }
 );
@@ -138,6 +140,7 @@ const req = ref<OjPostQueryRequest>({
 
 const list = ref<OjPostVo[]>([]);
 const totalPage = ref();
+
 const getPostList = () => {
   OjPostService.page({ page: paging.value, req: req.value }).then(res => {
     if (res.result.records) {

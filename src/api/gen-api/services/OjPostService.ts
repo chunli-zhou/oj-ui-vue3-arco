@@ -60,7 +60,7 @@ export class OjPostService {
     return __request(OpenAPI, {
       method: 'POST',
       url: '/oj/post/page',
-      body: requestBody,
+      body: requestBody.req,
       query: {
         ...requestBody.page
       },
