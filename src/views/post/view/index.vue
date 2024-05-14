@@ -5,24 +5,24 @@
       <a-col :flex="1">
         <post-list />
       </a-col>
-      <a-col :span="6">
+      <a-col :span="5">
         <a-space direction="vertical" fill>
           <post-hot-list />
           <a-image
             style="border-radius: 10px"
             description="广告"
-            src="http://127.0.0.1:9005/oj-bucket/zrxzr-123615944728158208/2024-05-14/cFdSrOdKoa-harmonyNext.jpg"
+            src="http://127.0.0.1:9005/oj-bucket/zrxzrx-123615944728158208/2024-05-14/cFdSrOdKoa-harmonyNext.jpg"
           />
           <a-image
             style="border-radius: 10px"
             description="广告"
-            src="http://127.0.0.1:9005/oj-bucket/zrxzr-123615944728158208/2024-05-14/_Y_0nc4wHM-OIP-C.jpg"
+            src="http://127.0.0.1:9005/oj-bucket/zrxzrx-123615944728158208/2024-05-14/_Y_0nc4wHM-OIP-C.jpg"
           />
 
           <a-image
             style="border-radius: 10px"
             description="广告"
-            src="http://127.0.0.1:9005/oj-bucket/zrxzr-123615944728158208/2024-05-14/1eS_m06Rwc-R-C.jpg"
+            src="http://127.0.0.1:9005/oj-bucket/zrxzrx-123615944728158208/2024-05-14/1eS_m06Rwc-R-C.jpg"
           />
         </a-space>
       </a-col>
