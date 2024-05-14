@@ -1,37 +1,165 @@
 <template>
-  <a-list
-    class="content-list"
-    :virtualListProps="{
-      height: 560
-    }"
-    :data="list"
-  >
-    <template #item="{ item, index }">
-      <a-list-item class="content-list-item" :key="index">
-        <a-list-item-meta :title="item.title" :description="item.description">
-          <template #avatar>
-            <a-avatar shape="square">A</a-avatar>
+  <a-card style="border-radius: 10px">
+    <a-list
+      v-if="list.length > 0"
+      class="content-list"
+      :max-height="500"
+      :data="list"
+      :bordered="false"
+      @reach-bottom="handleLoadPost"
+    >
+      <template #item="{ item, index }">
+        <a-list-item
+          :key="index"
+          class="content-list-item"
+          action-layout="vertical"
+        >
+          <template #actions>
+            <a-space>
+              <div>
+                <a-space size="mini">
+                  <icon-eye />
+                  <span style="font-size: 12px">
+                    {{ item.viewNum }}
+                  </span>
+                </a-space>
+              </div>
+              <div>
+                <a-space size="mini">
+                  <icon-thumb-up />
+                  <span style="font-size: 12px">
+                    {{ item.thumbNum }}
+                  </span>
+                </a-space>
+              </div>
+              <div>
+                <a-space size="mini">
+                  <icon-star />
+                  <span style="font-size: 12px">
+                    {{ item.favourNum }}
+                  </span>
+                </a-space>
+              </div>
+            </a-space>
           </template>
-        </a-list-item-meta>
-      </a-list-item>
-    </template>
-  </a-list>
+          <template #extra>
+            <span style="font-size: 12px">{{ item.createTime }}</span>
+          </template>
+          <a-list-item-meta :title="item.title">
+            <template #description>
+              <a-typography-text ellipsis>
+                {{ item.content }}
+              </a-typography-text>
+            </template>
+            <template #avatar>
+              <a-popover>
+                <template #content>
+                  <a-space size="medium">
+                    <a-avatar :image-url="item.avatar" />
+                    <a-space direction="vertical">
+                      <a-typography-title bold style="font-size: 17px">
+                        {{ item.creatorName }}
+                      </a-typography-title>
+                      <a-typography-paragraph
+                        type="secondary"
+                        style="font-size: 13px; width: 100px"
+                        :ellipsis="{
+                          rows: 1,
+                          showTooltip: {
+                            type: 'tooltip',
+                            props: {
+                              position: 'bottom'
+                            }
+                          }
+                        }"
+                      >
+                        {{ item.introduce }}
+                      </a-typography-paragraph>
+                    </a-space>
+                  </a-space>
+                </template>
+                <a-avatar shape="square" :image-url="item.avatar" />
+              </a-popover>
+            </template>
+          </a-list-item-meta>
+        </a-list-item>
+      </template>
+    </a-list>
+    <a-skeleton v-else animation>
+      <a-space direction="vertical" :style="{ width: '100%' }" size="large">
+        <a-skeleton-line
+          :rows="5"
+          :widths="['40%', '100%', '100%', '100%', '50%']"
+        />
+      </a-space>
+    </a-skeleton>
+  </a-card>
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue';
+import { onMounted, ref, watch } from 'vue';
+import { OjPostService } from '@/api/gen-api/services/OjPostService.ts';
+import { OjPostQueryRequest, type OjPostVo, Paging } from '@/api/gen-api';
+import { Message } from '@arco-design/web-vue';
 
-const list = reactive(
-  Array(10000)
-    .fill(null)
-    .map((_, index) => {
-      const prefix = `0000${index}`.slice(-5);
-      return {
-        title: 'Beijing Bytedance Technology Co., Ltd.',
-        description: `(${prefix}) Beijing ByteDance Technology Co., Ltd. is an enterprise located in China.`
-      };
-    })
+const props = defineProps({
+  title: {
+    type: String,
+    default: ''
+  },
+  zone: {
+    type: String,
+    default: 'synthesis'
+  },
+  tag: {
+    type: String,
+    default: ''
+  }
+});
+
+watch(
+  () => props.zone,
+  () => {
+    if (props.zone) {
+      req.value.zone = props.zone;
+    }
+  }
 );
+
+const paging = ref<Paging>({
+  pageNum: 1,
+  pageSize: 10
+});
+const req = ref<OjPostQueryRequest>({
+  title: '',
+  zone: '',
+  tags: []
+});
+
+const list = ref<OjPostVo[]>([]);
+const totalPage = ref();
+const getPostList = () => {
+  OjPostService.page({ page: paging.value, req: req.value }).then(res => {
+    if (res.result.records) {
+      totalPage.value = res.result.totalPage;
+      list.value.push(...res.result.records);
+      console.log(list.value);
+    }
+  });
+};
+
+const handleLoadPost = () => {
+  if (paging.value.pageNum >= totalPage.value) {
+    Message.warning('没有更多了');
+  } else {
+    paging.value.pageNum++;
+    getPostList();
+  }
+};
+
+onMounted(() => {
+  getPostList();
+});
 </script>
 
 <style scoped lang="less">

@@ -34,4 +34,29 @@ export type OjPostVo = {
    * 创建时间
    */
   createTime?: string;
+
+  /**
+   * 观看数
+   */
+  viewNum?: number;
+
+  /**
+   * 作者Id
+   */
+  creator?: number;
+
+  /**
+   * 作者
+   */
+  creatorName?: string;
+
+  /**
+   * 作者简介
+   */
+  introduce?: string;
+
+  /**
+   * 作者头像
+   */
+  avatar?: string;
 };

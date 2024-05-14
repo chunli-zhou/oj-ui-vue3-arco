@@ -16,12 +16,6 @@
           <a-image
             style="border-radius: 10px"
             description="广告"
-            src="http://127.0.0.1:9005/oj-bucket/zrxzrx-123615944728158208/2024-05-14/_Y_0nc4wHM-OIP-C.jpg"
-          />
-
-          <a-image
-            style="border-radius: 10px"
-            description="广告"
             src="http://127.0.0.1:9005/oj-bucket/zrxzrx-123615944728158208/2024-05-14/1eS_m06Rwc-R-C.jpg"
           />
         </a-space>

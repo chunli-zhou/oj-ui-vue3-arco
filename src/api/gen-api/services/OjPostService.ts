@@ -1,14 +1,12 @@
-import type {
-  OjPostAddRequest,
-  OjPostQueryRequest,
-  ResultOjPostVo,
-  ResultPageOjPostVo
-} from '../../../../generated';
 import {
   type CancelablePromise,
+  type OjPostAddRequest,
+  type OjPostQueryRequest,
   OpenAPI,
   type Paging,
-  type ResultBoolean
+  type ResultBoolean,
+  type ResultOjPostVo,
+  type ResultPageOjPostVo
 } from '@/api/gen-api';
 import { request as __request } from '../core/request.ts';
 import type { OjPostUpdateRequest } from '@/api/gen-api/models/post/OjPostUpdateRequest.ts';
@@ -63,6 +61,9 @@ export class OjPostService {
       method: 'POST',
       url: '/oj/post/page',
       body: requestBody,
+      query: {
+        ...requestBody.page
+      },
       mediaType: 'application/json'
     });
   }
