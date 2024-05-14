@@ -35,6 +35,9 @@
         <a-col :span="1">
           <a-space size="mini">
             <a-button type="primary" @click="pageData" @keyup.enter="pageData">
+              <template #icon>
+                <icon-search />
+              </template>
               查询
             </a-button>
             <a-tooltip content="重置">

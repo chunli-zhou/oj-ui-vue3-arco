@@ -1,0 +1,101 @@
+import type {
+  OjPostAddRequest,
+  OjPostQueryRequest,
+  ResultOjPostVo,
+  ResultPageOjPostVo
+} from '../../../../generated';
+import {
+  type CancelablePromise,
+  OpenAPI,
+  type Paging,
+  type ResultBoolean
+} from '@/api/gen-api';
+import { request as __request } from '../core/request.ts';
+import type { OjPostUpdateRequest } from '@/api/gen-api/models/post/OjPostUpdateRequest.ts';
+
+// eslint-disable-next-line @typescript-eslint/no-extraneous-class
+export class OjPostService {
+  /**
+   * 根据主键更新帖子
+   * @param requestBody
+   * @returns ResultBoolean OK
+   * @throws ApiError
+   */
+  public static update(
+    requestBody: OjPostUpdateRequest
+  ): CancelablePromise<ResultBoolean> {
+    return __request(OpenAPI, {
+      method: 'PUT',
+      url: '/oj/post/update',
+      body: requestBody,
+      mediaType: 'application/json'
+    });
+  }
+
+  /**
+   * 保存帖子
+   * @param requestBody
+   * @returns ResultBoolean OK
+   * @throws ApiError
+   */
+  public static save(
+    requestBody: OjPostAddRequest
+  ): CancelablePromise<ResultBoolean> {
+    return __request(OpenAPI, {
+      method: 'POST',
+      url: '/oj/post/save',
+      body: requestBody,
+      mediaType: 'application/json'
+    });
+  }
+
+  /**
+   * 分页查询帖子
+   * @param requestBody
+   * @returns ResultPageOjPostVo OK
+   * @throws ApiError
+   */
+  public static page(requestBody: {
+    page?: Paging;
+    req?: OjPostQueryRequest;
+  }): CancelablePromise<ResultPageOjPostVo> {
+    return __request(OpenAPI, {
+      method: 'POST',
+      url: '/oj/post/page',
+      body: requestBody,
+      mediaType: 'application/json'
+    });
+  }
+
+  /**
+   * 根据主键获取帖子
+   * @param id
+   * @returns ResultOjPostVo OK
+   * @throws ApiError
+   */
+  public static getInfo(id: number): CancelablePromise<ResultOjPostVo> {
+    return __request(OpenAPI, {
+      method: 'GET',
+      url: '/oj/post/getInfo/{id}',
+      path: {
+        id: id
+      }
+    });
+  }
+
+  /**
+   * 根据主键帖子
+   * @param id 帖子主键
+   * @returns ResultBoolean OK
+   * @throws ApiError
+   */
+  public static remove(id: number): CancelablePromise<ResultBoolean> {
+    return __request(OpenAPI, {
+      method: 'DELETE',
+      url: '/oj/post/remove/{id}',
+      path: {
+        id: id
+      }
+    });
+  }
+}

@@ -1,11 +1,14 @@
-/* generated using openapi-typescript-codegen -- do not edit */
-/* istanbul ignore file */
-/* tslint:disable */
-/* eslint-disable */
-import {request as __request} from '../core/request';
-import {ResultLong} from '@/api/gen-api/models/result/ResultLong.ts';
-import {type CancelablePromise, OpenAPI, ProblemSubmitAddRequest, ResultOjProblemSubmitVo} from '@/api/gen-api';
+import { request as __request } from '../core/request';
+import type { ResultLong } from '@/api/gen-api/models/result/ResultLong.ts';
+import {
+  type CancelablePromise,
+  OpenAPI,
+  type ProblemSubmitAddRequest,
+  type ResultOjProblemSubmitVo
+} from '@/api/gen-api';
+import type { ResultListOjProblemSubmitVo } from '../../../../generated';
 
+// eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export class OjProblemSubmitService {
   /**
    * 提交题目
@@ -36,6 +39,24 @@ export class OjProblemSubmitService {
     return __request(OpenAPI, {
       method: 'GET',
       url: '/submit/getInfo/{id}',
+      path: {
+        id: id
+      }
+    });
+  }
+
+  /**
+   * 根据用户id获取题目提交信息列表
+   * @param id
+   * @returns ResultListOjProblemSubmitVo OK
+   * @throws ApiError
+   */
+  public static getInfoByUserId(
+    id: number
+  ): CancelablePromise<ResultListOjProblemSubmitVo> {
+    return __request(OpenAPI, {
+      method: 'GET',
+      url: '/submit/getInfoByUserId/{id}',
       path: {
         id: id
       }

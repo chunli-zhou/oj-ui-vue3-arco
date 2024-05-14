@@ -37,6 +37,14 @@ export type { ProblemCommentVo } from '@/api/gen-api/models/problem/ProblemComme
 export type { ResultListProblemCommentVo } from '@/api/gen-api/models/problem/ResultListProblemCommentVo.ts';
 export type { ProblemSubmitAddRequest } from '@/api/gen-api/models/problem/ProblemSubmitAddRequest.ts';
 export type { ResultOjProblemSubmitVo } from '@/api/gen-api/models/problem/ResultOjProblemSubmitVo.ts';
+export type { ResultListOjProblemSubmitVo } from '@/api/gen-api/models/problem/ResultListOjProblemSubmitVo.ts';
+export type { OjPostAddRequest } from '@/api/gen-api/models/post/OjPostAddRequest.ts';
+export type { OjPostQueryRequest } from '@/api/gen-api/models/post/OjPostQueryRequest.ts';
+export type { OjPostUpdateRequest } from '@/api/gen-api/models/post/OjPostUpdateRequest.ts';
+export type { OjPostVo } from '@/api/gen-api/models/post/OjPostVo.ts';
+export type { PageOjPostVo } from '@/api/gen-api/models/post/PageOjPostVo.ts';
+export type { ResultOjPostVo } from '@/api/gen-api/models/post/ResultOjPostVo.ts';
+export type { ResultPageOjPostVo } from '@/api/gen-api/models/post/ResultPageOjPostVo.ts';
 
 export { LoginService } from './services/LoginService.ts';
 export { OjProblemService } from './services/OjProblemService.ts';
