@@ -8,23 +8,23 @@
     </template>
     <a-list size="small" :bordered="false" :split="false" hoverable>
       <a-list-item class="list-item">
-        <a-row :gutter="24">
+        <a-row :gutter="10">
           <a-col :span="2">
             <a-typography-text bold type="danger">1</a-typography-text>
           </a-col>
-          <a-col :span="20">
-            <a-typography-text ellipsis>
+          <a-col :span="22">
+            <a-typography-text ellipsis="true">
               是时候放弃 Java 序列化了！！
             </a-typography-text>
           </a-col>
         </a-row>
       </a-list-item>
       <a-list-item class="list-item">
-        <a-row :gutter="24">
+        <a-row :gutter="10">
           <a-col :span="2">
             <a-typography-text bold type="warning">2</a-typography-text>
           </a-col>
-          <a-col :span="20">
+          <a-col :span="22">
             <a-typography-text ellipsis>
               你还在使用websocket实现实时消息推送吗？
             </a-typography-text>
@@ -32,11 +32,11 @@
         </a-row>
       </a-list-item>
       <a-list-item class="list-item">
-        <a-row :gutter="24">
+        <a-row :gutter="10">
           <a-col :span="2">
             <a-typography-text type="primary">3</a-typography-text>
           </a-col>
-          <a-col :span="20">
+          <a-col :span="22">
             <a-typography-text ellipsis>
               利用 console.log 能玩出什么厉害的花活？
             </a-typography-text>
@@ -44,11 +44,11 @@
         </a-row>
       </a-list-item>
       <a-list-item class="list-item">
-        <a-row :gutter="24">
+        <a-row :gutter="10">
           <a-col :span="2">
             <a-typography-text>4</a-typography-text>
           </a-col>
-          <a-col :span="20">
+          <a-col :span="22">
             <a-typography-text ellipsis>
               面试官问我：自己写String类，包名也是java.lang，这个类能编译成功吗，能运行成功吗
             </a-typography-text>
@@ -56,11 +56,11 @@
         </a-row>
       </a-list-item>
       <a-list-item class="list-item">
-        <a-row :gutter="24">
+        <a-row :gutter="10">
           <a-col :span="2">
             <a-typography-text>5</a-typography-text>
           </a-col>
-          <a-col :span="20">
+          <a-col :span="22">
             <a-typography-text ellipsis>
               为了NullPointerException，你知道Java到底做了多少努力吗？
             </a-typography-text>
