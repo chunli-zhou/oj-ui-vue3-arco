@@ -21,17 +21,31 @@
     </div>
     <ul class="right-side">
       <li>
-        <a-input-search style="width: 135px" placeholder="搜索" />
+        <a-input-search
+          style="width: 180px"
+          placeholder="搜索帖子"
+          @click="handleOpenSearchModal"
+        />
       </li>
       <li>
-        <a-tooltip :content="$t('settings.reload')">
+        <a-tooltip content="发个帖子">
+          <a-button type="primary" @click="handleCreatePost">
+            <template #icon>
+              <icon-edit />
+            </template>
+            发帖
+          </a-button>
+        </a-tooltip>
+      </li>
+      <li>
+        <a-tooltip content="重新加载">
           <div class="nav-btn" @click="handleReload">
             <icon-sync />
           </div>
         </a-tooltip>
       </li>
       <li>
-        <a-tooltip :content="$t('settings.source')">
+        <a-tooltip content="源码">
           <a
             class="nav-btn"
             href="https://github.com/LIjiAngChen8/arco-admin"
@@ -40,62 +54,6 @@
             <icon-github />
           </a>
         </a-tooltip>
-      </li>
-      <li>
-        <a-tooltip :content="$t('settings.language')">
-          <div class="nav-btn" @click="setDropDownVisible">
-            <icon-language />
-          </div>
-        </a-tooltip>
-        <a-dropdown trigger="click" @select="changeLocale">
-          <div ref="triggerBtn" class="trigger-btn"></div>
-          <template #content>
-            <a-doption
-              v-for="item in locales"
-              :key="item.value"
-              :value="item.value"
-            >
-              <template #icon>
-                <icon-check v-show="item.value === currentLocale" />
-              </template>
-              {{ item.label }}
-            </a-doption>
-          </template>
-        </a-dropdown>
-      </li>
-      <li>
-        <a-tooltip
-          :content="
-            theme === 'light'
-              ? $t('settings.navbar.theme.toDark')
-              : $t('settings.navbar.theme.toLight')
-          "
-        >
-          <div class="nav-btn" @click="handleToggleTheme">
-            <icon-moon-fill v-if="theme === 'dark'" />
-            <icon-sun-fill v-else />
-          </div>
-        </a-tooltip>
-      </li>
-      <li>
-        <a-tooltip :content="$t('settings.navbar.alerts')">
-          <a-badge :count="9">
-            <div class="nav-btn" @click="setPopoverVisible">
-              <icon-notification />
-            </div>
-          </a-badge>
-        </a-tooltip>
-        <a-popover
-          trigger="click"
-          :arrow-style="{ display: 'none' }"
-          :content-style="{ padding: 0, minWidth: '400px' }"
-          content-class="message-popover"
-        >
-          <div ref="refBtn" class="ref-btn"></div>
-          <template #content>
-            <message-box />
-          </template>
-        </a-popover>
       </li>
       <li>
         <a-tooltip :content="isFullscreen ? '退出全屏' : '全屏'">
@@ -147,78 +105,83 @@
       </li>
     </ul>
   </div>
+  <a-modal :visible="searchModalVisible" @cancel="handleCancelSearchModal">
+    <template #title>搜索帖子</template>
+    <a-space direction="vertical" fill>
+      <a-input-search
+        v-model="postTitle"
+        size="large"
+        placeholder="请输入标题以搜索"
+        @search="handleSearch"
+        @keydown.enter="handleSearch"
+      />
+      <search-post-list
+        ref="searchRef"
+        @close-modal="handleCloseModalByChild"
+      />
+    </a-space>
+    <template #footer>
+      <a-button @click="handleCancelSearchModal">取消</a-button>
+    </template>
+  </a-modal>
 </template>
 
 <script lang="ts" setup>
-import { computed, inject, ref } from 'vue';
+import { computed, inject, ref, unref } from 'vue';
 import { Message } from '@arco-design/web-vue';
-import { useDark, useFullscreen, useToggle } from '@vueuse/core';
+import { useFullscreen } from '@vueuse/core';
 import { useAppStore, useUserStore } from '@/store';
-import { LOCALE_OPTIONS } from '@/locale';
-import useLocale from '@/hooks/useLocale';
 import useUser from '@/hooks/useUser';
 import Menu from '@/components/menu/index.vue';
-import MessageBox from '../message-box/index.vue';
 import logoSvg from '@/assets/logo.svg';
+import { useRouter } from 'vue-router';
+import SearchPostList from '@/components/navbar/components/search-post-list.vue';
 
 const userInfo = useUserStore();
 const appStore = useAppStore();
 const userStore = useUserStore();
 const { logout } = useUser();
-const { changeLocale, currentLocale } = useLocale();
 const { isFullscreen, toggle: toggleFullScreen } = useFullscreen();
-const locales = [...LOCALE_OPTIONS];
-const theme = computed(() => {
-  return appStore.theme;
-});
 const topMenu = computed(() => appStore.topMenu && appStore.menu);
-const isDark = useDark({
-  selector: 'body',
-  attribute: 'arco-theme',
-  valueDark: 'dark',
-  valueLight: 'light',
-  storageKey: 'arco-theme',
-  onChanged(dark: boolean) {
-    // overridden default behavior
-    appStore.toggleTheme(dark);
-  }
-});
-const toggleTheme = useToggle(isDark);
-const handleToggleTheme = () => {
-  toggleTheme();
-};
 const setVisible = () => {
   appStore.updateSettings({ globalSettings: true });
 };
 const handleReload = () => {
   window.location.reload();
 };
-const refBtn = ref();
-const triggerBtn = ref();
-const setPopoverVisible = () => {
-  const event = new MouseEvent('click', {
-    view: window,
-    bubbles: true,
-    cancelable: true
-  });
-  refBtn.value.dispatchEvent(event);
-};
 const handleLogout = () => {
   logout();
-};
-const setDropDownVisible = () => {
-  const event = new MouseEvent('click', {
-    view: window,
-    bubbles: true,
-    cancelable: true
-  });
-  triggerBtn.value.dispatchEvent(event);
 };
 const switchRoles = async () => {
   const res = await userStore.switchRoles();
   Message.success(res as string);
 };
 const toggleDrawerMenu = inject('toggleDrawerMenu') as () => void;
+
+const router = useRouter();
+const handleCreatePost = () => {
+  router.push({ name: 'CreatePost' });
+};
+
+const searchModalVisible = ref(false);
+const postTitle = ref('');
+const searchRef = ref<any>();
+// 执行搜索
+const handleSearch = () => {
+  searchRef.value.searchPost(unref(postTitle));
+};
+// 点击帖子，关闭搜索框
+const handleCloseModalByChild = (flag: boolean) => {
+  if (flag) {
+    searchModalVisible.value = false;
+  }
+};
+const handleCancelSearchModal = () => {
+  searchModalVisible.value = false;
+};
+const handleOpenSearchModal = () => {
+  searchModalVisible.value = true;
+};
 </script>
 
 <style scoped lang="less">

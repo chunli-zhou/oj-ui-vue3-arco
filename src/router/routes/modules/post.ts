@@ -25,12 +25,24 @@ const POST: AppRouteRecordRaw = {
       }
     },
     {
+      path: 'create',
+      name: 'CreatePost',
+      component: () => import('@/views/post/create/index.vue'),
+      meta: {
+        locale: '发帖',
+        requiresAuth: true,
+        hideInMenu: true,
+        roles: ['*']
+      }
+    },
+    {
       path: 'info',
       name: 'PostInfo',
       component: () => import('@/views/post/info/index.vue'),
       meta: {
         locale: '帖子详情',
         requiresAuth: true,
+        hideInMenu: true,
         roles: ['*']
       }
     },

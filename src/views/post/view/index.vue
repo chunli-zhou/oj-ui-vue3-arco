@@ -25,14 +25,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-import { OjPostVo } from '@/api/gen-api';
 import PostList from '@/views/post/view/components/post-list.vue';
 import PostHotList from '@/views/post/view/components/post-hot-list.vue';
-
-const post = ref<OjPostVo>({
-  title: '这是帖子标题'
-});
 </script>
 
 <style scoped lang="less">

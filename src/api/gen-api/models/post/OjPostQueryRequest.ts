@@ -9,13 +9,13 @@ export type OjPostQueryRequest = {
   /**
    * 标题
    */
-  title: string;
+  title?: string;
   /**
    * 分区
    */
-  zone: string;
+  zone?: string;
   /**
    * 标签列表（json 数组）
    */
-  tags: Array<string>;
+  tags?: Array<string>;
 };

@@ -18,4 +18,8 @@ export type OjPostAddRequest = {
    * 标签列表（json 数组）
    */
   tags: Array<string>;
+  /**
+   * 分区
+   */
+  zone: string;
 };

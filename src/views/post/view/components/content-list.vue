@@ -3,7 +3,7 @@
     <a-list
       v-if="list.length > 0"
       class="content-list"
-      :max-height="500"
+      :max-height="600"
       :data="list"
       :bordered="false"
       @reach-bottom="handleLoadPost"
