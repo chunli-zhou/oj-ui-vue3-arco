@@ -13,6 +13,7 @@
           :key="index"
           class="content-list-item"
           action-layout="vertical"
+          @click="handleClickItem(item)"
         >
           <template #actions>
             <a-space>
@@ -101,6 +102,7 @@ import { onMounted, ref, watch } from 'vue';
 import { OjPostService } from '@/api/gen-api/services/OjPostService.ts';
 import { OjPostQueryRequest, type OjPostVo, Paging } from '@/api/gen-api';
 import { Message } from '@arco-design/web-vue';
+import { useRouter } from 'vue-router';
 
 const props = defineProps({
   title: {
@@ -123,6 +125,7 @@ watch(
     if (props.zone) {
       req.value.zone = props.zone;
       list.value = [];
+      paging.value.pageNum = 1;
       getPostList();
     }
   }
@@ -163,6 +166,16 @@ const handleLoadPost = () => {
 onMounted(() => {
   getPostList();
 });
+
+const router = useRouter();
+const handleClickItem = (item: OjPostVo) => {
+  router.push({
+    name: 'PostInfo',
+    query: {
+      postId: item.id
+    }
+  });
+};
 </script>
 
 <style scoped lang="less">

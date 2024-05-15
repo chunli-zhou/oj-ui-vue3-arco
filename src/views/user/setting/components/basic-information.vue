@@ -41,7 +41,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { FormInstance } from '@arco-design/web-vue/es/form';
 import { SysUserUpdateRequest } from '@/api/gen-api/models/sys/SysUserUpdateRequest.ts';
 import { useUserStore } from '@/store';
@@ -59,7 +59,6 @@ const formData = ref<SysUserUpdateRequest>({
 });
 
 const handleSubmit = async () => {
-  console.log(formData.value, 'form.value');
   SysUserService.updateUserInfo(formData.value).then(res => {
     if (res) {
       Message.success('更新成功');
@@ -71,6 +70,10 @@ const handleSubmit = async () => {
     }
   });
 };
+
+onMounted(() => {
+  userStore.info();
+});
 
 const reset = async () => {
   formData.value = {} as SysUserUpdateRequest;

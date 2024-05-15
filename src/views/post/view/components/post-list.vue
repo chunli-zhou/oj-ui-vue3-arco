@@ -1,7 +1,9 @@
 <template>
   <a-row :gutter="10">
     <a-col :span="4">
-      <tab-list @tab-value-change="getTabValue" />
+      <a-affix :offsetTop="100">
+        <tab-list @tab-value-change="getTabValue" />
+      </a-affix>
     </a-col>
     <a-col :flex="1">
       <content-list :zone="tabValue" />

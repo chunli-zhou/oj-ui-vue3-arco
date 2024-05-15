@@ -25,6 +25,16 @@ const POST: AppRouteRecordRaw = {
       }
     },
     {
+      path: 'info',
+      name: 'PostInfo',
+      component: () => import('@/views/post/info/index.vue'),
+      meta: {
+        locale: '帖子详情',
+        requiresAuth: true,
+        roles: ['*']
+      }
+    },
+    {
       path: 'control',
       name: 'PostControl',
       component: () => import('@/views/user/info/index.vue'),

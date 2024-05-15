@@ -41,7 +41,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import type { FileItem } from '@arco-design/web-vue/es/upload/interfaces';
 import { useUserStore } from '@/store';
 import type { DescData } from '@arco-design/web-vue/es/descriptions/interface';
@@ -87,6 +87,14 @@ const upload = (fileItem: FileItem) => {
     }
   });
 };
+
+onMounted(() => {
+  SysUserService.getInfo().then(res => {
+    if (res.result) {
+      userStore.setInfo(res.result);
+    }
+  });
+});
 </script>
 
 <style scoped lang="less">
