@@ -3,6 +3,7 @@
     <a-space direction="vertical" size="large">
       <a-badge
         :max-count="999"
+        :offset="[-35, 0]"
         :count="post.thumbNum"
         :dotStyle="{ background: '#E5E6EB', color: '#86909C' }"
       >
@@ -25,6 +26,7 @@
       </a-badge>
       <a-badge
         :max-count="999"
+        :offset="[-35, 0]"
         :count="post.favourNum"
         :dotStyle="{ background: '#E5E6EB', color: '#86909C' }"
       >
@@ -46,6 +48,7 @@
         </a-button>
       </a-badge>
       <a-badge
+        :offset="[-35, 0]"
         :max-count="999"
         :count="post.favourNum"
         :dotStyle="{ background: '#E5E6EB', color: '#86909C' }"
