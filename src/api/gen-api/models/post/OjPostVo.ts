@@ -59,4 +59,13 @@ export type OjPostVo = {
    * 作者头像
    */
   avatar?: string;
+
+  /**
+   * 是否已点赞
+   */
+  thumbFlag?: boolean;
+  /**
+   * 是否已收藏
+   */
+  favourFlag?: boolean;
 };

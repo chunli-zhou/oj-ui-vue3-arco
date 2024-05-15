@@ -7,7 +7,7 @@
         :dotStyle="{ background: '#E5E6EB', color: '#86909C' }"
       >
         <a-button
-          v-if="!hasThumb"
+          v-if="!post.thumbFlag"
           class="affix-button"
           shape="circle"
           @click="handleThumb"
@@ -29,7 +29,7 @@
         :dotStyle="{ background: '#E5E6EB', color: '#86909C' }"
       >
         <a-button
-          v-if="!hasFavour"
+          v-if="!post.favourFlag"
           class="affix-button"
           shape="circle"
           @click="handleFavour"
@@ -77,7 +77,9 @@ const props = defineProps<{
 
 const post = ref<OjPostVo>({
   thumbNum: 0,
-  favourNum: 0
+  favourNum: 0,
+  thumbFlag: false,
+  favourFlag: false
 });
 watch(
   () => props.postInfo,
@@ -89,11 +91,10 @@ watch(
   }
 );
 
-const hasThumb = ref(false);
 const handleThumb = () => {
   OjThumbPostService.thumb(post.value.id).then(res => {
     if (res.result) {
-      hasThumb.value = true;
+      post.value.thumbFlag = true;
       post.value.thumbNum++;
     }
   });
@@ -101,18 +102,17 @@ const handleThumb = () => {
 const handleCancelThumb = () => {
   OjThumbPostService.cancel(post.value.id).then(res => {
     if (res.result) {
-      hasThumb.value = false;
+      post.value.thumbFlag = false;
       post.value.thumbNum--;
     }
   });
 };
 
-const hasFavour = ref(false);
 const handleFavour = () => {
   OjFavourPostService.favour(post.value.id).then(res => {
     if (res.result) {
       Message.success('收藏成功');
-      hasFavour.value = true;
+      post.value.favourFlag = true;
       post.value.favourNum++;
     }
   });
@@ -121,7 +121,7 @@ const handleCancelFavour = () => {
   OjFavourPostService.cancel(post.value.id).then(res => {
     if (res.result) {
       Message.success('取消收藏');
-      hasFavour.value = false;
+      post.value.favourFlag = false;
       post.value.favourNum--;
     }
   });
