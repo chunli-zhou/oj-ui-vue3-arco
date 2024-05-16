@@ -1,7 +1,7 @@
 <template>
   <div class="container-login">
     <header class="header">
-      <logoSvg style="width: 36px; color: #165fdd"></logoSvg>
+      <img style="width: 36px" src="@/assets/favicon.png" />
       <div class="header-text">Online Judge</div>
     </header>
     <div class="content">
@@ -33,7 +33,7 @@
 
 <script lang="ts" setup>
 import LoginForm from './components/login-form.vue';
-import logoSvg from '@/assets/logo.svg';
+
 import { ref } from 'vue';
 import RegisterForm from '@/views/login/components/register-form.vue';
 

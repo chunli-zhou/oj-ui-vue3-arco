@@ -2,7 +2,7 @@
   <div class="navbar">
     <div class="left-side">
       <a-space>
-        <logoSvg style="width: 36px; color: #165fdd" />
+        <img style="width: 36px" src="@/assets/logo.png" alt="加载失败" />
         <a-typography-title
           :style="{ margin: 0, fontSize: '18px' }"
           :heading="5"
@@ -133,7 +133,6 @@ import { useFullscreen } from '@vueuse/core';
 import { useAppStore, useUserStore } from '@/store';
 import useUser from '@/hooks/useUser';
 import Menu from '@/components/menu/index.vue';
-import logoSvg from '@/assets/logo.svg';
 import { useRouter } from 'vue-router';
 import SearchPostList from '@/components/navbar/components/search-post-list.vue';
 
