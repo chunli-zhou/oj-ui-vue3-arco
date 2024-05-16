@@ -48,7 +48,7 @@
         <a-tooltip content="源码">
           <a
             class="nav-btn"
-            href="https://github.com/LIjiAngChen8/arco-admin"
+            href="https://gitee.com/zhang-rui-xin/oj-ui-vue3-arco"
             target="_blank"
           >
             <icon-github />

@@ -1,7 +1,13 @@
 <template>
   <footer class="footer">
     <slot>
-      Online Judge 2024 |
+      <a-link
+        style="font-size: 12px"
+        href="https://gitee.com/zhang-rui-xin/oj-serve"
+      >
+        Online Judge 2024
+      </a-link>
+      |
       <a-link style="font-size: 12px" href="" target="_blank">
         MIT 使用条款
       </a-link>
