@@ -15,6 +15,14 @@ export type OjPostVo = {
    */
   title?: string;
   /**
+   * 分区
+   */
+  zone?: string;
+  /**
+   * 分区名称
+   */
+  zoneName?: string;
+  /**
    * 内容
    */
   content?: string;

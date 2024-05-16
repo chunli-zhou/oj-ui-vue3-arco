@@ -1,6 +1,5 @@
 import type { AppRouteRecordRaw } from '../types';
 import { DEFAULT_LAYOUT } from '@/router/routes/base.ts';
-import { AUTH_CONST } from '@/router/AuthConst.ts';
 
 const POST: AppRouteRecordRaw = {
   path: '/post',
@@ -49,11 +48,22 @@ const POST: AppRouteRecordRaw = {
     {
       path: 'control',
       name: 'PostControl',
-      component: () => import('@/views/user/info/index.vue'),
+      component: () => import('@/views/post/control/index.vue'),
       meta: {
         locale: '帖子管理',
         requiresAuth: true,
-        roles: [AUTH_CONST.SUPER_ADMIN, AUTH_CONST.ADMIN]
+        roles: ['*']
+      }
+    },
+    {
+      path: 'edit',
+      name: 'EditPost',
+      component: () => import('@/views/post/control/components/edit-post.vue'),
+      meta: {
+        locale: '编辑帖子',
+        requiresAuth: true,
+        hideInMenu: true,
+        roles: ['*']
       }
     }
   ]

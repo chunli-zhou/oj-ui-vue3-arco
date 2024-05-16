@@ -69,6 +69,27 @@ export class OjPostService {
   }
 
   /**
+   * 分页查询当前用户帖子
+   * @param requestBody
+   * @returns ResultPageOjPostVo OK
+   * @throws ApiError
+   */
+  public static pageSelf(requestBody: {
+    page?: Paging;
+    req?: OjPostQueryRequest;
+  }): CancelablePromise<ResultPageOjPostVo> {
+    return __request(OpenAPI, {
+      method: 'POST',
+      url: '/oj/post/pageSelf',
+      body: requestBody.req,
+      query: {
+        ...requestBody.page
+      },
+      mediaType: 'application/json'
+    });
+  }
+
+  /**
    * 根据主键获取帖子
    * @param id
    * @returns ResultOjPostVo OK

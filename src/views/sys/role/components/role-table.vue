@@ -8,7 +8,7 @@
         label-align="left"
       >
         <a-row>
-          <a-col :span="6">
+          <a-col :span="10">
             <a-form-item field="roleCode" label="角色标识">
               <a-input
                 v-model="queryReq.roleCode"
@@ -16,27 +16,27 @@
               />
             </a-form-item>
           </a-col>
-          <a-col :flex="1" style="text-align: right">
-            <a-space direction="vertical" :size="10">
-              <a-button type="primary" @click="pageData">
-                <template #icon>
-                  <icon-search />
-                </template>
-                查询
-              </a-button>
-              <a-button @click="reset">
-                <template #icon>
-                  <icon-refresh />
-                </template>
-                重置
-              </a-button>
-            </a-space>
-          </a-col>
         </a-row>
       </a-form>
     </a-col>
+    <a-col :flex="1" style="text-align: right">
+      <a-space direction="vertical" :size="10">
+        <a-button type="primary" @click="pageData">
+          <template #icon>
+            <icon-search />
+          </template>
+          查询
+        </a-button>
+        <a-button @click="reset">
+          <template #icon>
+            <icon-refresh />
+          </template>
+          重置
+        </a-button>
+      </a-space>
+    </a-col>
   </a-row>
-  <a-divider />
+  <a-divider style="margin-top: 12px" />
   <add-role-modal @add-flag="addFlag" />
   <a-table
     bordered

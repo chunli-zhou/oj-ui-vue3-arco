@@ -15,6 +15,10 @@ export type OjPostUpdateRequest = {
    */
   title: string;
   /**
+   * 分区
+   */
+  zone?: string;
+  /**
    * 内容
    */
   content: string;
