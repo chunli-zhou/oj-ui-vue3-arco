@@ -126,6 +126,17 @@ const getPostList = () => {
     });
 };
 
+const searchPost = (postTitle: string) => {
+  paging.value.pageNum = 1;
+  req.value.title = postTitle;
+  list.value = [];
+  searchLoading.value = true;
+  getPostList();
+};
+defineExpose({
+  searchPost
+});
+
 const handleLoadPost = () => {
   if (paging.value.pageNum >= totalPage.value) {
     Message.warning('没有更多了');
