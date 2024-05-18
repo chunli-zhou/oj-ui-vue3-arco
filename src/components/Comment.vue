@@ -8,9 +8,19 @@
     v-for="(comment, index) in comments"
     :key="index"
     :author="comment.authorName"
-    :avatar="comment.authorAvatar"
     :datetime="comment.createTime"
   >
+    <template #avatar>
+      <a-avatar
+        :image-url="comment.authorAvatar"
+        trigger-type="mask"
+        @click="handleToUserInfo(comment.authorId)"
+      >
+        <template #trigger-icon>
+          <icon-user />
+        </template>
+      </a-avatar>
+    </template>
     <template #content>
       <MdPreview style="padding: 0; margin: 0" :modelValue="comment.content" />
     </template>
@@ -74,6 +84,7 @@ import { PropType, ref } from 'vue';
 import { IconMessage } from '@arco-design/web-vue/es/icon';
 import { MdEditor, MdPreview } from 'md-editor-v3';
 import { Message } from '@arco-design/web-vue';
+import router from '@/router';
 
 const props = defineProps({
   comments: {
@@ -105,6 +116,15 @@ const doRecoverComment = (comment: ProblemCommentVo) => {
       ProblemCommentControllerService.listChild(comment.id).then(res => {
         comment.children = res.result;
       });
+    }
+  });
+};
+
+const handleToUserInfo = (authorId: number) => {
+  router.push({
+    name: 'UserInfo',
+    query: {
+      id: authorId
     }
   });
 };
