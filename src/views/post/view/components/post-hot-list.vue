@@ -6,7 +6,13 @@
         文章榜
       </a-space>
     </template>
-    <a-list size="small" :bordered="false" :split="false" hoverable>
+    <a-list
+      v-if="!loading"
+      size="small"
+      :bordered="false"
+      :split="false"
+      hoverable
+    >
       <a-list-item
         v-for="(item, index) in hotPost"
         :key="index"
@@ -27,6 +33,11 @@
         </a-row>
       </a-list-item>
     </a-list>
+    <a-skeleton v-else animation>
+      <a-space direction="vertical" :style="{ width: '100%' }" size="large">
+        <a-skeleton-line :rows="5" />
+      </a-space>
+    </a-skeleton>
   </a-card>
 </template>
 
@@ -37,10 +48,16 @@ import { OjPostService } from '@/api/gen-api/services/OjPostService.ts';
 import { useRouter } from 'vue-router';
 
 const hotPost = ref<OjPostSimpleVo[]>([]);
+const loading = ref(false);
 onMounted(() => {
-  OjPostService.getFiveHotPost().then(res => {
-    hotPost.value = res.result;
-  });
+  loading.value = true;
+  OjPostService.getFiveHotPost()
+    .then(res => {
+      hotPost.value = res.result;
+    })
+    .finally(() => {
+      loading.value = false;
+    });
 });
 const getType = (index: number) => {
   if (index == 1) {
