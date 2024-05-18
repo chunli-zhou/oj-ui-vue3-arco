@@ -6,20 +6,20 @@
       <div class="content-left">
         <a-grid :cols="24" :col-gap="16" :row-gap="16">
           <a-grid-item :span="24">
-            <MyProject />
+            <user-posts />
           </a-grid-item>
           <a-grid-item :span="24">
-            <LatestActivity />
+            <has-do-problems />
           </a-grid-item>
         </a-grid>
       </div>
       <div class="content-right">
         <a-grid :cols="24" :row-gap="16">
           <a-grid-item :span="24">
-            <MyTeam />
+            <thumb-posts />
           </a-grid-item>
           <a-grid-item class="panel" :span="24">
-            <LatestNotification />
+            <favour-posts />
           </a-grid-item>
         </a-grid>
       </div>
@@ -29,10 +29,10 @@
 
 <script lang="ts" setup>
 import UserInfoHeader from './components/user-info-header.vue';
-import LatestNotification from './components/latest-notification.vue';
-import MyProject from './components/my-project.vue';
-import LatestActivity from './components/latest-activity.vue';
-import MyTeam from './components/my-team.vue';
+import UserPosts from '@/views/user/info/components/user-posts.vue';
+import HasDoProblems from '@/views/user/info/components/has-do-problems.vue';
+import ThumbPosts from '@/views/user/info/components/thumb-posts.vue';
+import FavourPosts from '@/views/user/info/components/favour-posts.vue';
 </script>
 
 <script lang="ts">
@@ -75,6 +75,7 @@ export default {
 .container-i {
   padding: 0 20px 20px;
 }
+
 .mobile {
   .content {
     display: block;

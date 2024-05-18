@@ -46,7 +46,7 @@ export default ({ mode }: ConfigEnv): UserConfigExport => {
       // 监听所有地址
       host: '0.0.0.0',
       // 服务启动时是否自动打开浏览器
-      open: true,
+      open: false,
       // 端口号（这里使用了变量 VITE_PORT）
       port: Number(VITE_PORT),
       // 本地跨域代理-> 代理到服务器的接口地址

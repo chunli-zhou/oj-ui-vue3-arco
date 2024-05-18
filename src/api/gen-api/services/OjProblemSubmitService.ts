@@ -3,10 +3,12 @@ import type { ResultLong } from '@/api/gen-api/models/result/ResultLong.ts';
 import {
   type CancelablePromise,
   OpenAPI,
+  type Paging,
   type ProblemSubmitAddRequest,
   type ResultOjProblemSubmitVo
 } from '@/api/gen-api';
-import type { ResultListOjProblemSubmitVo } from '../../../../generated';
+import type { OjProblemSubmitQueryRequest } from '@/api/gen-api/models/problem/OjProblemSubmitQueryRequest.ts';
+import type { ResultPageOjProblemSubmitVo } from '@/api/gen-api/models/problem/ResultPageOjProblemSubmitVo.ts';
 
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export class OjProblemSubmitService {
@@ -46,20 +48,29 @@ export class OjProblemSubmitService {
   }
 
   /**
-   * 根据用户id获取题目提交信息列表
+   * 根据用户id分页查询题目提交信息列表
    * @param id
-   * @returns ResultListOjProblemSubmitVo OK
+   * @param paging
+   * @param requestBody
+   * @returns ResultPageOjProblemSubmitVo OK
    * @throws ApiError
    */
-  public static getInfoByUserId(
-    id: number
-  ): CancelablePromise<ResultListOjProblemSubmitVo> {
+  public static pageInfoByUserId(
+    id: number,
+    paging: Paging,
+    requestBody: OjProblemSubmitQueryRequest
+  ): CancelablePromise<ResultPageOjProblemSubmitVo> {
     return __request(OpenAPI, {
-      method: 'GET',
-      url: '/submit/getInfoByUserId/{id}',
+      method: 'POST',
+      url: '/submit/pageInfoByUserId/{id}',
       path: {
         id: id
-      }
+      },
+      query: {
+        paging: paging
+      },
+      body: requestBody,
+      mediaType: 'application/json'
     });
   }
 }

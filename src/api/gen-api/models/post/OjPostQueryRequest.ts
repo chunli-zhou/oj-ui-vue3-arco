@@ -3,6 +3,10 @@
  */
 export type OjPostQueryRequest = {
   /**
+   * 用户id
+   */
+  userId?: string;
+  /**
    * 标题
    */
   title?: string;

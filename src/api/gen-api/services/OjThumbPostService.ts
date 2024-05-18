@@ -46,7 +46,7 @@ export class OjThumbPostService {
    */
   public static getThumbPost(
     page: Paging,
-    id: number
+    id: string
   ): CancelablePromise<ResultPageOjPostVo> {
     return __request(OpenAPI, {
       method: 'GET',

@@ -46,7 +46,7 @@ export class OjFavourPostService {
    */
   public static getFavourPost(
     page: Paging,
-    id: number
+    id: string
   ): CancelablePromise<ResultPageOjPostVo> {
     return __request(OpenAPI, {
       method: 'GET',

@@ -83,9 +83,16 @@
               </a-space>
             </a-doption>
             <a-doption>
-              <a-space @click="$router.push({ name: 'UserInfo' })">
+              <a-space
+                @click="
+                  $router.push({
+                    name: 'UserInfo',
+                    query: { id: userInfo.id }
+                  })
+                "
+              >
                 <icon-user />
-                <span>用户中心</span>
+                <span>用户信息</span>
               </a-space>
             </a-doption>
             <a-doption>

@@ -38,6 +38,7 @@ export type { ResultListProblemCommentVo } from '@/api/gen-api/models/problem/Re
 export type { ProblemSubmitAddRequest } from '@/api/gen-api/models/problem/ProblemSubmitAddRequest.ts';
 export type { ResultOjProblemSubmitVo } from '@/api/gen-api/models/problem/ResultOjProblemSubmitVo.ts';
 export type { ResultListOjProblemSubmitVo } from '@/api/gen-api/models/problem/ResultListOjProblemSubmitVo.ts';
+export type { OjProblemSubmitQueryRequest } from '@/api/gen-api/models/problem/OjProblemSubmitQueryRequest.ts';
 export type { OjPostAddRequest } from '@/api/gen-api/models/post/OjPostAddRequest.ts';
 export type { OjPostQueryRequest } from '@/api/gen-api/models/post/OjPostQueryRequest.ts';
 export type { OjPostUpdateRequest } from '@/api/gen-api/models/post/OjPostUpdateRequest.ts';
