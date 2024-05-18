@@ -10,6 +10,7 @@ import {
 } from '@/api/gen-api';
 import { request as __request } from '../core/request.ts';
 import type { OjPostUpdateRequest } from '@/api/gen-api/models/post/OjPostUpdateRequest.ts';
+import type { ResultListOjPostSimpleVo } from '@/api/gen-api/models/post/ResultListOjPostSimpleVo.ts';
 
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export class OjPostService {
@@ -95,7 +96,7 @@ export class OjPostService {
    * @returns ResultOjPostVo OK
    * @throws ApiError
    */
-  public static getInfo(id: number): CancelablePromise<ResultOjPostVo> {
+  public static getInfo(id: string): CancelablePromise<ResultOjPostVo> {
     return __request(OpenAPI, {
       method: 'GET',
       url: '/oj/post/getInfo/{id}',
@@ -118,6 +119,18 @@ export class OjPostService {
       path: {
         id: id
       }
+    });
+  }
+
+  /**
+   * 获取五个热门帖子
+   * @returns ResultListOjPostSimpleVo OK
+   * @throws ApiError
+   */
+  public static getFiveHotPost(): CancelablePromise<ResultListOjPostSimpleVo> {
+    return __request(OpenAPI, {
+      method: 'GET',
+      url: '/oj/post/get/fiveHotPost'
     });
   }
 }

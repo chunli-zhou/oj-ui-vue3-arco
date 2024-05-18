@@ -33,9 +33,23 @@
 </template>
 
 <script lang="ts" setup>
-import { useUserStore } from '@/store';
+import { onMounted, ref } from 'vue';
+import { SysUserService, SysUserSimpleResponse } from '@/api/gen-api';
+import { useRoute } from 'vue-router';
 
-const userInfo = useUserStore();
+const userInfo = ref<SysUserSimpleResponse>({
+  avatar: '',
+  realName: ''
+});
+const userId = useRoute().query.id as string;
+
+onMounted(() => {
+  SysUserService.getInfoById(userId).then(res => {
+    if (res.result) {
+      userInfo.value = res.result;
+    }
+  });
+});
 </script>
 
 <style scoped lang="less">

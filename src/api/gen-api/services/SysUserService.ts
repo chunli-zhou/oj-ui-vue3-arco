@@ -83,7 +83,7 @@ export class SysUserService {
   }
 
   /**
-   * 获取已登录的当前用户信息
+   * 获取已登录的当前用户信息--admin使用
    * @returns ResultSysUser OK
    * @throws ApiError
    */
@@ -95,7 +95,7 @@ export class SysUserService {
   }
 
   /**
-   * 根据主键获取系统用户详细信息
+   * 获取已登录的当前用户信息
    * @param id
    * @returns ResultSysUserResponse OK
    * @throws ApiError
@@ -104,6 +104,24 @@ export class SysUserService {
     return __request(OpenAPI, {
       method: 'GET',
       url: '/sys/sysUser/getInfo'
+    });
+  }
+
+  /**
+   * 根据主键获取系统用户详细信息
+   * @param userId
+   * @returns ResultSysUserResponse OK
+   * @throws ApiError
+   */
+  public static getInfoById(
+    userId: string
+  ): CancelablePromise<ResultSysUserResponse> {
+    return __request(OpenAPI, {
+      method: 'GET',
+      url: '/sys/sysUser/getInfoById/{id}',
+      path: {
+        id: userId
+      }
     });
   }
 

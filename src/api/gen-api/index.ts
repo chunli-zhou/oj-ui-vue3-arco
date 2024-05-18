@@ -27,6 +27,7 @@ export type { ResultSysUserResponse } from '@/api/gen-api/models/result/ResultSy
 export type { SysUser } from '@/api/gen-api/models/sys/SysUser.ts';
 export type { SysUserRequest } from '@/api/gen-api/models/sys/SysUserRequest.ts';
 export type { SysUserResponse } from '@/api/gen-api/models/sys/SysUserResponse.ts';
+export type { SysUserSimpleResponse } from '@/api/gen-api/models/sys/SysUserSimpleResponse.ts';
 export type { PageSysRoleResponse } from '@/api/gen-api/models/sys/role/PageSysRoleResponse.ts';
 export type { ResultPageSysRoleResponse } from '@/api/gen-api/models/sys/role/ResultPageSysRoleResponse.ts';
 export type { SysRoleRequest } from '@/api/gen-api/models/sys/role/SysRoleRequest.ts';
@@ -46,6 +47,7 @@ export type { OjPostVo } from '@/api/gen-api/models/post/OjPostVo.ts';
 export type { PageOjPostVo } from '@/api/gen-api/models/post/PageOjPostVo.ts';
 export type { ResultOjPostVo } from '@/api/gen-api/models/post/ResultOjPostVo.ts';
 export type { ResultPageOjPostVo } from '@/api/gen-api/models/post/ResultPageOjPostVo.ts';
+export type { OjPostSimpleVo } from '@/api/gen-api/models/post/OjPostSimpleVo.ts';
 
 export { LoginService } from './services/LoginService.ts';
 export { OjProblemService } from './services/OjProblemService.ts';

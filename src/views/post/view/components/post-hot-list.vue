@@ -7,62 +7,21 @@
       </a-space>
     </template>
     <a-list size="small" :bordered="false" :split="false" hoverable>
-      <a-list-item class="list-item">
+      <a-list-item
+        v-for="(item, index) in hotPost"
+        :key="index"
+        class="list-item"
+        @click="handleToPostDetail(item.id)"
+      >
         <a-row :gutter="10">
           <a-col :span="2">
-            <a-typography-text bold type="danger">1</a-typography-text>
+            <a-typography-text bold :type="getType(index + 1)">
+              {{ index + 1 }}
+            </a-typography-text>
           </a-col>
           <a-col :span="22">
             <a-typography-text ellipsis="true">
-              是时候放弃 Java 序列化了！！
-            </a-typography-text>
-          </a-col>
-        </a-row>
-      </a-list-item>
-      <a-list-item class="list-item">
-        <a-row :gutter="10">
-          <a-col :span="2">
-            <a-typography-text bold type="warning">2</a-typography-text>
-          </a-col>
-          <a-col :span="22">
-            <a-typography-text ellipsis>
-              你还在使用websocket实现实时消息推送吗？
-            </a-typography-text>
-          </a-col>
-        </a-row>
-      </a-list-item>
-      <a-list-item class="list-item">
-        <a-row :gutter="10">
-          <a-col :span="2">
-            <a-typography-text type="primary">3</a-typography-text>
-          </a-col>
-          <a-col :span="22">
-            <a-typography-text ellipsis>
-              利用 console.log 能玩出什么厉害的花活？
-            </a-typography-text>
-          </a-col>
-        </a-row>
-      </a-list-item>
-      <a-list-item class="list-item">
-        <a-row :gutter="10">
-          <a-col :span="2">
-            <a-typography-text>4</a-typography-text>
-          </a-col>
-          <a-col :span="22">
-            <a-typography-text ellipsis>
-              面试官问我：自己写String类，包名也是java.lang，这个类能编译成功吗，能运行成功吗
-            </a-typography-text>
-          </a-col>
-        </a-row>
-      </a-list-item>
-      <a-list-item class="list-item">
-        <a-row :gutter="10">
-          <a-col :span="2">
-            <a-typography-text>5</a-typography-text>
-          </a-col>
-          <a-col :span="22">
-            <a-typography-text ellipsis>
-              为了NullPointerException，你知道Java到底做了多少努力吗？
+              {{ item.title }}
             </a-typography-text>
           </a-col>
         </a-row>
@@ -71,7 +30,39 @@
   </a-card>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { onMounted, ref } from 'vue';
+import { OjPostSimpleVo } from '@/api/gen-api';
+import { OjPostService } from '@/api/gen-api/services/OjPostService.ts';
+import { useRouter } from 'vue-router';
+
+const hotPost = ref<OjPostSimpleVo[]>([]);
+onMounted(() => {
+  OjPostService.getFiveHotPost().then(res => {
+    hotPost.value = res.result;
+  });
+});
+const getType = (index: number) => {
+  if (index == 1) {
+    return 'danger';
+  } else if (index == 2) {
+    return 'warning';
+  } else if (index == 3) {
+    return 'primary';
+  } else {
+    return 'default';
+  }
+};
+const router = useRouter();
+const handleToPostDetail = (id: number) => {
+  router.push({
+    name: 'PostInfo',
+    query: {
+      postId: id
+    }
+  });
+};
+</script>
 
 <style scoped lang="less">
 .list-item {

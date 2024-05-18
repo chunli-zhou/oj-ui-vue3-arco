@@ -140,7 +140,7 @@ const handleSubmit = () => {
   });
 };
 onMounted(() => {
-  OjPostService.getInfo(post.value.id).then(res => {
+  OjPostService.getInfo(String(post.value.id)).then(res => {
     if (res.result) {
       const { title, content, tags, zone } = res.result;
       post.value.title = title;

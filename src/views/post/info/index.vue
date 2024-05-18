@@ -56,7 +56,7 @@ const postInfo = ref<OjPostVo>({
 });
 const postDetailRef = ref();
 const route = useRoute();
-const postId = Number(route.query.postId);
+const postId = route.query.postId;
 
 const getPostInfo = (postId: number) => {
   OjPostService.getInfo(postId).then(res => {

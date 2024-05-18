@@ -1,7 +1,15 @@
 <template>
   <a-card>
     <a-space size="medium">
-      <a-avatar :image-url="post.avatar" />
+      <a-avatar
+        trigger-type="mask"
+        :image-url="post.avatar"
+        @click="handleToUserInfo"
+      >
+        <template #trigger-icon>
+          <icon-user />
+        </template>
+      </a-avatar>
       <a-space direction="vertical">
         <a-typography-title bold style="font-size: 17px">
           {{ post.creatorName }}
@@ -29,6 +37,7 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue';
 import { OjPostVo } from '@/api/gen-api';
+import { useRouter } from 'vue-router';
 
 const props = defineProps<{
   postInfo: OjPostVo;
@@ -39,6 +48,16 @@ const post = ref<OjPostVo>({
   creatorName: '',
   introduce: ''
 });
+
+const router = useRouter();
+const handleToUserInfo = () => {
+  router.push({
+    name: 'UserInfo',
+    query: {
+      id: post.value.creator
+    }
+  });
+};
 
 watch(
   () => props.postInfo,
