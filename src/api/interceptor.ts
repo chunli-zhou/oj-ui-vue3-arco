@@ -36,18 +36,23 @@ service.interceptors.response.use(
         [40001].includes(res.code) &&
         response.config.url !== '/api/user/info'
       ) {
-        Modal.error({
+        Modal.warning({
           bodyStyle: {
             textAlign: 'center'
           },
-          title: '登录信息已过期',
-          content: '登录信息已过期，请重新登录',
-          okText: '去登录',
+          title: '请先登录',
+          content: '如需继续操作，请先登录',
+          cancelText: '取消',
+          okText: '登录',
+          hideCancel: false,
           async onOk() {
             const userStore = useUserStore();
 
             await userStore.logout();
             window.location.reload();
+          },
+          async onCancel() {
+            return;
           }
         });
         return;

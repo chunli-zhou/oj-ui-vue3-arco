@@ -8,8 +8,8 @@ const POST: AppRouteRecordRaw = {
   meta: {
     locale: '帖子',
     icon: 'icon-file',
-    requiresAuth: true,
-    roles: ['*'],
+    // requiresAuth: true,
+    // roles: ['*'],
     order: 5
   },
   children: [
@@ -18,9 +18,9 @@ const POST: AppRouteRecordRaw = {
       name: 'PostView',
       component: () => import('@/views/post/view/index.vue'),
       meta: {
-        locale: '首页',
-        requiresAuth: true,
-        roles: ['*']
+        locale: '首页'
+        // requiresAuth: true,
+        // roles: ['*']
       }
     },
     {
@@ -40,9 +40,9 @@ const POST: AppRouteRecordRaw = {
       component: () => import('@/views/post/info/index.vue'),
       meta: {
         locale: '帖子详情',
-        requiresAuth: true,
-        hideInMenu: true,
-        roles: ['*']
+        // requiresAuth: true,
+        // roles: ['*'],
+        hideInMenu: true
       }
     },
     {
