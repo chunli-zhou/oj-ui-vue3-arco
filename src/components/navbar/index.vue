@@ -56,6 +56,13 @@
         </a-tooltip>
       </li>
       <li>
+        <a-tooltip content="查看文档">
+          <a class="nav-btn" href="http://www.7122teamblog.top" target="_blank">
+            <icon-book />
+          </a>
+        </a-tooltip>
+      </li>
+      <li>
         <a-tooltip :content="isFullscreen ? '退出全屏' : '全屏'">
           <div class="nav-btn" @click="toggleFullScreen">
             <icon-fullscreen-exit v-if="isFullscreen" />
