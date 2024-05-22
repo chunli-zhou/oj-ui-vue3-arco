@@ -66,6 +66,7 @@
     "dayjs": "^1.11.10",
     "echarts": "^5.5.0",
     "lodash": "^4.17.21",
+    "lottie-web": "^5.12.2",
     "md-editor-v3": "^4.12.3",
     "mitt": "^3.0.1",
     "monaco-editor": "^0.47.0",
