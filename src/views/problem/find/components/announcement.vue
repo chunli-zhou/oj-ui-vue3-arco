@@ -26,6 +26,16 @@ const list = [
     content: '✨ 帖子评论功能即将上线'
   },
   {
+    type: 'blue',
+    label: '功能',
+    content: '✨ 题目评论功能 已上线'
+  },
+  {
+    type: 'orangered',
+    label: '修复',
+    content: '🐛 帖子点赞、收藏 bug 已修复 2024-05-18'
+  },
+  {
     type: 'orangered',
     label: '修复',
     content: '🐛 题目编辑 bug 已修复 2024-04-08'
@@ -34,16 +44,6 @@ const list = [
     type: 'orangered',
     label: '修复',
     content: '🐛 组件库样式问题 已修复 2024-04-21'
-  },
-  {
-    type: 'orangered',
-    label: '修复',
-    content: '🐛 帖子点赞、收藏 bug 已修复 2024-05-18'
-  },
-  {
-    type: 'blue',
-    label: '功能',
-    content: '✨ 题目评论功能 已上线'
   },
   {
     type: 'cyan',
