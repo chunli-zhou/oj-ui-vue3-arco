@@ -3,6 +3,7 @@ import { OpenAPI } from '@/api/gen-api';
 import { request as __request } from '../core/request.ts';
 import type { PostCommentRequest } from '@/api/gen-api/models/post/PostCommentRequest.ts';
 import type { ResultListPostCommentVo } from '@/api/gen-api/models/post/ResultListPostCommentVo.ts';
+import { ResultLong } from '@/api/gen-api/models/result/ResultLong.ts';
 
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export class OjPostCommentService {
@@ -73,6 +74,22 @@ export class OjPostCommentService {
       url: '/oj/post/comment/remove/{id}',
       path: {
         id: id
+      }
+    });
+  }
+
+  /**
+   * 根据帖子id获取评论数量
+   * @param postId
+   * @returns ResultLong OK
+   * @throws ApiError
+   */
+  public static getNum(postId: string): CancelablePromise<ResultLong> {
+    return __request(OpenAPI, {
+      method: 'GET',
+      url: '/oj/post/comment/get/num',
+      query: {
+        postId: postId
       }
     });
   }

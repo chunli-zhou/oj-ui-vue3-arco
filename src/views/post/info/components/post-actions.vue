@@ -59,7 +59,7 @@
       <a-badge
         :offset="[-35, 0]"
         :max-count="999"
-        :count="post.favourNum"
+        :count="commentNum"
         :dotStyle="{ background: '#E5E6EB', color: '#86909C' }"
       >
         <a-button class="affix-button" shape="circle" @click="visible = true">
@@ -78,11 +78,13 @@
 
 <script setup lang="ts">
 import { OjPostVo } from '@/api/gen-api';
-import { ref, watch } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import { OjThumbPostService } from '@/api/gen-api/services/OjThumbPostService.ts';
 import { OjFavourPostService } from '@/api/gen-api/services/OjFavourPostService.ts';
 import { Message } from '@arco-design/web-vue';
 import PostComment from '@/views/post/info/components/post-comment.vue';
+import { OjPostCommentService } from '@/api/gen-api/services/OjPostCommentService.ts';
+import { useRoute } from 'vue-router';
 
 const visible = ref(false);
 
@@ -105,6 +107,13 @@ watch(
     deep: true
   }
 );
+const commentNum = ref<number>(0);
+onMounted(() => {
+  const postId = useRoute().query.postId as string;
+  OjPostCommentService.getNum(postId).then(res => {
+    commentNum.value = res.result;
+  });
+});
 
 const handleThumb = () => {
   OjThumbPostService.thumb(post.value.id).then(res => {
