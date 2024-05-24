@@ -59,7 +59,7 @@ const route = useRoute();
 const postId = route.query.postId;
 
 const getPostInfo = (postId: number) => {
-  OjPostService.getInfo(postId).then(res => {
+  OjPostService.getInfo(String(postId)).then(res => {
     if (res.result) {
       postInfo.value = res.result;
     }

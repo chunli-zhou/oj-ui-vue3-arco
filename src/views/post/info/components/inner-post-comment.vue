@@ -27,13 +27,10 @@
     <template #actions>
       <a-popover :popup-visible="comment.replyFlag" trigger="click">
         <template #content>
-          <MdEditor
+          <a-textarea
             v-model="recoverComment.content"
-            placeholder="支持 Markdown"
-            style="width: 250px; height: 200px"
-            :preview="false"
-            :toolbars="['preview', 'pageFullscreen', 'uploadImg']"
-            @onUploadImg="onUploadImg"
+            style="width: 250px; height: 100px"
+            placeholder="请友好回复哦~"
           />
           <a-row class="pt-1.5">
             <a-col :flex="1" />
@@ -70,57 +67,58 @@
         收起
       </span>
     </template>
-    <Comment v-if="comment.expandedFlag" :comments="comment.children" />
+    <inner-post-comment
+      v-if="comment.expandedFlag"
+      :comments="comment.children"
+    />
   </a-comment>
 </template>
 
 <script setup lang="ts">
-import {
-  ProblemCommentControllerService,
-  ProblemCommentRequest,
-  ProblemCommentVo
-} from '@/api/gen-api';
 import { PropType, ref } from 'vue';
 import { IconMessage } from '@arco-design/web-vue/es/icon';
-import { MdEditor, MdPreview } from 'md-editor-v3';
+import { MdPreview } from 'md-editor-v3';
 import { Message } from '@arco-design/web-vue';
 import router from '@/router';
+import { OjPostCommentService } from '@/api/gen-api/services/OjPostCommentService.ts';
+import { PostCommentVo } from '@/api/gen-api/models/post/PostCommentVo.ts';
+import { PostCommentRequest } from '@/api/gen-api/models/post/PostCommentRequest.ts';
 
 defineProps({
   comments: {
-    type: Array as PropType<ProblemCommentVo[]>,
+    type: Array as PropType<PostCommentVo[]>,
     default: () => []
   }
 });
 
-const recoverComment = ref<ProblemCommentRequest>({
+const recoverComment = ref<PostCommentRequest>({
   content: '',
-  problemId: null,
+  postId: null,
   parentId: null
 });
 
-const handleRecoverComment = (comment: ProblemCommentVo) => {
+const handleRecoverComment = (comment: PostCommentVo) => {
   recoverComment.value.parentId = comment.id;
-  recoverComment.value.problemId = comment.problemId;
+  recoverComment.value.postId = comment.postId;
 };
 
 /**
  * 提交回复
  */
-const doRecoverComment = (comment: ProblemCommentVo) => {
-  ProblemCommentControllerService.save(recoverComment.value).then(res => {
+const doRecoverComment = (comment: PostCommentVo) => {
+  OjPostCommentService.save(recoverComment.value).then(res => {
     if (res.result) {
       recoverComment.value.content = '';
       Message.success('回复成功');
       comment.replyFlag = false;
-      ProblemCommentControllerService.listChild(comment.id).then(res => {
+      OjPostCommentService.listChildren(comment.id).then(res => {
         comment.children = res.result;
       });
     }
   });
 };
 
-const handleToUserInfo = (authorId: number) => {
+const handleToUserInfo = (authorId: string) => {
   router.push({
     name: 'UserInfo',
     query: {

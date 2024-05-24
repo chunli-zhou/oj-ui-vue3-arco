@@ -1,4 +1,13 @@
 <template>
+  <a-drawer
+    v-model:visible="visible"
+    :width="500"
+    unmountOnClose
+    :footer="false"
+  >
+    <template #title>评论区</template>
+    <post-comment />
+  </a-drawer>
   <a-affix :offset-top="200">
     <a-space direction="vertical" size="large">
       <a-badge
@@ -53,7 +62,7 @@
         :count="post.favourNum"
         :dotStyle="{ background: '#E5E6EB', color: '#86909C' }"
       >
-        <a-button class="affix-button" shape="circle">
+        <a-button class="affix-button" shape="circle" @click="visible = true">
           <icon-message />
         </a-button>
       </a-badge>
@@ -73,6 +82,9 @@ import { ref, watch } from 'vue';
 import { OjThumbPostService } from '@/api/gen-api/services/OjThumbPostService.ts';
 import { OjFavourPostService } from '@/api/gen-api/services/OjFavourPostService.ts';
 import { Message } from '@arco-design/web-vue';
+import PostComment from '@/views/post/info/components/post-comment.vue';
+
+const visible = ref(false);
 
 const props = defineProps<{
   postInfo: OjPostVo;
