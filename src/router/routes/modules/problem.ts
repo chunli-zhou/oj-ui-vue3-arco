@@ -9,8 +9,6 @@ const PROBLEM: AppRouteRecordRaw = {
   meta: {
     locale: '题库',
     icon: 'icon-select-all',
-    // requiresAuth: true,
-    // roles: ['*'],
     order: 4
   },
   children: [
@@ -20,9 +18,8 @@ const PROBLEM: AppRouteRecordRaw = {
       component: () => import('@/views/problem/find/index.vue'),
       meta: {
         locale: '找题',
-        activeMenu: '找题',
-        // requiresAuth: true,
-        // roles: ['*'],
+        requiresAuth: true,
+        roles: ['*'],
         order: 1
       }
     },
@@ -69,8 +66,8 @@ const PROBLEM: AppRouteRecordRaw = {
       meta: {
         hideInMenu: true,
         locale: '题目详情',
-        // requiresAuth: true,
-        // roles: ['*'],
+        requiresAuth: true,
+        roles: ['*'],
         order: 1
       }
     }
