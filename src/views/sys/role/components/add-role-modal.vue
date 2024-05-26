@@ -18,7 +18,7 @@
         <a-form-item field="sort" label="排序">
           <a-input-number
             v-model="req.sort"
-            placeholder="请输入排序，数字越小，表名角色权限越大"
+            placeholder="请输入排序，数字越小，表明角色权限越大"
           />
         </a-form-item>
       </a-form>
