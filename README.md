@@ -2,6 +2,10 @@
 
 http://7122teamblog.top
 
+## 后端代码仓库
+
+https://gitee.com/zhang-rui-xin/oj-serve
+
 # 系统截图
 
 ## 登录注册
