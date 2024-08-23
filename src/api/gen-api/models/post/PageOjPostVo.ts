@@ -2,7 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type {OjPostVo} from './OjPostVo.ts';
+import type { OjPostVo } from './OjPostVo.ts';
 
 export type PageOjPostVo = {
   records?: Array<OjPostVo>;

@@ -2,7 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type {OjProblemSubmitVo} from './OjProblemSubmitVo';
+import type { OjProblemSubmitVo } from './OjProblemSubmitVo';
 
 /**
  * 统一返回结果

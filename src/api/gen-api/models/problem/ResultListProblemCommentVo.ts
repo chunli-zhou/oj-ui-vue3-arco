@@ -2,7 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type {ProblemCommentVo} from './ProblemCommentVo.ts';
+import type { ProblemCommentVo } from './ProblemCommentVo.ts';
 
 /**
  * 统一返回结果

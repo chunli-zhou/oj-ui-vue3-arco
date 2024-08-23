@@ -2,7 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import {OjPostSimpleVo} from '@/api/gen-api/models/post/OjPostSimpleVo.ts';
+import { OjPostSimpleVo } from '@/api/gen-api/models/post/OjPostSimpleVo.ts';
 
 /**
  * 统一返回结果

@@ -1,4 +1,4 @@
-import type {JudgeInfo} from '@/api/gen-api/models/problem/JudgeInfo.ts';
+import type { JudgeInfo } from '@/api/gen-api/models/problem/JudgeInfo.ts';
 
 /**
  * 题目

@@ -1,4 +1,4 @@
-import type {PageOjProblemSubmitVo} from '@/api/gen-api/models/problem/PageOjProblemSubmitVo.ts';
+import type { PageOjProblemSubmitVo } from '@/api/gen-api/models/problem/PageOjProblemSubmitVo.ts';
 
 /**
  * 统一返回结果

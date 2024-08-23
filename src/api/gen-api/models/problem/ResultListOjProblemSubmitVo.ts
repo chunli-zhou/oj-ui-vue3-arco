@@ -2,7 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import {OjProblemSubmitVo} from '@/api/gen-api/models/problem/OjProblemSubmitVo.ts';
+import { OjProblemSubmitVo } from '@/api/gen-api/models/problem/OjProblemSubmitVo.ts';
 
 /**
  * 统一返回结果

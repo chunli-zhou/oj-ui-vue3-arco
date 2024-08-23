@@ -1,4 +1,4 @@
-import type {SysUserSimpleResponse} from '@/api/gen-api';
+import type { SysUserSimpleResponse } from '@/api/gen-api';
 
 /**
  * 统一返回结果

@@ -1,4 +1,4 @@
-import type {SysRoleResponse} from '@/api/gen-api';
+import type { SysRoleResponse } from '@/api/gen-api';
 
 /**
  * 统一返回结果

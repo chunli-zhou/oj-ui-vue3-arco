@@ -2,7 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type {SysRoleResponse} from '@/api/gen-api';
+import type { SysRoleResponse } from '@/api/gen-api';
 
 export type PageSysRoleResponse = {
   records?: Array<SysRoleResponse>;

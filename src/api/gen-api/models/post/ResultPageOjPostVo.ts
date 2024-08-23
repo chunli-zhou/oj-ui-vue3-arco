@@ -2,7 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type {PageOjPostVo} from './PageOjPostVo.ts';
+import type { PageOjPostVo } from './PageOjPostVo.ts';
 
 /**
  * 统一返回结果

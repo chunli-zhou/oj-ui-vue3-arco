@@ -2,7 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type {OjProblemSubmitVo} from './OjProblemSubmitVo';
+import type { OjProblemSubmitVo } from './OjProblemSubmitVo';
 
 export type PageOjProblemSubmitVo = {
   records?: Array<OjProblemSubmitVo>;
