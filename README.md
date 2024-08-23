@@ -7,8 +7,12 @@
 5. [mybatis-flex](https://mybatis-flex.com/)
 6. ......
 
-## 文档（刚开始写）
+## 相关工具版本信息
+1. Node v20.11.0
 
+## 文档（刚开始写）
+> 已无法访问，[点此转到文档源码](https://gitee.com/zhang-rui-xin/oj-document)
+> 
 http://7122teamblog.top
 
 ## 后端代码仓库
