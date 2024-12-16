@@ -13,6 +13,12 @@
 ## 文档（刚开始写）
 > 已无法访问，[点此转到文档源码](https://gitee.com/zhang-rui-xin/oj-document)
 > 
+
+#### 默认管理员账号密码
+
+zrxzrx
+abc123456
+
 http://7122teamblog.top
 
 ## 后端代码仓库
