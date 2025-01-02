@@ -80,7 +80,8 @@ export default ({ mode }: ConfigEnv): UserConfigExport => {
             chart: ['echarts', 'vue-echarts'],
             vue: ['vue', 'vue-router', 'pinia', '@vueuse/core', 'vue-i18n']
           }
-        }
+        },
+        external: ['@arco-design/web-vue']
       },
       // chunk 大小警告的限制
       chunkSizeWarningLimit: 2000
