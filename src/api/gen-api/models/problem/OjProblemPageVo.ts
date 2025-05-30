@@ -7,6 +7,10 @@ export type OjProblemPageVo = {
    */
   id?: number;
   /**
+   * 提交题目表中的当前题目提交的id
+   */
+  submitId?: number;
+  /**
    * 标题
    */
   title?: string;
