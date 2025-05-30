@@ -1,0 +1,40 @@
+// 主题颜色变量
+:root {
+  // 主色调
+  --primary-color: rgb(var(--arcoblue-6));
+  --primary-light-color: rgb(var(--arcoblue-3));
+  --primary-dark-color: rgb(var(--arcoblue-7));
+
+  // 背景色
+  --bg-color: var(--color-bg-1);
+  --bg-color-secondary: var(--color-bg-2);
+  --bg-color-overlay: var(--color-bg-white);
+
+  // 文字颜色
+  --text-color: var(--color-text-1);
+  --text-color-secondary: var(--color-text-2);
+  --text-color-disabled: var(--color-text-4);
+
+  // 边框颜色
+  --border-color: var(--color-border);
+  --border-color-light: var(--color-border-2);
+  --border-color-dark: var(--color-border-4);
+
+  // 功能色
+  --success-color: rgb(var(--green-6));
+  --warning-color: rgb(var(--orange-6));
+  --error-color: rgb(var(--red-6));
+  --info-color: rgb(var(--arcoblue-6));
+
+  // 阴影
+  --shadow-1: 0 4px 8px rgb(0 0 0 / 10%);
+  --shadow-2: 0 8px 16px rgb(0 0 0 / 10%);
+  --shadow-3: 0 16px 24px rgb(0 0 0 / 10%);
+}
+
+// 深色主题
+[arco-theme="dark"] {
+  --bg-color: var(--color-bg-5);
+  --bg-color-secondary: var(--color-bg-4);
+  --bg-color-overlay: var(--color-bg-3);
+} 
