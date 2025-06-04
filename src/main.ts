@@ -15,7 +15,8 @@ import ArcoVueIcon from '@arco-design/web-vue/es/icon';
 import '@arco-design/web-vue/es/message/style/index.less';
 import '@arco-design/web-vue/es/notification/style/index.less';
 import '@arco-design/web-vue/es/modal/style/index.less';
-
+import 'element-plus/dist/index.css';
+import ElementPlus from 'element-plus';
 const app = createApp(App);
 
 app.use(router);
@@ -24,5 +25,5 @@ app.use(i18n);
 app.use(ArcoVueIcon);
 app.use(globalComponents);
 app.use(directive);
-
+app.use(ElementPlus);
 app.mount('#app');

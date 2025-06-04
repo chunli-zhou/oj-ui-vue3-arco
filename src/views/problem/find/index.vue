@@ -22,7 +22,6 @@
       <div class="layout-right-side">
         <a-space size="medium" direction="vertical">
           <announcement />
-          <images />
           <user-list />
         </a-space>
       </div>
@@ -35,7 +34,6 @@ import HotSpotCarousel from '@/views/problem/find/components/hot-spot-carousel.v
 import ProblemTable from '@/views/problem/find/components/problem-table.vue';
 import SignIn from '@/views/problem/find/components/sign-in.vue';
 import Announcement from '@/views/problem/find/components/announcement.vue';
-import Images from '@/views/problem/find/components/images.vue';
 import UserList from '@/views/problem/find/components/user-list.vue';
 </script>
 
