@@ -70,6 +70,18 @@ const PROBLEM: AppRouteRecordRaw = {
         roles: ['*'],
         order: 1
       }
+    },
+    {
+      path: 'do',
+      name: 'submitInfo',
+      component: () => import('@/views/problem/do/indexSecond.vue'),
+      meta: {
+        hideInMenu: true,
+        locale: '题目详情',
+        requiresAuth: true,
+        roles: ['*'],
+        order: 1
+      }
     }
   ]
 };

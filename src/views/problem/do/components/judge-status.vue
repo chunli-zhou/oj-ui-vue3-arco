@@ -51,10 +51,10 @@
             </a-space>
           </a-skeleton>
           <a-space v-else direction="vertical">
-            <a-form-item label="执行消息：">
+            <a-form-item label="执行消息">
               <a-alert class="alert" type="success" :show-icon="false">
                 {{
-                  submitInfo.judgeInfo.message === ''
+                  submitInfo.judgeInfo.message == null
                     ? '无'
                     : submitInfo.judgeInfo.message
                 }}
@@ -120,9 +120,13 @@ const props = defineProps({
   req: {
     type: Object as PropType<ProblemSubmitAddRequest>,
     default: null
+  },
+  // 新增 submitId 属性用于回显
+  submitId: {
+    type: Number,
+    default: null
   }
 });
-
 const status = ref('');
 const progressPercent = ref(0);
 watch(
@@ -168,6 +172,45 @@ const handleSubmit = async () => {
     });
 };
 const submitInfo = ref<OjProblemSubmitVo>({});
+
+// 监听 submitId 变化（回显逻辑）
+watch(
+  () => props.submitId,
+  newVal => {
+    if (newVal) {
+      loadExistingSubmit(newVal);
+    }
+  },
+  { immediate: true } // 初始化时立即执行
+);
+
+// 加载已有提交记录
+const loadExistingSubmit = async (submitId: number) => {
+  status.value = 'judge'; // 直接显示判题中状态
+  judgePercent.value = 0.8; // 模拟进度
+  try {
+    const res = await OjProblemSubmitService.getInfo(submitId);
+    if (res.result) {
+      submitInfo.value = res.result;
+      // 根据状态更新 UI
+      if ([0, 1].includes(res.result.status)) {
+        // 判题中，继续轮询
+        getJudgeInfo();
+      } else {
+        // 判题完成
+        status.value = 'finish';
+        judgePercent.value = 1;
+      }
+    }
+  } catch (error) {
+    console.error('加载提交记录失败', error);
+    status.value = '';
+  }
+};
+/**
+ * 根据最终的判题的结果响应最后的信息
+ */
+
 /**
  * 获取判题信息
  */
@@ -207,8 +250,8 @@ const getJudgeInfo = async () => {
 
 .spin-container {
   position: absolute;
-  left: 50%;
   top: 50%;
+  left: 50%;
   transform: translateX(-50%) translateY(-50%);
 }
 
