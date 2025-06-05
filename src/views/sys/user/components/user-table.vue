@@ -198,6 +198,12 @@ const pageData = async () => {
   await SysUserService.page(paging, unref(queryReq))
     .then(res => {
       const result = res.result;
+      // 头像处理
+      result.records.forEach((item: any) => {
+        if (item.avatar && !item.avatar.startsWith('http')) {
+          item.avatar = 'http://localhost:8996/api' + item.avatar;
+        }
+      });
       data.userList = result.records;
       pagination.total = result.totalRow;
       pagination.current = paging.pageNum;

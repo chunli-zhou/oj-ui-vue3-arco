@@ -46,6 +46,10 @@ const userId = useRoute().query.id as string;
 onMounted(() => {
   SysUserService.getInfoById(userId).then(res => {
     if (res.result) {
+      // 头像处理
+      if (res.result.avatar && !res.result.avatar.startsWith('http')) {
+        res.result.avatar = 'http://localhost:8996/api' + res.result.avatar;
+      }
       userInfo.value = res.result;
     }
   });
