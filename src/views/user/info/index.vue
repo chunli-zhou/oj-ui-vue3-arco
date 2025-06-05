@@ -48,11 +48,11 @@ export default {
 
 .content {
   display: flex;
+  gap: 16px;
   margin-top: 12px;
 
   &-left {
     flex: 1;
-    margin-right: 16px;
     overflow: hidden;
     // background-color: var(--color-bg-2);
 
@@ -71,11 +71,47 @@ export default {
 }
 </style>
 
-<style lang="less" scoped>
+<style scoped lang="less">
 .container-i {
   padding: 0 20px 20px;
 }
 
+.content {
+  box-sizing: border-box;
+  display: flex;
+  gap: 16px;
+
+  /* 添加以下样式使内容区域占满宽度 */
+  width: 100%;
+  margin-top: 12px;
+
+  &-left {
+    /* 确保内容区域占满可用空间 */
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    overflow: hidden;
+
+    :deep(.arco-tabs-nav-tab) {
+      margin-left: 16px;
+    }
+  }
+
+  &-right {
+    width: 332px;
+  }
+
+  .tab-pane-wrapper {
+    padding: 0 16px 16px;
+  }
+}
+
+/* 网格项占满宽度 */
+:deep(.arco-grid-item) {
+  width: 100%;
+}
+
+/* 移动端适配 */
 .mobile {
   .content {
     display: block;

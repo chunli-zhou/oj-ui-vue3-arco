@@ -98,4 +98,22 @@ export class OjProblemService {
       }
     });
   }
+
+  /**
+   * 根据ID分页查询题目列表
+   * @param page 分页参数
+   * @returns CancelablePromise<ResultPageOjProblemVo>
+   */
+  public static listById(
+    page: Paging
+  ): CancelablePromise<ResultPageOjProblemVo> {
+    return __request(OpenAPI, {
+      method: 'GET',
+      url: '/ojProblem/listById',
+      query: {
+        pageNum: page.pageNum.toString(),
+        pageSize: page.pageSize.toString()
+      }
+    }) as CancelablePromise<ResultPageOjProblemVo>;
+  }
 }
