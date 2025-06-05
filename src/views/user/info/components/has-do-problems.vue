@@ -1,189 +1,200 @@
 <template>
   <a-card class="general-card" title="已做题目">
-    <div ref="tableContainer" class="table-container" @scroll="handleScroll">
-      <a-table
-        v-if="!loading"
-        :data="problemList"
-        :pagination="false"
-        :bordered="false"
-        :scroll="{ y: 400 }"
-        :loading="loading"
-      >
-        <template #columns>
-          <a-table-column title="标题" data-index="title" align="center">
-            <template #cell="{ record }">
-              <div class="content-cell">
-                <a-typography-paragraph>
-                  {{ record.title }}
-                </a-typography-paragraph>
-              </div>
-            </template>
-          </a-table-column>
-          <a-table-column title="题干" data-index="content" align="center">
-            <template #cell="{ record }">
-              <div class="content-cell">
-                <a-typography-paragraph
-                  :ellipsis="{
-                    rows: 1,
-                    showTooltip: true
-                  }"
-                >
-                  {{ truncateContent(record.content) }}
-                </a-typography-paragraph>
-              </div>
-            </template>
-          </a-table-column>
-          <a-table-column title="标签" data-index="tags" align="center">
-            <template #cell="{ record }">
-              <div class="content-cell">
-                <a-space>
-                  <a-tag v-for="tag in record.tags" :key="tag" color="blue">
-                    {{ tag }}
-                  </a-tag>
-                </a-space>
-              </div>
-            </template>
-          </a-table-column>
-          <a-table-column
-            title="难度"
-            data-index="difficulty"
-            align="center"
-            width="100"
+    <template #extra>
+      <a-link>查看所有</a-link>
+    </template>
+    <a-table
+      class="problem-table"
+      row-key="id"
+      bordered
+      :columns="columns"
+      :data="data.problemList"
+      :loading="loading"
+      :pagination="pagination"
+      @page-change="handlePageNumberChange"
+      @page-size-change="handlePageSizeChange"
+    >
+      <template #Title="{ record }">
+        <a-link @click="() => handleDoProblem(record.submitId, record.id)">
+          {{ record.title }}
+        </a-link>
+      </template>
+      <template #Tags="{ rowIndex }">
+        <a-space wrap>
+          <span
+            v-for="tag in data.problemList[rowIndex].tags"
+            :key="tag"
+            style="text-align: center"
           >
-            <template #cell="{ record }">
-              <div class="content-cell">
-                <a-tag :color="getDifficultyColor(record.difficulty)">
-                  {{ getDifficultyLabel(record.difficulty) }}
-                </a-tag>
-              </div>
-            </template>
-          </a-table-column>
-        </template>
-      </a-table>
-      <a-result v-else status="404">
-        <template #subtitle>无数据</template>
-      </a-result>
-    </div>
+            <a-tag>
+              {{ tag }}
+            </a-tag>
+          </span>
+        </a-space>
+      </template>
+      <template #Difficulty="{ record }">
+        <a-tag v-if="record.difficulty === '简单'" color="green">
+          {{ record.difficulty }}
+        </a-tag>
+        <a-tag v-else-if="record.difficulty === '中等'" color="orange">
+          {{ record.difficulty }}
+        </a-tag>
+        <a-tag v-else color="red">
+          {{ record.difficulty }}
+        </a-tag>
+      </template>
+      <template #ThroughRate="{ record }">
+        <a-statistic
+          :value="record.submitNum / record.acceptedNum"
+          :precision="2"
+          :value-style="{ color: '#0fbf60', fontSize: '1.0em' }"
+        >
+          <template #suffix>%</template>
+        </a-statistic>
+      </template>
+    </a-table>
+
+    <!--    <a-result status="404">
+          <template #subtitle>无数据</template>
+        </a-result>-->
   </a-card>
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted } from 'vue';
-import { OjProblemService } from '@/api/gen-api/services/OjProblemService';
-import { Paging } from '@/api/gen-api';
-import { Message } from '@arco-design/web-vue';
+import { onMounted, reactive, ref } from 'vue';
+import { OjProblemService, Paging } from '@/api/gen-api';
+import { PaginationProps, TableColumnData } from '@arco-design/web-vue';
+import { OjProblemPageVo } from '@/api/gen-api/models/problem/OjProblemPageVo.ts';
+import { useRouter } from 'vue-router';
 
-// 定义问题列表和状态
-const problemList = ref([]);
-const loading = ref(false);
-const totalPage = ref(1);
-const paging = ref<Paging>({
-  pageNum: 1,
-  pageSize: 5
-});
-
-// 截断内容
-const truncateContent = (content: string) => {
-  return content.length > 15 ? content.slice(0, 15) + '...' : content;
+const columns: TableColumnData[] = [
+  {
+    title: 'ID',
+    dataIndex: 'id',
+    cellStyle: {
+      display: 'none'
+    }
+  },
+  {
+    title: '标题',
+    dataIndex: 'title',
+    align: 'center',
+    slotName: 'Title'
+  },
+  {
+    title: '标签',
+    dataIndex: 'tags',
+    slotName: 'Tags',
+    align: 'center'
+  },
+  {
+    title: '难度',
+    dataIndex: 'difficulty',
+    align: 'center',
+    slotName: 'Difficulty'
+  },
+  {
+    title: '通过率',
+    dataIndex: 'throughRate',
+    align: 'center',
+    slotName: 'ThroughRate'
+  }
+];
+/**
+ *  改变条数
+ * @param pageSize
+ */
+const handlePageSizeChange = (pageSize: number) => {
+  paging.pageSize = pageSize;
+  pageData();
+};
+/**
+ *  改变当前页码
+ * @param pageNumber
+ */
+const handlePageNumberChange = (pageNumber: number) => {
+  paging.pageNum = pageNumber;
+  pageData();
 };
 
-// 加载数据
-const getProblems = () => {
+const loading = ref(false);
+
+/**
+ *  数据结果集
+ */
+const data = reactive({
+  problemList: [] as OjProblemPageVo[]
+});
+/**
+ *  分页查询底部内容
+ */
+const pagination = reactive<PaginationProps>({
+  showTotal: true,
+  showPageSize: true,
+  pageSizeOptions: [5, 10, 50, 100]
+});
+
+/**
+ * 查询数据
+ */
+const pageData = async () => {
   loading.value = true;
-  OjProblemService.listById(paging.value)
+  await OjProblemService.getSubProblemByUserId(paging)
     .then(res => {
-      if (res.result.records) {
-        totalPage.value = res.result.totalPage;
-        problemList.value.push(...res.result.records);
-      }
+      const result = res.result;
+      data.problemList = result.records;
+      pagination.total = result.totalRow;
+      pagination.current = paging.pageNum;
+      pagination.pageSize = paging.pageSize;
     })
     .finally(() => {
       loading.value = false;
     });
 };
+/**
+ *  分页查询页码和条数
+ */
+const paging: Paging = reactive({
+  pageNum: 1,
+  pageSize: 5
+});
 
-// 滚动处理
-const handleScroll = (event: Event) => {
-  const { scrollHeight, scrollTop, clientHeight } = event.target as HTMLElement;
+onMounted(() => {
+  /** 调用 */
+  pageData();
+});
 
-  // 向下滚动到底部时加载更多
-  if (scrollHeight - scrollTop - clientHeight < 50) {
-    if (paging.value.pageNum >= totalPage.value) {
-      Message.warning('没有更多了');
-    } else {
-      paging.value.pageNum++;
-      getProblems();
+const router = useRouter();
+
+/**
+ * 跳转到做题页面
+ */
+const handleDoProblem = (submitId: any, problemId: any) => {
+  router.push({
+    name: 'submitInfo',
+    query: {
+      id: submitId,
+      problemId: problemId
     }
-  }
+  });
 };
-
-// 难度等级颜色映射
-const getDifficultyColor = (difficulty: number) => {
-  const colors = ['green', 'orange', 'red'];
-  return colors[difficulty] || 'blue';
-};
-
-// 难度等级标签映射
-const getDifficultyLabel = (difficulty: number) => {
-  const labels = ['简单', '中等', '困难'];
-  return labels[difficulty] || '未知';
-};
-
-// 初始加载
-onMounted(() => getProblems());
 </script>
 
 <style scoped lang="less">
-.general-card {
+.problem {
+  display: flex;
+  flex-direction: column;
   height: 100%;
+  background-color: var(--color-bg-2);
 
-  .table-container {
-    height: calc(100vh - 300px);
-    overflow-y: auto;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-
-    &::-webkit-scrollbar {
-      display: none;
-    }
+  &-form {
+    flex: 1;
+    margin: 20px 0;
   }
 
-  :deep(.arco-table) {
-    .arco-table-tr {
-      height: 60px;
-    }
-
-    .arco-table-td {
-      padding: 12px 16px;
-    }
-
-    .content-cell {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100%;
-      min-height: 36px;
-
-      .arco-typography {
-        margin-bottom: 0;
-        line-height: 1.5;
-        text-align: center;
-      }
-
-      .arco-space {
-        justify-content: center;
-        width: 100%;
-      }
-    }
-
-    .arco-table-th {
-      text-align: center;
-      background-color: var(--color-fill-2);
-
-      &-title {
-        font-weight: 500;
-      }
-    }
+  &-table {
+    flex: 1;
+    margin: 20px 0;
   }
 }
 </style>

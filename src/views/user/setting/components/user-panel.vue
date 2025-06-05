@@ -41,7 +41,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import type { FileItem } from '@arco-design/web-vue/es/upload/interfaces';
 import { useUserStore } from '@/store';
 import type { DescData } from '@arco-design/web-vue/es/descriptions/interface';
@@ -54,7 +54,7 @@ const file = {
   name: 'avatar.png',
   url: userStore.avatar
 };
-const renderData = [
+const renderData = ref([
   {
     label: '姓名',
     value: userStore.realName
@@ -75,7 +75,7 @@ const renderData = [
     label: '注册日期',
     value: userStore.registerTime
   }
-] as DescData[];
+]) as DescData[];
 const fileList = ref<FileItem[]>([file]);
 const upload = (fileItem: FileItem) => {
   fileList.value = [fileItem];
@@ -88,13 +88,35 @@ const upload = (fileItem: FileItem) => {
   });
 };
 
+const updateRenderData = () => {
+  renderData.value = [
+    { label: '姓名', value: userStore.realName },
+    { label: '账户ID', value: userStore.id },
+    { label: '手机号', value: userStore.mobile },
+    { label: '邮箱', value: userStore.email },
+    { label: '注册日期', value: userStore.registerTime }
+  ];
+};
+
 onMounted(() => {
   SysUserService.getInfo().then(res => {
     if (res.result) {
       userStore.setInfo(res.result);
+      updateRenderData();
     }
   });
 });
+
+watch(
+  () => [
+    userStore.realName,
+    userStore.id,
+    userStore.mobile,
+    userStore.email,
+    userStore.registerTime
+  ],
+  updateRenderData
+);
 </script>
 
 <style scoped lang="less">

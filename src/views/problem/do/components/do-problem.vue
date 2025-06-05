@@ -42,38 +42,49 @@
         </template>
       </a-button>
     </template>
-    <CodeEditor
-      v-model:value="answer"
-      class="code-editor"
-      :theme="theme"
-      :language="ansLanguage"
-      @handle-change="handleChange"
-    />
+    <a-spin :loading="loading">
+      <CodeEditor
+        v-if="editorReady"
+        :key="editorKey"
+        v-model:value="answer"
+        class="code-editor"
+        :theme="theme"
+        :language="ansLanguage"
+        @handle-change="handleChange"
+      />
+    </a-spin>
   </a-card>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { nextTick, ref, onMounted } from 'vue';
+import { OjProblemService } from '@/api/gen-api';
 import { ProblemSubmitAddRequest } from '@/api/gen-api';
 
-const answer = ref('');
-const ansLanguage = ref('java');
-const theme = ref('vs-light');
+const answer = ref(''); /*用户输入的代码*/
+const ansLanguage = ref('java'); /*用户选择的语言*/
+const theme = ref('vs-light'); /*用户选择的主题*/
 
+const loading = ref(false);
+const editorReady = ref(false);
+const editorKey = ref(0);
 /**
  * 值发生改变
  */
 const handleChange = (ans: string) => {
   answer.value = ans;
 };
-
 const submitButtonLoading = ref(false);
-
 const emits = defineEmits(['submit']);
 const props = defineProps({
   questionId: {
     type: Number,
     default: 0
+  },
+  // 新增 submitId 属性用于回显
+  submitId: {
+    type: Number,
+    default: null
   }
 });
 
@@ -82,7 +93,6 @@ const req = ref<ProblemSubmitAddRequest>({
   language: '',
   questionId: null
 });
-
 const handleSubmit = () => {
   submitButtonLoading.value = true;
   setTimeout(() => {
@@ -94,35 +104,49 @@ const handleSubmit = () => {
     submitButtonLoading.value = false;
   }, 1000);
 };
+
+onMounted(() => {
+  nextTick(async () => {
+    loading.value = true;
+    try {
+      if (props.submitId) {
+        const res = await OjProblemService.getInfoBySubmitId(props.submitId);
+        answer.value = res.result?.code || '';
+        ansLanguage.value = res.result?.language || 'java';
+      }
+      editorReady.value = true;
+      editorKey.value++;
+    } finally {
+      loading.value = false;
+    }
+  });
+});
 </script>
 
 <style scoped lang="less">
 .general-card-do {
-  border-radius: 10px;
   overflow: hidden;
+  border-radius: 10px;
 }
 
 /* 为 .code-editor 添加样式以适应 .general-card 的高度 */
 .code-editor {
+  position: absolute;
+  inset: 45px 0 0;
+  box-sizing: border-box;
   width: 100%;
   height: 100%;
-  box-sizing: border-box;
-  position: absolute;
-  top: 45px;
-  bottom: 0;
-  left: 0;
-  right: 0;
 }
 
 .submit-button {
-  background: linear-gradient(to right, #ff6424, rgba(227, 45, 173, 0.89));
-  border-radius: 4px;
-  border: none;
   color: white;
+  background: linear-gradient(to right, #ff6424, rgb(227 45 173 / 89%));
+  border: none;
+  border-radius: 4px;
 }
 
 .submit-button:active {
+  background: linear-gradient(to right, #9a3c15, rgb(154 30 121 / 89%));
   transition: 1s;
-  background: linear-gradient(to right, #9a3c15, rgba(154, 30, 121, 0.89));
 }
 </style>

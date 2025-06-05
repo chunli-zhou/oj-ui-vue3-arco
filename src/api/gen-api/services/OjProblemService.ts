@@ -9,6 +9,7 @@ import type { ResultString } from '@/api/gen-api/models/result/ResultString.ts';
 import type { CancelablePromise } from '@/api/gen-api/core/CancelablePromise.ts';
 import { OpenAPI } from '@/api/gen-api/core/OpenAPI.ts';
 import { request as __request } from '../core/request.ts';
+import type { ResultOjProblemNewVo } from '@/api/gen-api/models/result/ResultOjProblemSubmitVo.ts';
 
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export class OjProblemService {
@@ -100,20 +101,36 @@ export class OjProblemService {
   }
 
   /**
-   * 根据ID分页查询题目列表
-   * @param page 分页参数
-   * @returns CancelablePromise<ResultPageOjProblemVo>
+   * 查询当前用户已经完成的题目
+   * @param page
    */
-  public static listById(
+  public static getSubProblemByUserId(
     page: Paging
   ): CancelablePromise<ResultPageOjProblemVo> {
     return __request(OpenAPI, {
       method: 'GET',
-      url: '/ojProblem/listById',
+      url: '/ojProblem/getSubProblemByUserId/page',
       query: {
-        pageNum: page.pageNum.toString(),
-        pageSize: page.pageSize.toString()
+        ...page
       }
-    }) as CancelablePromise<ResultPageOjProblemVo>;
+    });
+  }
+
+  /**
+   * 根据当前用户已经完成的题目，根据主键id查询用户提交的信息
+   * @param id
+   * @returns ResultOjProblemVo OK
+   * @throws ApiError
+   */
+  public static getInfoBySubmitId(
+    id: number
+  ): CancelablePromise<ResultOjProblemNewVo> {
+    return __request(OpenAPI, {
+      method: 'GET',
+      url: '/ojProblem/getInfoBySubmitId/{id}',
+      path: {
+        id: id
+      }
+    });
   }
 }

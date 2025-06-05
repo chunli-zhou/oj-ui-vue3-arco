@@ -39,6 +39,10 @@ const useUserStore = defineStore('user', {
     },
     // Set user's information
     setInfo(partial: Partial<SysUserResponse>) {
+      // 头像处理
+      if (partial.avatar && !partial.avatar.startsWith('http')) {
+        partial.avatar = 'http://localhost:8996/api' + partial.avatar;
+      }
       this.$patch(partial);
     },
 
