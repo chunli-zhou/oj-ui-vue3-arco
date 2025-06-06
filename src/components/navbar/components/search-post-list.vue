@@ -62,7 +62,7 @@
                     </a-typography-title>
                     <a-typography-paragraph
                       type="secondary"
-                      style="font-size: 13px; width: 100px"
+                      style="width: 100px; font-size: 13px"
                       :ellipsis="{
                         rows: 1,
                         showTooltip: {
@@ -126,6 +126,11 @@ const getPostList = () => {
   OjPostService.page({ page: paging.value, req: req.value })
     .then(res => {
       if (res.result.records) {
+        res.result.records.forEach((item: any) => {
+          if (item.avatar && !item.avatar.startsWith('http')) {
+            item.avatar = 'http://localhost:8996/api' + item.avatar;
+          }
+        });
         totalPage.value = res.result.totalPage;
         list.value.push(...res.result.records);
       }
@@ -163,7 +168,7 @@ const handleClickItem = (item: OjPostVo) => {
 
 <style scoped lang="less">
 .content-list {
-  background-color: #ffffff;
+  background-color: #fff;
   border-radius: 10px;
 
   &-item {
@@ -171,10 +176,10 @@ const handleClickItem = (item: OjPostVo) => {
   }
 
   &-item:hover {
-    cursor: pointer;
-    transition: background-color 0.3s;
-    background-color: #f5f5f5;
     color: #333;
+    cursor: pointer;
+    background-color: #f5f5f5;
+    transition: background-color 0.3s;
   }
 }
 </style>
