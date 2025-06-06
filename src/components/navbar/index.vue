@@ -80,7 +80,7 @@
       <li>
         <a-dropdown trigger="click">
           <a-avatar style="margin-right: 8px; cursor: pointer" :size="32">
-            <img :src="userInfo.avatar" />
+            <img :src="userStore.avatar" />
           </a-avatar>
           <template #content>
             <a-doption>
@@ -94,7 +94,7 @@
                 @click="
                   $router.push({
                     name: 'UserInfo',
-                    query: { id: userInfo.id }
+                    query: { id: userStore.id }
                   })
                 "
               >
@@ -150,9 +150,8 @@ import Menu from '@/components/menu/index.vue';
 import { useRouter } from 'vue-router';
 import SearchPostList from '@/components/navbar/components/search-post-list.vue';
 
-const userInfo = useUserStore();
-const appStore = useAppStore();
 const userStore = useUserStore();
+const appStore = useAppStore();
 const { logout } = useUser();
 const { isFullscreen, toggle: toggleFullScreen } = useFullscreen();
 const topMenu = computed(() => appStore.topMenu && appStore.menu);
