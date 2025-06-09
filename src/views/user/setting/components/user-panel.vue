@@ -77,6 +77,23 @@ const renderData = ref([
   }
 ]) as DescData[];
 const fileList = ref<FileItem[]>([file]);
+
+// 监听 userStore.avatar 变化，自动更新 fileList
+watch(
+  () => userStore.avatar,
+  newAvatar => {
+    if (newAvatar) {
+      fileList.value = [
+        {
+          uid: '-2',
+          name: 'avatar.png',
+          url: newAvatar
+        }
+      ];
+    }
+  }
+);
+
 const upload = (fileItem: FileItem) => {
   fileList.value = [fileItem];
   SysUserService.upload({
@@ -84,6 +101,11 @@ const upload = (fileItem: FileItem) => {
   }).then(res => {
     if (res.result) {
       Message.success('上传成功！');
+      SysUserService.getInfo().then(res => {
+        if (res.result) {
+          userStore.setInfo(res.result);
+        }
+      });
     }
   });
 };

@@ -205,6 +205,13 @@ const pageData = async () => {
   loading.value = true;
   await OjPostService.pageSelf({ page: paging, req: unref(queryReq) })
     .then(res => {
+      if (res.result.records) {
+        res.result.records.forEach((item: any) => {
+          if (item.avatar && !item.avatar.startsWith('http')) {
+            item.avatar = '/api' + item.avatar;
+          }
+        });
+      }
       const result = res.result;
       data.postList = result.records;
       pagination.total = result.totalRow;
