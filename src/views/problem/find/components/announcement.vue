@@ -182,14 +182,14 @@ const showDetail = async (item: NoticeItem) => {
     // 转换时区，处理datetime为null的情况
     detailForm.datetime = noticeData.datetime
       ? new Date(noticeData.datetime).toLocaleString('zh-CN', {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit',
-        hour12: false
-      })
+          year: 'numeric',
+          month: '2-digit',
+          day: '2-digit',
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+          hour12: false
+        })
       : '暂无时间';
     detailForm.content = noticeData.content;
     detailVisible.value = true;
