@@ -3,7 +3,7 @@
     v-if="!searchLoading"
     class="content-list"
     :max-height="300"
-    :data="list"
+    :data="list.filter(item => String(item.creator) === String(currentUserId))"
     :bordered="false"
     @reach-bottom="handleLoadPost"
   >
@@ -96,12 +96,14 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { OjPostService } from '@/api/gen-api/services/OjPostService.ts';
 import { OjPostQueryRequest, type OjPostVo, Paging } from '@/api/gen-api';
 import { Message } from '@arco-design/web-vue';
 import { useRoute, useRouter } from 'vue-router';
+import { useUserStore } from '@/store';
 
+const userStore = useUserStore();
 const list = ref<OjPostVo[]>([]);
 const totalPage = ref();
 const paging = ref<Paging>({
@@ -166,6 +168,15 @@ const handleClickItem = (item: OjPostVo) => {
     }
   });
 };
+
+// 页面挂载时自动拉取用户信息
+onMounted(async () => {
+  if (!userStore.id) {
+    await userStore.info();
+  }
+});
+
+const currentUserId = userStore.id;
 </script>
 
 <style scoped lang="less">
