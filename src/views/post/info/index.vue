@@ -62,6 +62,11 @@ const getPostInfo = (postId: number) => {
   OjPostService.getInfo(String(postId)).then(res => {
     if (res.result) {
       postInfo.value = res.result;
+      // 确保头像路径正确
+      if (postInfo.value.avatar && !postInfo.value.avatar.startsWith('http')) {
+        postInfo.value.avatar =
+          'http://localhost:8996/api' + postInfo.value.avatar;
+      }
     }
   });
 };

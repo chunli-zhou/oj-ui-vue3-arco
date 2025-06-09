@@ -93,6 +93,10 @@ watch(
   () => {
     if (props.postInfo) {
       post.value = props.postInfo;
+      // 确保头像路径正确
+      if (post.value.avatar && !post.value.avatar.startsWith('http')) {
+        post.value.avatar = 'http://localhost:8996/api' + post.value.avatar;
+      }
     }
   }
 );
@@ -108,11 +112,11 @@ const post = ref<OjPostVo>({
 
 <style scoped lang="less">
 .second-info {
-  color: rgba(0, 0, 0, 0.45);
   margin-bottom: 4px;
+  color: rgb(0 0 0 / 45%);
 
   &-color {
-    color: rgba(0, 0, 0, 0.45);
+    color: rgb(0 0 0 / 45%);
   }
 }
 </style>
