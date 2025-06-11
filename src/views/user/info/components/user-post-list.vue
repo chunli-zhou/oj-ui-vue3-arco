@@ -3,7 +3,7 @@
     v-if="!searchLoading"
     class="content-list"
     :max-height="300"
-    :data="list.filter(item => String(item.creator) === String(currentUserId))"
+    :data="list.filter(item => item.creatorName === filterNickName)"
     :bordered="false"
     @reach-bottom="handleLoadPost"
   >
@@ -96,12 +96,15 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch, defineProps } from 'vue';
 import { OjPostService } from '@/api/gen-api/services/OjPostService.ts';
 import { OjPostQueryRequest, type OjPostVo, Paging } from '@/api/gen-api';
 import { Message } from '@arco-design/web-vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useUserStore } from '@/store';
+import { SysUserService } from '@/api/gen-api/services/SysUserService.ts';
+
+const props = defineProps<{ creatorId?: string }>();
 
 const userStore = useUserStore();
 const list = ref<OjPostVo[]>([]);
@@ -114,6 +117,7 @@ const req = ref<OjPostQueryRequest>({
   title: '',
   userId: useRoute().query.id as string
 });
+const filterNickName = ref('省委沙瑞金'); // 默认值，后面会被接口返回值覆盖
 
 const getPostList = () => {
   OjPostService.page({ page: paging.value, req: req.value })
@@ -169,8 +173,18 @@ const handleClickItem = (item: OjPostVo) => {
   });
 };
 
-// 页面挂载时自动拉取用户信息
 onMounted(async () => {
+  let creatorId = props.creatorId;
+  // 如果没有传递props，则尝试用当前登录用户id
+  if (!creatorId) {
+    creatorId = userStore.id;
+  }
+  if (creatorId) {
+    const res = await SysUserService.getInfoById(String(creatorId));
+    if (res.result && res.result.nickName) {
+      filterNickName.value = res.result.nickName;
+    }
+  }
   if (!userStore.id) {
     await userStore.info();
   }

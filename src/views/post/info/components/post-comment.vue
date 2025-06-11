@@ -87,6 +87,25 @@ const getRootComment = () => {
   loading.value = true;
   OjPostCommentService.list(postId)
     .then(res => {
+      if (res.result) {
+        res.result.forEach((item: any) => {
+          if (item.authorAvatar && !item.authorAvatar.startsWith('http')) {
+            item.authorAvatar = 'http://localhost:8996/api' + item.authorAvatar;
+          }
+          if (item.children && item.children.length > 0) {
+            item.children = item.children.map((child: any) => {
+              if (
+                child.authorAvatar &&
+                !child.authorAvatar.startsWith('http')
+              ) {
+                child.authorAvatar =
+                  'http://localhost:8996/api' + child.authorAvatar;
+              }
+              return child;
+            });
+          }
+        });
+      }
       commentList.value = res.result;
     })
     .finally(() => {

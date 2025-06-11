@@ -49,6 +49,7 @@ import UserInfoCard from '@/views/post/info/components/user-info-card.vue';
 import { HeadList } from 'md-editor-v3';
 import { nanoid } from 'nanoid';
 import PostActions from '@/views/post/info/components/post-actions.vue';
+import { SysUserService } from '@/api/gen-api/services/SysUserService.ts';
 
 const postInfoRef = ref<HTMLElement | null>(null);
 const postInfo = ref<OjPostVo>({
@@ -58,14 +59,24 @@ const postDetailRef = ref();
 const route = useRoute();
 const postId = route.query.postId;
 
-const getPostInfo = (postId: number) => {
-  OjPostService.getInfo(String(postId)).then(res => {
+const getPostInfo = async (postId: number) => {
+  await OjPostService.getInfo(String(postId)).then(async res => {
     if (res.result) {
       postInfo.value = res.result;
       // 确保头像路径正确
       if (postInfo.value.avatar && !postInfo.value.avatar.startsWith('http')) {
         postInfo.value.avatar =
           'http://localhost:8996/api' + postInfo.value.avatar;
+      }
+      // 获取用户昵称并赋值给creatorName
+      if (postInfo.value.creator) {
+        await SysUserService.getInfoById(String(postInfo.value.creator)).then(
+          userRes => {
+            if (userRes.result && userRes.result.nickName) {
+              postInfo.value.creatorName = userRes.result.nickName;
+            }
+          }
+        );
       }
     }
   });
