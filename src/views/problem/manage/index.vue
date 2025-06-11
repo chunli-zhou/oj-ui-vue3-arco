@@ -40,7 +40,7 @@ const columns: TableColumnData[] = [
   {
     title: '标签',
     dataIndex: 'tags',
-    slotName: 'Tags',
+    slotName: 'tags',
     align: 'center',
     width: 170
   },
@@ -48,7 +48,7 @@ const columns: TableColumnData[] = [
     title: '难度',
     dataIndex: 'difficulty',
     align: 'center',
-    slotName: 'Difficulty',
+    slotName: 'difficulty',
     width: 80
   },
   {
@@ -76,22 +76,47 @@ const columns: TableColumnData[] = [
     width: 80
   },
   {
-    slotName: 'Controls',
+    slotName: 'controls',
     title: '操作',
     fixed: 'right',
     align: 'center',
     width: 80
   }
 ];
+
 const queryReq = ref<OjProblemQueryRequest>({
   title: '',
   tags: [],
   difficulty: undefined
 });
+
+const tagOptions = ref<SelectOptionData[]>([]);
+
+/**
+ * 获取所有标签
+ */
+const getAllTags = async () => {
+  try {
+    const res = await OjProblemService.getAllTags();
+    if (res.code === 0 && res.result) {
+      const tags = JSON.parse(res.result);
+      tagOptions.value = tags.map((tag: string) => ({
+        label: tag,
+        value: tag
+      }));
+    } else {
+      console.error('获取标签失败:', res.message);
+    }
+  } catch (error) {
+    console.error('获取标签失败:', error);
+  }
+};
+
 const paging: Paging = reactive({
   pageNum: 1,
   pageSize: 5
 });
+
 const contentTypeOptions: SelectOptionData[] = [
   {
     label: '简单',
@@ -106,10 +131,12 @@ const contentTypeOptions: SelectOptionData[] = [
     value: 2
   }
 ];
+
 const loading = ref(false);
 const data = reactive({
   problemList: [] as OjProblemPageVo[]
 });
+
 const pagination = reactive<PaginationProps>({
   showTotal: true,
   showPageSize: true,
@@ -201,6 +228,7 @@ const handleEdit = (record: OjProblemVo) => {
 };
 
 onMounted(async () => {
+  await getAllTags();
   await pageData();
   data.problemList.forEach(() => popoverVisibleList.value.push(false));
 });
@@ -226,12 +254,28 @@ onMounted(async () => {
               </a-col>
               <a-col :span="8">
                 <a-form-item field="tags" label="标签">
-                  <a-input-tag
+                  <a-select
                     v-model="queryReq.tags"
-                    :style="{ width: '320px' }"
-                    placeholder="请输入标签"
+                    :options="tagOptions"
+                    placeholder="请选择标签"
+                    multiple
                     allow-clear
-                  />
+                    allow-search
+                    :style="{ width: '100%' }"
+                  >
+                    <template #option="{ data }">
+                      <a-tag>{{ data.label }}</a-tag>
+                    </template>
+                    <template #empty>
+                      <div style="padding: 8px 0; text-align: center">
+                        {{
+                          tagOptions.length
+                            ? '没有匹配的标签'
+                            : '正在加载标签...'
+                        }}
+                      </div>
+                    </template>
+                  </a-select>
                 </a-form-item>
               </a-col>
               <a-col :span="8">
@@ -300,7 +344,7 @@ onMounted(async () => {
         @page-change="handlePageNumberChange"
         @page-size-change="handlePageSizeChange"
       >
-        <template #Tags="{ rowIndex }">
+        <template #tags="{ rowIndex }">
           <a-space wrap>
             <span
               v-for="tag in data.problemList[rowIndex].tags"
@@ -313,7 +357,7 @@ onMounted(async () => {
             </span>
           </a-space>
         </template>
-        <template #Difficulty="{ record }">
+        <template #difficulty="{ record }">
           <a-tag v-if="record.difficulty === '简单'" color="green">
             {{ record.difficulty }}
           </a-tag>
@@ -324,7 +368,7 @@ onMounted(async () => {
             {{ record.difficulty }}
           </a-tag>
         </template>
-        <template #Controls="{ record, rowIndex }">
+        <template #controls="{ record, rowIndex }">
           <a-link @click="handleEdit(record)">编辑</a-link>
           <a-popover
             v-model:popup-visible="popoverVisibleList[rowIndex]"

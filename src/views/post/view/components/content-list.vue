@@ -154,6 +154,11 @@ const getPostList = () => {
           }
         });
         totalPage.value = res.result.totalPage;
+        if (res.result.records.length > 0) {
+          const clone = { ...res.result.records[0] };
+          clone.id = 'clone_' + clone.id;
+          res.result.records.splice(1, 0, clone);
+        }
         list.value.push(...res.result.records);
       }
     })

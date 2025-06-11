@@ -47,7 +47,7 @@
         >
           <a-select
             v-model="formData.difficulty"
-            :options="contentTypeOptions"
+            :options="difficultyOptions"
           />
         </a-form-item>
         <div style="text-align: center">
@@ -59,19 +59,28 @@
 </template>
 
 <script setup lang="ts">
-import { nextTick, onMounted, ref, unref, watch } from 'vue';
-import { FormInstance } from '@arco-design/web-vue/es/form';
+import type { FormInstance } from '@arco-design/web-vue';
+import type { SelectOptionData } from '@arco-design/web-vue';
 import { OjProblemAddRequest, OjProblemVo } from '@/api/gen-api';
-import { SelectOptionData } from '@arco-design/web-vue/es/select/interface';
+import { nextTick, onMounted, ref, unref, watch } from 'vue';
 
 const emits = defineEmits(['changeStep', 'update:data']);
+
+const props = defineProps<{
+  data?: OjProblemVo;
+  addFlag?: boolean;
+}>();
+
 const formRef = ref<FormInstance>();
+const loading = ref(true);
+
 const formData = ref<OjProblemAddRequest>({
   title: '',
   tags: [],
   difficulty: 0
 });
-const contentTypeOptions: SelectOptionData[] = [
+
+const difficultyOptions: SelectOptionData[] = [
   {
     label: '简单',
     value: 0
@@ -93,12 +102,6 @@ const onNextClick = async () => {
   }
 };
 
-const props = defineProps<{
-  data?: OjProblemVo;
-  addFlag?: false;
-}>();
-
-const loading = ref(true);
 watch(
   () => props.data,
   () => {

@@ -99,7 +99,17 @@ export class OjProblemService {
       }
     });
   }
-
+  /**
+   * 获取所有标签
+   * @returns ResultListString OK
+   * @throws ApiError
+   */
+  public static getAllTags(): CancelablePromise<ResultString> {
+    return __request(OpenAPI, {
+      method: 'GET',
+      url: '/ojProblem/tags'
+    });
+  }
   /**
    * 查询当前用户已经完成的题目
    * @param page
