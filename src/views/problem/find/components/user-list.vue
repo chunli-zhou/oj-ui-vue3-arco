@@ -250,8 +250,18 @@ const fetchUserData = async () => {
     const response = await getHotUser();
     if (response.data.data) {
       const users = response.data.data;
-      topThreeUsers.value = users.slice(0, 3);
-      topSevenUsers.value = users.slice(3, 10);
+      // 处理头像路径
+      const processedUsers = users.map(user => ({
+        ...user,
+        avatar:
+          user.avatar && !user.avatar.startsWith('http')
+            ? 'http://localhost:8996/api' + user.avatar
+            : user.avatar || '',
+        nickname: user.nickname || '匿名用户'
+      }));
+
+      topThreeUsers.value = processedUsers.slice(0, 3);
+      topSevenUsers.value = processedUsers.slice(3, 10);
     }
 
     // 获取当前用户排名数据
@@ -260,8 +270,11 @@ const fetchUserData = async () => {
       if (currentUserResponse.data.data) {
         const userData = currentUserResponse.data.data;
         currentUser.value = {
-          avatar: userData.avatar || '',
-          nickname: userData.nickname || '',
+          avatar:
+            userData.avatar && !userData.avatar.startsWith('http')
+              ? 'http://localhost:8996/api' + userData.avatar
+              : userData.avatar || '',
+          nickname: userData.nickname || '匿名用户',
           submitCount: userData.totalSubmissions || 0,
           todaySubmissions: userData.todaySubmissions || 0,
           totalSubmissions: userData.totalSubmissions || 0
@@ -271,7 +284,6 @@ const fetchUserData = async () => {
       const currentUserRankingResponse = await getCurrentUserRanking(userId);
       if (currentUserRankingResponse.data.data !== undefined) {
         const ranking = currentUserRankingResponse.data.data;
-        // 先确保 ranking 是数字，再与 0 比较
         currentUserRanking.value =
           typeof ranking === 'number' && ranking < 0
             ? '暂无排名'
@@ -279,6 +291,7 @@ const fetchUserData = async () => {
       }
     }
   } catch (error) {
+    console.error('获取用户数据失败:', error);
     Message.error('获取用户数据失败');
   }
 };
