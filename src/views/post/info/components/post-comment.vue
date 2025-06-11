@@ -1,6 +1,6 @@
 <template>
   <a-card :bordered="false" class="comment-container">
-    <inner-post-comment v-if="!loading" :comments="commentList" />
+    <inner-post-comment v-model:comments="commentList" :loading="loading" />
     <a-skeleton v-if="loading" animation>
       <a-space direction="vertical" :style="{ width: '100%' }" size="large">
         <a-skeleton-shape />
@@ -23,7 +23,7 @@
     <div v-if="commentVisible" class="md-editor-container">
       <a-textarea
         v-model="commentContent"
-        placeholder="有好交流哦~"
+        placeholder="友好交流哦~"
         style="height: 100px"
       />
       <a-row class="pt-1.5">

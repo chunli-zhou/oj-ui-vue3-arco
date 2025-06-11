@@ -1,6 +1,6 @@
 <template>
   <a-result
-    v-if="comments.length === 0"
+    v-if="!loading && comments.length === 0"
     status="404"
     subtitle="还木有评论哦~ 点击评论输入第一条评论"
   />
@@ -51,7 +51,11 @@
         </span>
       </a-popover>
       <a-link
-        v-if="!comment.expandedFlag && comment.children"
+        v-if="
+          !comment.expandedFlag &&
+          comment.children &&
+          comment.children.length > 0
+        "
         class="action"
         @click="comment.expandedFlag = !comment.expandedFlag"
       >
@@ -59,7 +63,11 @@
         展开
       </a-link>
       <span
-        v-if="comment.expandedFlag"
+        v-if="
+          comment.expandedFlag &&
+          comment.children &&
+          comment.children.length > 0
+        "
         class="action"
         @click="comment.expandedFlag = !comment.expandedFlag"
       >
@@ -88,6 +96,10 @@ defineProps({
   comments: {
     type: Array as PropType<PostCommentVo[]>,
     default: () => []
+  },
+  loading: {
+    type: Boolean,
+    default: false
   }
 });
 
@@ -111,8 +123,10 @@ const doRecoverComment = (comment: PostCommentVo) => {
       recoverComment.value.content = '';
       Message.success('回复成功');
       comment.replyFlag = false;
-      OjPostCommentService.listChildren(comment.id).then(res => {
-        comment.children = res.result;
+      // 重新获取所有评论
+      OjPostCommentService.list(comment.postId).then(res => {
+        // 通过emit向父组件发送更新后的评论列表
+        emit('update:comments', res.result);
       });
     }
   });
@@ -126,6 +140,9 @@ const handleToUserInfo = (authorId: string) => {
     }
   });
 };
+
+// 添加emit定义
+const emit = defineEmits(['update:comments']);
 </script>
 
 <style scoped lang="less">
