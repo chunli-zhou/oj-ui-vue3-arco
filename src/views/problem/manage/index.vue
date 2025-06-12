@@ -64,18 +64,6 @@ const columns: TableColumnData[] = [
     width: 80
   },
   {
-    title: '点赞数',
-    dataIndex: 'thumbNum',
-    align: 'center',
-    width: 80
-  },
-  {
-    title: '收藏数',
-    dataIndex: 'favourNum',
-    align: 'center',
-    width: 80
-  },
-  {
     slotName: 'controls',
     title: '操作',
     fixed: 'right',
@@ -90,20 +78,34 @@ const queryReq = ref<OjProblemQueryRequest>({
   difficulty: undefined
 });
 
-const tagOptions = ref<SelectOptionData[]>([]);
+interface TagOption {
+  label: string;
+  value: string;
+}
+
+const tagOptions = ref<TagOption[]>([]);
+const isTagsLoaded = ref(false);
 
 /**
  * 获取所有标签
  */
 const getAllTags = async () => {
+  if (isTagsLoaded.value) return;
+
   try {
+    console.log('开始获取标签...');
     const res = await OjProblemService.getAllTags();
-    if (res.code === 0 && res.result) {
-      const tags = JSON.parse(res.result);
+    console.log('API返回数据:', res);
+
+    if (res.code === 200 && res.result) {
+      const tags = (res.result as unknown as string[]) || [];
+      console.log('获取到的标签:', tags);
       tagOptions.value = tags.map((tag: string) => ({
         label: tag,
         value: tag
       }));
+      console.log('处理后的选项:', tagOptions.value);
+      isTagsLoaded.value = true;
     } else {
       console.error('获取标签失败:', res.message);
     }
@@ -227,10 +229,44 @@ const handleEdit = (record: OjProblemVo) => {
   router.push({ name: 'ProblemEdit', query: { id: record.id } });
 };
 
+const isDropdownVisible = ref(false);
+
+const toggleDropdown = () => {
+  isDropdownVisible.value = !isDropdownVisible.value;
+  if (isDropdownVisible.value) {
+    getAllTags();
+  }
+};
+
+const toggleTag = (tagValue: string) => {
+  if (!queryReq.value.tags) {
+    queryReq.value.tags = [];
+  }
+  const index = queryReq.value.tags.indexOf(tagValue);
+  if (index > -1) {
+    queryReq.value.tags.splice(index, 1);
+  } else {
+    queryReq.value.tags.push(tagValue);
+  }
+};
+
+const removeTag = (tag: string) => {
+  const index = queryReq.value.tags?.indexOf(tag);
+  if (index > -1) {
+    queryReq.value.tags?.splice(index, 1);
+  }
+};
+
 onMounted(async () => {
   await getAllTags();
   await pageData();
   data.problemList.forEach(() => popoverVisibleList.value.push(false));
+  document.addEventListener('click', e => {
+    const target = e.target as HTMLElement;
+    if (!target.closest('.tag-selector')) {
+      isDropdownVisible.value = false;
+    }
+  });
 });
 </script>
 
@@ -254,28 +290,46 @@ onMounted(async () => {
               </a-col>
               <a-col :span="8">
                 <a-form-item field="tags" label="标签">
-                  <a-select
-                    v-model="queryReq.tags"
-                    :options="tagOptions"
-                    placeholder="请选择标签"
-                    multiple
-                    allow-clear
-                    allow-search
-                    :style="{ width: '100%' }"
-                  >
-                    <template #option="{ data }">
-                      <a-tag>{{ data.label }}</a-tag>
-                    </template>
-                    <template #empty>
-                      <div style="padding: 8px 0; text-align: center">
-                        {{
-                          tagOptions.length
-                            ? '没有匹配的标签'
-                            : '正在加载标签...'
-                        }}
+                  <div class="tag-selector">
+                    <div class="tag-input" @click="toggleDropdown">
+                      <div v-if="queryReq.tags?.length" class="selected-tags">
+                        <a-tag
+                          v-for="tag in queryReq.tags"
+                          :key="tag"
+                          color="#1890ff"
+                          closable
+                          @close="removeTag(tag)"
+                        >
+                          {{ tag }}
+                        </a-tag>
                       </div>
-                    </template>
-                  </a-select>
+                      <span v-else class="placeholder">请选择标签</span>
+                      <icon-down class="arrow-icon" />
+                    </div>
+                    <div v-show="isDropdownVisible" class="tag-dropdown">
+                      <div class="tag-list">
+                        <a-tag
+                          v-for="tag in tagOptions"
+                          :key="tag.value"
+                          :color="
+                            queryReq.tags?.includes(tag.value as string)
+                              ? '#1890ff'
+                              : 'gray'
+                          "
+                          :style="{
+                            margin: '4px',
+                            cursor: 'pointer',
+                            color: queryReq.tags?.includes(tag.value as string)
+                              ? '#fff'
+                              : 'inherit'
+                          }"
+                          @click="toggleTag(tag.value as string)"
+                        >
+                          {{ tag.label }}
+                        </a-tag>
+                      </div>
+                    </div>
+                  </div>
                 </a-form-item>
               </a-col>
               <a-col :span="8">
@@ -400,5 +454,63 @@ onMounted(async () => {
 <style scoped lang="less">
 .container-m {
   padding: 0 20px 20px;
+}
+
+.tag-selector {
+  position: relative;
+  width: 100%;
+}
+
+.tag-input {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  align-items: center;
+  min-height: 32px;
+  padding: 4px 8px;
+  cursor: pointer;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+
+  &:hover {
+    border-color: var(--color-primary);
+  }
+}
+
+.selected-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.placeholder {
+  color: var(--color-text-3);
+}
+
+.arrow-icon {
+  margin-left: auto;
+  color: var(--color-text-3);
+}
+
+.tag-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  left: 0;
+  z-index: 1000;
+  max-height: 300px;
+  margin-top: 4px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 15%);
+}
+
+.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: 8px;
 }
 </style>
