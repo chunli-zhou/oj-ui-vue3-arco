@@ -22,7 +22,7 @@ const columns: TableColumnData[] = [
   {
     title: 'ID',
     dataIndex: 'id',
-    width: 80,
+    width: 120,
     ellipsis: true
   },
   {
@@ -50,19 +50,19 @@ const columns: TableColumnData[] = [
     dataIndex: 'difficulty',
     align: 'center',
     slotName: 'difficulty',
-    width: 80
+    width: 60
   },
   {
     title: '提交数',
     dataIndex: 'submitNum',
     align: 'center',
-    width: 80
+    width: 60
   },
   {
     title: '通过数',
     dataIndex: 'acceptedNum',
     align: 'center',
-    width: 80
+    width: 60
   },
   {
     slotName: 'controls',
