@@ -1,4 +1,4 @@
-<template>
+<!--<template>
   <a-card class="general-card" hoverable title="公告">
     <template #extra>
       <a-link v-if="canPublish" @click="showDialog">发布公告</a-link>
@@ -20,7 +20,7 @@
       </div>
     </a-scrollbar>
 
-    <!-- 发布公告弹框 -->
+    &lt;!&ndash; 发布公告弹框 &ndash;&gt;
     <a-modal
       v-model:visible="visible"
       title="发布公告"
@@ -46,7 +46,7 @@
       </a-form>
     </a-modal>
 
-    <!-- 公告详情弹框 -->
+    &lt;!&ndash; 公告详情弹框 &ndash;&gt;
     <a-modal
       v-model:visible="detailVisible"
       title="公告详情"
@@ -60,6 +60,117 @@
 
         <a-form-item label="发布时间" field="datetime">
           <a-input v-model="detailForm.datetime" readonly />
+        </a-form-item>
+
+        <a-form-item label="公告内容" field="content">
+          <a-scrollbar style="height: 200px">
+            <div class="content-box">
+              {{ detailForm.content }}
+            </div>
+          </a-scrollbar>
+        </a-form-item>
+      </a-form>
+    </a-modal>
+  </a-card>
+</template>-->
+<template>
+  <a-card class="general-card" hoverable title="公告">
+    <template #extra>
+      <a-button
+        v-if="canPublish"
+        type="primary"
+        size="mini"
+        class="publish-btn"
+        @click="showDialog"
+      >
+        <template #icon><icon-plus /></template>
+        发布
+      </a-button>
+    </template>
+    <a-scrollbar style="height: 250px; overflow: auto">
+      <div class="list">
+        <div
+          v-for="(item, idx) in list"
+          :key="idx"
+          class="item"
+          @click="showDetail(item)"
+        >
+          <div class="item-content">
+            <div class="item-main">
+              <a-tag :color="item.type" size="small" class="type-tag">
+                {{ getTypeLabel(item.type) }}
+              </a-tag>
+              <span class="content-link">
+                {{ item.content }}
+              </span>
+            </div>
+            <div class="item-time">
+              <icon-clock-circle />
+              {{ new Date(item.datetime).toLocaleDateString() }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </a-scrollbar>
+
+    <!-- 发布公告弹框 -->
+    <a-modal
+      v-model:visible="visible"
+      title="发布公告"
+      :mask-closable="false"
+      class="notice-modal publish-modal"
+      :width="480"
+      @ok="handleOk"
+      @cancel="handleCancel"
+    >
+      <a-form :model="form" layout="vertical" class="publish-form">
+        <a-form-item label="公告类型" field="type">
+          <a-select v-model="form.type" class="type-select">
+            <a-option value="blue" label="功能">
+              <template #icon><icon-bulb /></template>
+              功能
+            </a-option>
+            <a-option value="orangered" label="修复">
+              <template #icon><icon-bug /></template>
+              修复
+            </a-option>
+            <a-option value="cyan" label="消息">
+              <template #icon><icon-message /></template>
+              消息
+            </a-option>
+          </a-select>
+        </a-form-item>
+
+        <a-form-item label="公告内容" field="content">
+          <a-textarea
+            v-model="form.content"
+            placeholder="请输入公告内容"
+            :auto-size="{ minRows: 3, maxRows: 5 }"
+            class="content-textarea"
+          />
+        </a-form-item>
+      </a-form>
+    </a-modal>
+
+    <!-- 公告详情弹框 -->
+    <a-modal
+      v-model:visible="detailVisible"
+      title="公告详情"
+      :footer="false"
+      :mask-closable="true"
+      class="notice-modal"
+    >
+      <a-form :model="detailForm" layout="vertical">
+        <a-form-item label="公告类型" field="type">
+          <a-input v-model="detailForm.type" readonly class="readonly-input" />
+        </a-form-item>
+
+        <a-form-item label="发布时间" field="datetime">
+          <a-input
+            v-model="detailForm.datetime"
+            readonly
+            class="readonly-input"
+          />
         </a-form-item>
 
         <a-form-item label="公告内容" field="content">
@@ -225,7 +336,7 @@ onMounted(async () => {
 });
 </script>
 
-<style scoped lang="less">
+<!--<style scoped lang="less">
 .general-card {
   width: 350px;
   height: 350px;
@@ -252,6 +363,210 @@ onMounted(async () => {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+  }
+}
+</style>-->
+
+<style scoped lang="less">
+.general-card {
+  width: 350px;
+  height: 350px;
+  background: var(--color-bg-2);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  transition: all 0.3s ease;
+
+  :deep(.arco-card-header) {
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  :deep(.arco-card-body) {
+    padding: 16px;
+  }
+}
+
+.general-card:hover {
+  box-shadow: 0 4px 20px rgb(0 0 0 / 8%);
+  transform: translateY(-2px);
+}
+
+.list {
+  padding: 4px;
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: var(--color-fill-2);
+    border-color: var(--color-border);
+  }
+
+  .item-content {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .item-main {
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+  }
+
+  .type-tag {
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .content-link {
+    flex: 1;
+    overflow: hidden;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--color-text-1);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .item-time {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    margin-left: 198px;
+    font-size: 13px;
+    color: var(--color-text-3);
+
+    :deep(.arco-icon) {
+      font-size: 14px;
+      color: var(--color-text-3);
+    }
+  }
+}
+
+.notice-modal {
+  :deep(.arco-modal) {
+    border-radius: 12px;
+  }
+
+  :deep(.arco-modal-header) {
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  :deep(.arco-modal-content) {
+    padding: 20px;
+  }
+}
+
+.type-select {
+  width: 100%;
+}
+
+.content-textarea {
+  :deep(.arco-textarea) {
+    border-radius: 6px;
+  }
+}
+
+.readonly-input {
+  :deep(.arco-input) {
+    cursor: default;
+    background-color: var(--color-fill-2);
+    border-color: var(--color-border);
+  }
+}
+
+.content-box {
+  padding: 12px;
+  line-height: 1.6;
+  color: var(--color-text-1);
+  background: var(--color-fill-2);
+  border-radius: 6px;
+}
+
+.publish-btn {
+  height: 24px;
+  padding: 0 8px;
+  font-size: 12px;
+  border-radius: 4px;
+
+  :deep(.arco-icon) {
+    margin-right: 4px;
+    font-size: 12px;
+  }
+}
+
+.publish-modal {
+  :deep(.arco-modal) {
+    overflow: hidden;
+    border-radius: 16px;
+    box-shadow: 0 4px 24px rgb(0 0 0 / 10%);
+  }
+
+  :deep(.arco-modal-header) {
+    padding: 16px 24px;
+    background: var(--color-bg-2);
+    border-bottom: 1px solid var(--color-border);
+
+    .arco-modal-title {
+      font-size: 16px;
+      font-weight: 500;
+    }
+  }
+
+  :deep(.arco-modal-content) {
+    padding: 24px;
+  }
+
+  :deep(.arco-modal-footer) {
+    padding: 16px 24px;
+    background: var(--color-bg-2);
+    border-top: 1px solid var(--color-border);
+  }
+}
+
+.publish-form {
+  .type-select {
+    width: 100%;
+
+    :deep(.arco-select-view) {
+      padding: 4px 8px;
+      border-radius: 6px;
+    }
+  }
+
+  .content-textarea {
+    :deep(.arco-textarea) {
+      padding: 8px 12px;
+      font-size: 14px;
+      line-height: 1.6;
+      border-color: var(--color-border);
+      border-radius: 6px;
+      transition: all 0.2s ease;
+
+      &:hover {
+        border-color: var(--color-primary-light-2);
+      }
+
+      &:focus {
+        border-color: var(--color-primary);
+        box-shadow: 0 0 0 2px var(--color-primary-light-1);
+      }
+    }
+  }
+
+  :deep(.arco-form-item-label) {
+    margin-bottom: 8px;
+    font-weight: 500;
   }
 }
 </style>

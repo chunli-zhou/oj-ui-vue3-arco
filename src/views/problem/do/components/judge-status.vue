@@ -37,27 +37,10 @@
           />
         </div>
         <div v-else-if="status === 'finish'">
-          <a-skeleton
-            v-if="submitInfo.judgeInfo === null"
-            animation
-            :loading="true"
-          >
-            <a-space
-              direction="vertical"
-              :style="{ width: '100%' }"
-              size="large"
-            >
-              <a-skeleton-line :rows="3" :widths="[450, 450, 450]" />
-            </a-space>
-          </a-skeleton>
-          <a-space v-else direction="vertical">
+          <a-space direction="vertical">
             <a-form-item label="执行消息">
               <a-alert class="alert" type="success" :show-icon="false">
-                {{
-                  submitInfo.judgeInfo.message == null
-                    ? '无'
-                    : submitInfo.judgeInfo.message
-                }}
+                {{ submitInfo.judgeInfo?.message || '无' }}
               </a-alert>
             </a-form-item>
             <a-form-item label="消耗内存：">
@@ -66,13 +49,7 @@
                   animation
                   :animation-duration="1000"
                   separator="."
-                  :value="
-                    Number(
-                      submitInfo.judgeInfo.memory === null
-                        ? 0
-                        : submitInfo.judgeInfo.memory
-                    )
-                  "
+                  :value="Number(submitInfo.judgeInfo?.memory || 0)"
                   :value-style="{ fontSize: '1.0em' }"
                   show-group-separator
                 />
@@ -85,13 +62,7 @@
                   animation
                   :animation-duration="1000"
                   separator="."
-                  :value="
-                    Number(
-                      submitInfo.judgeInfo.time === null
-                        ? 0
-                        : submitInfo.judgeInfo.time
-                    )
-                  "
+                  :value="Number(submitInfo.judgeInfo?.time || 0)"
                   :value-style="{ fontSize: '1.0em' }"
                   show-group-separator
                 />
@@ -110,6 +81,7 @@ import { PropType, ref, watch } from 'vue';
 import { OjProblemSubmitService } from '@/api/gen-api/services/OjProblemSubmitService.ts';
 import { ProblemSubmitAddRequest } from '@/api/gen-api';
 import type { OjProblemSubmitVo } from '@/api/gen-api/models/problem/OjProblemSubmitVo.ts';
+import type { JudgeInfo } from '@/api/gen-api/models/problem/JudgeInfo.ts';
 
 const judgePercent = ref(0);
 const props = defineProps({
@@ -121,57 +93,105 @@ const props = defineProps({
     type: Object as PropType<ProblemSubmitAddRequest>,
     default: null
   },
-  // 新增 submitId 属性用于回显
   submitId: {
     type: Number,
     default: null
   }
 });
+
 const status = ref('');
 const progressPercent = ref(0);
-watch(
-  () => props.flag,
-  () => {
-    status.value = props.flag;
-    if (status.value === 'submit') {
-      handleSubmit();
-      setTimeout(() => {
-        progressPercent.value = 0.8;
-      }, 500);
-    }
-  }
-);
-
-const emit = defineEmits(['submitError']);
+const emit = defineEmits(['submitError', 'judgeFinish']);
 const problemSubmitId = ref<number>();
+
+// 初始化 submitInfo
+const submitInfo = ref<OjProblemSubmitVo>({
+  judgeInfo: {
+    message: '',
+    memory: 0,
+    time: 0
+  }
+});
+
+// 监听 req 变化，当有新的提交时重置状态
+watch(
+  () => props.req,
+  newVal => {
+    if (newVal?.value) {
+      // 重置所有状态
+      status.value = 'submit';
+      progressPercent.value = 0;
+      judgePercent.value = 0;
+      submitInfo.value = {
+        judgeInfo: {
+          message: '',
+          memory: 0,
+          time: 0
+        }
+      };
+      // 开始新的提交
+      handleSubmit();
+    }
+  },
+  { deep: true, immediate: true }
+);
 
 /**
  * 提交判题
  */
 const handleSubmit = async () => {
-  OjProblemSubmitService.doQuestionSubmit(props.req.value)
-    .then(res => {
-      if (res.result) {
-        problemSubmitId.value = res.result;
-        progressPercent.value = 1;
-        setTimeout(() => {
-          status.value = 'judge';
-          setTimeout(() => {
-            judgePercent.value = 0.5;
-            setTimeout(() => {
-              // setJudgeInterval();
-              getJudgeInfo();
-              judgePercent.value = 0.8;
-            }, 500);
-          }, 1000);
-        }, 1000);
-      }
-    })
-    .catch(() => {
-      emit('submitError');
-    });
+  if (!props.req?.value) return;
+
+  try {
+    const res = await OjProblemSubmitService.doQuestionSubmit(props.req.value);
+    if (res.result) {
+      problemSubmitId.value = res.result;
+      progressPercent.value = 1;
+      status.value = 'judge';
+      judgePercent.value = 0.5;
+      // 开始获取判题信息
+      getJudgeInfo();
+    }
+  } catch (error) {
+    emit('submitError');
+  }
 };
-const submitInfo = ref<OjProblemSubmitVo>({});
+
+/**
+ * 获取判题信息
+ */
+const getJudgeInfo = async () => {
+  if (!problemSubmitId.value) return;
+
+  try {
+    const res = await OjProblemSubmitService.getInfo(problemSubmitId.value);
+    if (res.result) {
+      if ([0, 1].includes(res.result.status)) {
+        // 如果还在判题中，继续轮询
+        setTimeout(() => {
+          getJudgeInfo();
+        }, 1000); // 每秒检查一次
+      } else {
+        // 判题完成
+        judgePercent.value = 1;
+        status.value = 'finish';
+        // 设置判题结果
+        const judgeInfo: JudgeInfo = {
+          message: res.result.judgeInfo?.message || '无',
+          memory: res.result.judgeInfo?.memory || 0,
+          time: res.result.judgeInfo?.time || 0
+        };
+        submitInfo.value = {
+          ...res.result,
+          judgeInfo
+        };
+        emit('judgeFinish');
+      }
+    }
+  } catch (error) {
+    emit('submitError');
+  }
+};
 
 // 监听 submitId 变化（回显逻辑）
 watch(
@@ -181,57 +201,36 @@ watch(
       loadExistingSubmit(newVal);
     }
   },
-  { immediate: true } // 初始化时立即执行
+  { immediate: true }
 );
 
 // 加载已有提交记录
 const loadExistingSubmit = async (submitId: number) => {
-  status.value = 'judge'; // 直接显示判题中状态
-  judgePercent.value = 0.8; // 模拟进度
+  status.value = 'judge';
+  judgePercent.value = 0.8;
   try {
     const res = await OjProblemSubmitService.getInfo(submitId);
     if (res.result) {
-      submitInfo.value = res.result;
-      // 根据状态更新 UI
+      // 设置判题信息
+      const judgeInfo: JudgeInfo = {
+        message: res.result.judgeInfo?.message || '无',
+        memory: res.result.judgeInfo?.memory || 0,
+        time: res.result.judgeInfo?.time || 0
+      };
+      submitInfo.value = {
+        ...res.result,
+        judgeInfo
+      };
       if ([0, 1].includes(res.result.status)) {
-        // 判题中，继续轮询
         getJudgeInfo();
       } else {
-        // 判题完成
         status.value = 'finish';
         judgePercent.value = 1;
       }
     }
   } catch (error) {
-    console.error('加载提交记录失败', error);
     status.value = '';
   }
-};
-/**
- * 根据最终的判题的结果响应最后的信息
- */
-
-/**
- * 获取判题信息
- */
-const getJudgeInfo = async () => {
-  OjProblemSubmitService.getInfo(problemSubmitId.value).then(res => {
-    // （0 - 待判题、1 - 判题中、2 - 成功、3 - 失败）
-    if (res.result) {
-      if ([0, 1].includes(res.result.status)) {
-        getJudgeInfo();
-        // TODO: 处理 code_status
-      } else {
-        setTimeout(() => {
-          judgePercent.value = 1;
-          setTimeout(() => {
-            status.value = 'finish';
-            submitInfo.value = res.result;
-          }, 1000);
-        }, 500);
-      }
-    }
-  });
 };
 </script>
 

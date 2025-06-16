@@ -1,15 +1,15 @@
 <template>
   <a-list
     v-if="!searchLoading"
+    :data="list"
     class="content-list"
     :max-height="300"
-    :data="list"
     :bordered="false"
     @reach-bottom="handleLoadPost"
   >
-    <template #item="{ item, index }">
+    <template #item="{ item }">
       <a-list-item
-        :key="index"
+        :key="item.id"
         class="content-list-item"
         action-layout="vertical"
         @click="handleClickItem(item)"
@@ -96,21 +96,37 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, defineProps, onMounted } from 'vue';
 import { OjPostService } from '@/api/gen-api/services/OjPostService.ts';
 import { OjPostQueryRequest, type OjPostVo, Paging } from '@/api/gen-api';
 import { Message } from '@arco-design/web-vue';
 import { useRouter } from 'vue-router';
 
+const props = defineProps<{ creatorId?: string }>();
+
 const list = ref<OjPostVo[]>([]);
 const totalPage = ref();
 const paging = ref<Paging>({
-  pageNum: 1,
+  pageNum: 0,
   pageSize: 10
 });
 const req = ref<OjPostQueryRequest>({
-  title: ''
+  title: '',
+  userId: props.creatorId as string
 });
+
+const getPostList = () => {
+  OjPostService.pageSelfBySelfId({ page: paging.value, req: req.value })
+    .then(res => {
+      if (res.result.records) {
+        totalPage.value = res.result.totalPage;
+        list.value.push(...res.result.records);
+      }
+    })
+    .finally(() => {
+      searchLoading.value = false;
+    });
+};
 
 const searchPost = (postTitle: string) => {
   paging.value.pageNum = 1;
@@ -122,18 +138,6 @@ const searchPost = (postTitle: string) => {
 defineExpose({
   searchPost
 });
-const getPostList = () => {
-  OjPostService.page({ page: paging.value, req: req.value })
-    .then(res => {
-      if (res.result.records) {
-        totalPage.value = res.result.totalPage;
-        list.value.push(...res.result.records);
-      }
-    })
-    .finally(() => {
-      searchLoading.value = false;
-    });
-};
 
 const handleLoadPost = () => {
   if (paging.value.pageNum >= totalPage.value) {
@@ -159,6 +163,11 @@ const handleClickItem = (item: OjPostVo) => {
     }
   });
 };
+onMounted(() => {
+  if (props.creatorId) {
+    getPostList();
+  }
+});
 </script>
 
 <style scoped lang="less">

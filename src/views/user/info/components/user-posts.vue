@@ -3,7 +3,7 @@
     <template #extra>
       <a-link @click="searchModalVisible = true">搜一下</a-link>
     </template>
-    <user-post-list :creator-id="userId" />
+    <user-post-list-finish :creator-id="userId" />
   </a-card>
   <a-modal :visible="searchModalVisible" @cancel="handleCancelSearchModal">
     <template #title>搜索帖子</template>
@@ -15,7 +15,7 @@
         @search="handleSearch"
         @keydown.enter="handleSearch"
       />
-      <user-post-list
+      <user-post-list-finish
         ref="searchRef"
         :creator-id="userId"
         @close-modal="handleCloseModalByChild"
@@ -29,8 +29,8 @@
 
 <script lang="ts" setup>
 import { ref, unref } from 'vue';
-import UserPostList from '@/views/user/info/components/user-post-list.vue';
 import { useRoute } from 'vue-router';
+import UserPostListFinish from '@/views/user/info/components/user-post-list-finish.vue';
 
 const searchRef = ref<any>();
 const route = useRoute();

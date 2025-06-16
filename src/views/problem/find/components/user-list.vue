@@ -255,7 +255,7 @@ const fetchUserData = async () => {
         ...user,
         avatar:
           user.avatar && !user.avatar.startsWith('http')
-            ? 'http://localhost:8996/api' + user.avatar
+            ? '/api' + user.avatar
             : user.avatar || '',
         nickname: user.nickname || '匿名用户'
       }));
@@ -272,7 +272,7 @@ const fetchUserData = async () => {
         currentUser.value = {
           avatar:
             userData.avatar && !userData.avatar.startsWith('http')
-              ? 'http://localhost:8996/api' + userData.avatar
+              ? '/api' + userData.avatar
               : userData.avatar || '',
           nickname: userData.nickname || '匿名用户',
           submitCount: userData.totalSubmissions || 0,

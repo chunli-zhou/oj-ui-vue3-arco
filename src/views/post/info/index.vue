@@ -57,16 +57,14 @@ const postInfo = ref<OjPostVo>({
 });
 const postDetailRef = ref();
 const route = useRoute();
-const postId = route.query.postId;
-
-const getPostInfo = async (postId: number) => {
-  await OjPostService.getInfo(String(postId)).then(async res => {
+const postId = String(route.query.postId);
+const getPostInfo = async (postId: string) => {
+  await OjPostService.getInfo(postId).then(async res => {
     if (res.result) {
       postInfo.value = res.result;
       // 确保头像路径正确
       if (postInfo.value.avatar && !postInfo.value.avatar.startsWith('http')) {
-        postInfo.value.avatar =
-          'http://localhost:8996/api' + postInfo.value.avatar;
+        postInfo.value.avatar = '/api' + postInfo.value.avatar;
       }
       // 获取用户昵称并赋值给creatorName
       if (postInfo.value.creator) {

@@ -57,17 +57,64 @@
 </template>
 
 <script setup lang="ts">
-import { nextTick, ref, onMounted } from 'vue';
+import { nextTick, ref, watch, onMounted } from 'vue';
 import { OjProblemService } from '@/api/gen-api';
 import { ProblemSubmitAddRequest } from '@/api/gen-api';
 
-const answer = ref(''); /*用户输入的代码*/
 const ansLanguage = ref('java'); /*用户选择的语言*/
+const answer = ref(''); /*用户输入的代码*/
 const theme = ref('vs-light'); /*用户选择的主题*/
-
 const loading = ref(false);
 const editorReady = ref(false);
 const editorKey = ref(0);
+
+watch(ansLanguage, (newVal: string) => {
+  getTemplate(newVal);
+  editorKey.value++; // 强制重新渲染编辑器
+});
+const getTemplate = (ansLanguage: string) => {
+  if (ansLanguage === 'java') {
+    answer.value =
+      'import java.util.Scanner;\n' +
+      '// 1:无需package\n' +
+      '// 2: 类名必须Main, 不可修改\n' +
+      '\n' +
+      'public class Main {\n' +
+      '    public static void main(String[] args) {\n' +
+      '        Scanner scan = new Scanner(System.in);\n' +
+      '        //在此输入您的代码...\n' +
+      '        scan.close();\n' +
+      '    }\n' +
+      '}';
+  } else if (ansLanguage === 'python') {
+    answer.value =
+      'import os\n' + 'import sys\n' + '\n' + '# 请在此输入您的代码';
+  } else if (ansLanguage === 'c') {
+    answer.value =
+      '#include <stdio.h>\n' +
+      '#include <stdlib.h>\n' +
+      '\n' +
+      'int main(int argc, char *argv[])\n' +
+      '{\n' +
+      '  // 请在此输入您的代码\n' +
+      '  return 0;\n' +
+      '}';
+  } else if (ansLanguage == 'cpp') {
+    answer.value =
+      '#include <bits/stdc++.h> \n' +
+      'using namespace std;\n' +
+      '\n' +
+      'int main() {\n' +
+      '    ios::sync_with_stdio(false);\n' +
+      '    cin.tie(nullptr);\n' +
+      '    \n' +
+      '    // 解题代码写在这里\n' +
+      '    \n' +
+      '    return 0;\n' +
+      '}';
+  }
+};
+
 /**
  * 值发生改变
  */
@@ -75,7 +122,7 @@ const handleChange = (ans: string) => {
   answer.value = ans;
 };
 const submitButtonLoading = ref(false);
-const emits = defineEmits(['submit']);
+const emits = defineEmits(['submit', 'reset-submit']);
 const props = defineProps({
   questionId: {
     type: Number,
@@ -94,15 +141,35 @@ const req = ref<ProblemSubmitAddRequest>({
   questionId: null
 });
 const handleSubmit = () => {
+  if (submitButtonLoading.value) return; // 如果正在提交，直接返回
   submitButtonLoading.value = true;
-  setTimeout(() => {
-    // 设置提交判题
-    req.value.code = answer.value;
-    req.value.language = ansLanguage.value;
-    req.value.questionId = props.questionId;
-    emits('submit', 'submit', req);
-    submitButtonLoading.value = false;
-  }, 1000);
+  // 设置提交判题
+  req.value = {
+    code: answer.value,
+    language: ansLanguage.value,
+    questionId: props.questionId
+  };
+  emits('submit', 'submit', req);
+};
+
+// 添加重置提交状态的方法
+const resetSubmitStatus = () => {
+  submitButtonLoading.value = false;
+};
+
+// 暴露方法给父组件
+defineExpose({
+  resetSubmitStatus
+});
+
+// 监听父组件发送的重置事件
+const handleReset = () => {
+  resetSubmitStatus();
+};
+
+// 监听判题完成事件
+const handleJudgeFinish = () => {
+  resetSubmitStatus();
 };
 
 onMounted(() => {
@@ -120,6 +187,7 @@ onMounted(() => {
       loading.value = false;
     }
   });
+  getTemplate(ansLanguage.value);
 });
 </script>
 

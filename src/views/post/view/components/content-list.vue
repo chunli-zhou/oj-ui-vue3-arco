@@ -8,9 +8,9 @@
       :bordered="false"
       @reach-bottom="handleLoadPost"
     >
-      <template #item="{ item, index }">
+      <template #item="{ item }">
         <a-list-item
-          :key="index"
+          :key="item.id"
           class="content-list-item"
           action-layout="vertical"
           @click="handleClickItem(item)"
@@ -56,7 +56,7 @@
               <a-popover>
                 <template #content>
                   <a-space size="medium">
-                    <a-avatar :image-url="item.avatar" />
+                    <a-avatar :image-url="'/api' + item.avatar" />
                     <a-space direction="vertical">
                       <a-typography-title bold style="font-size: 17px">
                         {{ item.creatorName }}
@@ -79,7 +79,7 @@
                     </a-space>
                   </a-space>
                 </template>
-                <a-avatar shape="square" :image-url="item.avatar" />
+                <a-avatar shape="square" :image-url="'/api' + item.avatar" />
               </a-popover>
             </template>
           </a-list-item-meta>
@@ -145,26 +145,12 @@ const list = ref<OjPostVo[]>([]);
 const totalPage = ref();
 
 const getPostList = () => {
-  OjPostService.page({ page: paging.value, req: req.value })
-    .then(res => {
-      if (res.result.records) {
-        res.result.records.forEach((item: any) => {
-          if (item.avatar && !item.avatar.startsWith('http')) {
-            item.avatar = 'http://localhost:8996/api' + item.avatar;
-          }
-        });
-        totalPage.value = res.result.totalPage;
-        if (res.result.records.length > 0) {
-          const clone = { ...res.result.records[0] };
-          clone.id = 'clone_' + clone.id;
-          res.result.records.splice(1, 0, clone);
-        }
-        list.value.push(...res.result.records);
-      }
-    })
-    .finally(() => {
-      loading.value = false;
-    });
+  OjPostService.page({ page: paging.value, req: req.value }).then(res => {
+    if (res.result.records) {
+      totalPage.value = res.result.totalPage;
+      list.value.push(...res.result.records);
+    }
+  });
 };
 
 const handleLoadPost = () => {

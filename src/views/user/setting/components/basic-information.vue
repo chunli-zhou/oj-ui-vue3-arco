@@ -63,28 +63,17 @@ const userStore = useUserStore();
 const formRef = ref<FormInstance>();
 const formData = ref<SysUserUpdateRequest>({
   id: userStore.id,
-  email: userStore.email,
   nickName: userStore.nickName,
   realName: userStore.realName,
   introduce: userStore.introduce
 });
 
-const originalEmail = ref(userStore.email);
-
-const validateEmail = (email: string) => {
-  // 简单邮箱正则
-  return /^[\w.-]+@[\w.-]+\.[a-zA-Z]{2,}$/.test(email);
-};
-
-const onEmailBlur = () => {
-  formRef.value?.validateField('email');
-  if (!validateEmail(formData.value.email || '')) {
-    setTimeout(() => {
-      formRef.value?.clearValidate('email');
-      formData.value.email = originalEmail.value;
-    }, 3000);
-  }
-};
+// 新增：保存原始数据
+const originalData = ref({
+  nickName: userStore.nickName,
+  realName: userStore.realName,
+  introduce: userStore.introduce
+});
 
 const handleSubmit = async () => {
   await formRef.value?.validate();
@@ -95,13 +84,16 @@ const handleSubmit = async () => {
       await userStore.info();
       formData.value = {
         id: userStore.id,
-        email: userStore.email,
         nickName: userStore.nickName,
         realName: userStore.realName,
         introduce: userStore.introduce
       };
-      // 更新原邮箱
-      originalEmail.value = userStore.email;
+      // 同步原始数据
+      originalData.value = {
+        nickName: formData.value.nickName,
+        realName: formData.value.realName,
+        introduce: formData.value.introduce
+      };
     } else {
       Message.error('更新失败，请联系管理员');
     }
@@ -110,28 +102,37 @@ const handleSubmit = async () => {
 
 onMounted(() => {
   userStore.info();
+  // 同步原始数据
+  originalData.value = {
+    nickName: userStore.nickName,
+    realName: userStore.realName,
+    introduce: userStore.introduce
+  };
 });
 
 const reset = async () => {
   await userStore.info();
   formData.value = {
     id: userStore.id,
-    email: userStore.email,
     nickName: userStore.nickName,
     realName: userStore.realName,
     introduce: userStore.introduce
   };
-  originalEmail.value = userStore.email;
+  // 同步原始数据
+  originalData.value = {
+    nickName: formData.value.nickName,
+    realName: formData.value.realName,
+    introduce: formData.value.introduce
+  };
 };
 
 const isSaveDisabled = computed(() => {
-  const emailValid = validateEmail(formData.value.email || '');
-  return (
-    !formData.value.nickName ||
-    !formData.value.realName ||
-    !formData.value.email ||
-    !emailValid
-  );
+  // 只有内容变更后才可保存
+  const changed =
+    formData.value.nickName !== originalData.value.nickName ||
+    formData.value.realName !== originalData.value.realName ||
+    formData.value.introduce !== originalData.value.introduce;
+  return !formData.value.nickName || !formData.value.realName || !changed;
 });
 </script>
 

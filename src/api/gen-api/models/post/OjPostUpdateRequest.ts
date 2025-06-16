@@ -9,7 +9,7 @@ export type OjPostUpdateRequest = {
   /**
    * id
    */
-  id: number;
+  id: String;
   /**
    * 标题
    */

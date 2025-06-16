@@ -95,7 +95,7 @@ watch(
       post.value = props.postInfo;
       // 确保头像路径正确
       if (post.value.avatar && !post.value.avatar.startsWith('http')) {
-        post.value.avatar = 'http://localhost:8996/api' + post.value.avatar;
+        post.value.avatar = '/api' + post.value.avatar;
       }
     }
   }

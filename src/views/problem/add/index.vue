@@ -8,7 +8,7 @@
         </template>
         <template #title>添加题目</template>
         <div class="wrapper">
-          <a-steps v-model:current="currentStep" line-less class="steps">
+          <a-steps :current="currentStep" line-less class="steps">
             <a-space :size="75">
               <a-step description="输入题目基本信息">基本信息</a-step>
               <a-step description="输入题目描述">题目描述</a-step>
@@ -20,28 +20,28 @@
           <a-divider style="margin: 35px" />
           <keep-alive>
             <ProblemBaseInfo
-              v-if="currentStep === 0"
+              v-if="currentStep === 1"
               v-model:data="submitModel"
               :add-flag="true"
               @change-step="changeStep"
             />
             <ProblemDesc
-              v-else-if="currentStep === 1"
-              v-model:data="submitModel"
-              @change-step="changeStep"
-            />
-            <ProblemAnswer
               v-else-if="currentStep === 2"
               v-model:data="submitModel"
               @change-step="changeStep"
             />
-            <ProblemJudgeCase
+            <ProblemAnswer
               v-else-if="currentStep === 3"
               v-model:data="submitModel"
               @change-step="changeStep"
             />
-            <ProblemJudgeConfig
+            <ProblemJudgeCase
               v-else-if="currentStep === 4"
+              v-model:data="submitModel"
+              @change-step="changeStep"
+            />
+            <ProblemJudgeConfig
+              v-else-if="currentStep === 5"
               v-model:data="submitModel"
               @change-step="changeStep"
             />
@@ -63,7 +63,7 @@ import ProblemJudgeConfig from '@/views/problem/components/problem-judge-config.
 import { useRouter } from 'vue-router';
 import { OjProblemAddRequest, OjProblemService } from '@/api/gen-api';
 
-const currentStep = ref(0);
+const currentStep = ref(1);
 const submitModel = ref({} as OjProblemAddRequest);
 const router = useRouter();
 

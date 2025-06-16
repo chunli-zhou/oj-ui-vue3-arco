@@ -116,7 +116,7 @@ const zoneOptions = ref<SelectOptionData[]>([
 ]);
 const route = useRoute();
 const post = ref<OjPostUpdateRequest>({
-  id: Number(route.query.id),
+  id: String(route.query.id),
   title: '',
   content: '',
   tags: [],
@@ -140,7 +140,7 @@ const handleSubmit = () => {
   });
 };
 onMounted(() => {
-  OjPostService.getInfo(String(post.value.id)).then(res => {
+  OjPostService.getInfo(post.value.id).then(res => {
     if (res.result) {
       const { title, content, tags, zone } = res.result;
       post.value.title = title;
@@ -158,8 +158,9 @@ onMounted(() => {
 }
 
 .base-info-button {
-  /*右对齐*/
-  text-align: right;
   margin-bottom: 10px;
+
+  /* 右对齐 */
+  text-align: right;
 }
 </style>

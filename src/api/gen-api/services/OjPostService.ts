@@ -90,6 +90,21 @@ export class OjPostService {
     });
   }
 
+  public static pageSelfBySelfId(requestBody: {
+    page?: Paging;
+    req?: OjPostQueryRequest;
+  }): CancelablePromise<ResultPageOjPostVo> {
+    return __request(OpenAPI, {
+      method: 'POST',
+      url: '/oj/post/pageSelfBySelfId',
+      body: requestBody.req,
+      query: {
+        ...requestBody.page
+      },
+      mediaType: 'application/json'
+    });
+  }
+
   /**
    * 根据主键获取帖子
    * @param id
@@ -112,7 +127,7 @@ export class OjPostService {
    * @returns ResultBoolean OK
    * @throws ApiError
    */
-  public static remove(id: number): CancelablePromise<ResultBoolean> {
+  public static remove(id: string): CancelablePromise<ResultBoolean> {
     return __request(OpenAPI, {
       method: 'DELETE',
       url: '/oj/post/remove/{id}',

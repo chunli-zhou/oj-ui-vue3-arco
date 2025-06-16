@@ -9,7 +9,7 @@ export type OjPostVo = {
   /**
    * id
    */
-  id?: number;
+  id?: string;
   /**
    * 标题
    */

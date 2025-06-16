@@ -19,13 +19,18 @@
               </div>
             </template>
             <template #first>
-              <do-problem :question-id="problemId" @submit="handleSubmitCode" />
+              <do-problem
+                ref="doProblemRef"
+                :question-id="problemId"
+                @submit="handleSubmitCode"
+              />
             </template>
             <template #second>
               <judge-status
                 :flag="flag"
                 :req="req"
                 @submit-error="handleSubmitError"
+                @judge-finish="handleJudgeFinish"
               />
             </template>
           </a-split>
@@ -37,13 +42,14 @@
 
 <script setup lang="ts">
 import { useRoute } from 'vue-router';
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import ProblemInfo from '@/views/problem/do/components/problem-info.vue';
 import DoProblem from '@/views/problem/do/components/do-problem.vue';
 import JudgeStatus from '@/views/problem/do/components/judge-status.vue';
 import { ProblemSubmitAddRequest } from '@/api/gen-api';
 
 const problemId = ref();
+const doProblemRef = ref();
 
 const route = useRoute();
 onMounted(() => {
@@ -56,14 +62,31 @@ const handleSubmitCode = (param: string, obj: ProblemSubmitAddRequest) => {
   flag.value = param;
   req.value = obj;
 };
+
 const handleSubmitError = () => {
   flag.value = '';
+  doProblemRef.value?.resetSubmitStatus();
 };
+
+const handleJudgeFinish = () => {
+  flag.value = '';
+  doProblemRef.value?.resetSubmitStatus();
+};
+
+// 监听 flag 变化，当提交完成时重置状态
+watch(
+  () => flag.value,
+  newVal => {
+    if (!newVal) {
+      doProblemRef.value?.resetSubmitStatus();
+    }
+  }
+);
 </script>
 
 <style lang="less" scoped>
 .container-do {
-  padding: 0 20px 20px 20px;
+  padding: 0 20px 20px;
 }
 
 .general-card {
@@ -71,11 +94,11 @@ const handleSubmitError = () => {
 }
 
 .trigger-vertical {
-  display: flex;
   position: relative;
+  display: flex;
+  flex-direction: column;
   width: 3px;
   height: 100vh;
-  flex-direction: column;
 
   &-line {
     flex: 1;
@@ -87,8 +110,8 @@ const handleSubmitError = () => {
 }
 
 .trigger-horizontal {
-  display: flex;
   position: relative;
+  display: flex;
   width: 100%;
   height: 3px;
   background-color: var(--color-bg-2);

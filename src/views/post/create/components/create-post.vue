@@ -86,7 +86,9 @@ import { SelectOptionData } from '@arco-design/web-vue/es/select/interface';
 import { MdEditor } from 'md-editor-v3';
 import { OjPostService } from '@/api/gen-api/services/OjPostService.ts';
 import { Message } from '@arco-design/web-vue';
+import { useRouter } from 'vue-router';
 
+const router = useRouter();
 const formRef = ref();
 const zoneOptions = ref<SelectOptionData[]>([
   {
@@ -127,6 +129,7 @@ const handleSubmit = () => {
   OjPostService.save(post.value).then(res => {
     if (res.result) {
       Message.success('发布成功');
+      router.push({ name: 'PostView' });
     }
   });
 };
@@ -134,8 +137,9 @@ const handleSubmit = () => {
 
 <style scoped lang="less">
 .base-info-button {
-  /*右对齐*/
-  text-align: right;
   margin-bottom: 10px;
+
+  /* 右对齐 */
+  text-align: right;
 }
 </style>

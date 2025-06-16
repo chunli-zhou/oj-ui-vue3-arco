@@ -55,7 +55,7 @@
             <a-popover>
               <template #content>
                 <a-space size="medium">
-                  <a-avatar :image-url="item.avatar" />
+                  <a-avatar :image-url="'/api' + item.avatar" />
                   <a-space direction="vertical">
                     <a-typography-title bold style="font-size: 17px">
                       {{ item.creatorName }}
@@ -78,7 +78,7 @@
                   </a-space>
                 </a-space>
               </template>
-              <a-avatar shape="square" :image-url="item.avatar" />
+              <a-avatar shape="square" :image-url="'/api' + item.avatar" />
             </a-popover>
           </template>
         </a-list-item-meta>
@@ -96,7 +96,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, watch, defineProps } from 'vue';
+import { ref, onMounted, defineProps } from 'vue';
 import { OjPostService } from '@/api/gen-api/services/OjPostService.ts';
 import { OjPostQueryRequest, type OjPostVo, Paging } from '@/api/gen-api';
 import { Message } from '@arco-design/web-vue';
@@ -123,11 +123,6 @@ const getPostList = () => {
   OjPostService.page({ page: paging.value, req: req.value })
     .then(res => {
       if (res.result.records) {
-        res.result.records.forEach((item: any) => {
-          if (item.avatar && !item.avatar.startsWith('http')) {
-            item.avatar = 'http://localhost:8996/api' + item.avatar;
-          }
-        });
         totalPage.value = res.result.totalPage;
         list.value.push(...res.result.records);
       }
@@ -189,8 +184,6 @@ onMounted(async () => {
     await userStore.info();
   }
 });
-
-const currentUserId = userStore.id;
 </script>
 
 <style scoped lang="less">

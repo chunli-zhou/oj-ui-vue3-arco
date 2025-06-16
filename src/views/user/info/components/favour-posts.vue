@@ -85,7 +85,7 @@ const getPostList = () => {
       if (res.result.records) {
         res.result.records.forEach((item: any) => {
           if (item.avatar && !item.avatar.startsWith('http')) {
-            item.avatar = 'http://localhost:8996/api' + item.avatar;
+            item.avatar = '/api' + item.avatar;
           }
         });
         totalPage.value = res.result.totalPage;

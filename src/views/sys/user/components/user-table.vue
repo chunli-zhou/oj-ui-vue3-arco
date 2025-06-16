@@ -201,7 +201,7 @@ const pageData = async () => {
       // 头像处理
       result.records.forEach((item: any) => {
         if (item.avatar && !item.avatar.startsWith('http')) {
-          item.avatar = 'http://localhost:8996/api' + item.avatar;
+          item.avatar = '/api' + item.avatar;
         }
       });
       data.userList = result.records;

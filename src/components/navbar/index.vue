@@ -83,7 +83,7 @@
             <img :src="userStore.avatar" />
           </a-avatar>
           <template #content>
-            <a-doption>
+            <a-doption v-if="isShow">
               <a-space @click="switchRoles">
                 <icon-tag />
                 <span>切换权限</span>
@@ -141,7 +141,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, inject, ref, unref } from 'vue';
+import { computed, inject, onMounted, ref, unref } from 'vue';
 import { Message } from '@arco-design/web-vue';
 import { useFullscreen } from '@vueuse/core';
 import { useAppStore, useUserStore } from '@/store';
@@ -149,7 +149,8 @@ import useUser from '@/hooks/useUser';
 import Menu from '@/components/menu/index.vue';
 import { useRouter } from 'vue-router';
 import SearchPostList from '@/components/navbar/components/search-post-list.vue';
-
+import { SysUserService } from '@/api/gen-api';
+const isShow = ref(true);
 const userStore = useUserStore();
 const appStore = useAppStore();
 const { logout } = useUser();
@@ -194,6 +195,12 @@ const handleCancelSearchModal = () => {
 const handleOpenSearchModal = () => {
   searchModalVisible.value = true;
 };
+onMounted(async () => {
+  const response = await SysUserService.getInfo();
+  if (response.result.role === 'user') {
+    isShow.value = false;
+  }
+});
 </script>
 
 <style scoped lang="less">

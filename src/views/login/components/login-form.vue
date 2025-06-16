@@ -89,7 +89,7 @@
       :visible="showForgotModal"
       :ok-button-props="{
         disabled: !(
-          forgotForm.username.length >= 6 && forgotForm.username.length <= 12
+          forgotForm.username.length >= 4 && forgotForm.username.length <= 12
         )
       }"
       @ok="handleForgotOk"
@@ -100,7 +100,7 @@
         <a-form-item
           field="username"
           label="账号"
-          :rules="[{ required: true, message: '请输入6-12位账号' }]"
+          :rules="[{ required: true, message: '请输入4-12位账号' }]"
         >
           <a-input
             v-model="forgotForm.username"
@@ -361,8 +361,6 @@ const onForgotInput = (val: string) => {
 };
 const handleForgotOk = async () => {
   await forgotFormRef.value?.validate();
-  if (!(forgotForm.username.length >= 6 && forgotForm.username.length <= 12))
-    return;
   try {
     const { data } = await axios.post('/api/security/forgotPassword', {
       username: forgotForm.username
@@ -380,6 +378,8 @@ const handleForgotOk = async () => {
     showForgotModal.value = false;
     showMethodSelect.value = false;
   }
+  // if (!(forgotForm.username.length >= 6 && forgotForm.username.length <= 12))
+  //   return;
 };
 const mobileCodeModal = ref(false); // 控制验证码输入弹窗
 const mobileCode = ref(''); // 用户输入的验证码
@@ -403,13 +403,10 @@ const chooseMethod = async (method: string) => {
   if (method === 'mobile') {
     mobileCodeLoading.value = true;
     try {
-      const { data } = await axios.post(
-        'http://localhost:8996/api/sys/sysUser/sendMobileCode',
-        {
-          userId: forgotResult.value.id,
-          mobile: forgotResult.value.mobile
-        }
-      );
+      const { data } = await axios.post('/api/sys/sysUser/sendMobileCode', {
+        userId: forgotResult.value.id,
+        mobile: forgotResult.value.mobile
+      });
       if (data.code === 200 && data.result) {
         serverMobileCode.value = data.result;
         Message.success('验证码已发送到您的手机');

@@ -16,7 +16,7 @@
         </a-typography-title>
         <a-typography-paragraph
           type="secondary"
-          style="font-size: 13px; width: 100px"
+          style="width: 100px; font-size: 13px"
           :ellipsis="{
             rows: 1,
             showTooltip: {
@@ -63,7 +63,10 @@ watch(
   () => props.postInfo,
   () => {
     if (props.postInfo) {
-      post.value = props.postInfo;
+      post.value = {
+        ...props.postInfo,
+        avatar: props.postInfo.avatar.replace(/^\/api/, '') // 移除开头的 `/api`
+      };
     }
   },
   {

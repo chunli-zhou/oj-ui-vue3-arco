@@ -10,7 +10,11 @@
         <a-row :gutter="16">
           <a-col :span="8">
             <a-form-item field="title" label="标题">
-              <a-input v-model="queryReq.title" placeholder="请输入帖子标题" />
+              <a-input
+                v-model="queryReq.title"
+                placeholder="请输入帖子标题"
+                @keyup.enter="pageData"
+              />
             </a-form-item>
           </a-col>
           <a-col :span="8">
@@ -29,6 +33,7 @@
                 v-model="queryReq.tags"
                 allow-clear
                 placeholder="请输入帖子标签并回车"
+                @keyup.enter="pageData"
               />
             </a-form-item>
           </a-col>

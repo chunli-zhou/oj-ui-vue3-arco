@@ -152,6 +152,9 @@ const handleSubmit = () => {
       try {
         await userStore.register(form as RegisterRequest).then(() => {
           Message.success('注册成功');
+          setTimeout(() => {
+            window.location.href = '/login'; // 使用有效的路由路径
+          }, 300);
         });
       } catch (error) {
         await getCaptcha();

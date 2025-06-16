@@ -93,9 +93,12 @@
       </template>
       <template #ThroughRate="{ record }">
         <a-statistic
-          :value="record.submitNum / record.acceptedNum"
+          :value="calculateThroughRate(record.acceptedNum, record.submitNum)"
           :precision="2"
-          :value-style="{ color: '#0fbf60', fontSize: '1.0em' }"
+          :value-style="{
+            color: getRateColor(record.acceptedNum / record.submitNum),
+            fontSize: '1.0em'
+          }"
         >
           <template #suffix>%</template>
         </a-statistic>
@@ -159,6 +162,18 @@ const contentTypeOptions: SelectOptionData[] = [
     value: 2
   }
 ];
+
+// 计算通过率
+const calculateThroughRate = (accepted: number, submit: number) => {
+  if (submit === 0) return 0; // 避免除以0
+  return accepted / submit;
+};
+// 根据通过率获取颜色
+const getRateColor = (rate: number) => {
+  if (rate >= 0.7) return '#0fbf60'; // 绿色
+  if (rate >= 0.3) return '#ff7d00'; // 橙色
+  return '#f53f3f'; // 红色
+};
 const handlePageSizeChange = (pageSize: number) => {
   paging.pageSize = pageSize;
   pageData();
