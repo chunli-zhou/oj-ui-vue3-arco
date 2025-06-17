@@ -57,20 +57,27 @@ import { PostCommentVo } from '@/api/gen-api/models/post/PostCommentVo.ts';
 const commentVisible = ref(false);
 const commentContent = ref('');
 const postId = useRoute().query.postId as string;
-const submitComment = () => {
-  OjPostCommentService.save({
-    content: commentContent.value,
-    postId: postId
-  }).then(res => {
+
+const emit = defineEmits(['getCommentNum']);
+const submitComment = async () => {
+  try {
+    const res = await OjPostCommentService.save({
+      content: commentContent.value,
+      postId: postId
+    });
+
     if (res.result) {
       Message.success('评论成功');
       commentVisible.value = false;
       commentContent.value = '';
       getRootComment();
+      emit('getCommentNum'); // 触发事件通知父组件
     }
-  });
+  } catch (error) {
+    Message.error('评论提交失败');
+    console.error(error);
+  }
 };
-
 const commentList = ref<PostCommentVo[]>([]);
 onMounted(() => {
   nextTick(() => {
@@ -88,7 +95,8 @@ const getRootComment = () => {
   OjPostCommentService.list(postId)
     .then(res => {
       if (res.result) {
-        res.result.forEach((item: any) => {
+        commentList.value = res.result;
+        /*res.result.forEach((item: any) => {
           if (item.authorAvatar && !item.authorAvatar.startsWith('http')) {
             item.authorAvatar = '/api' + item.authorAvatar;
           }
@@ -103,9 +111,8 @@ const getRootComment = () => {
               return child;
             });
           }
-        });
+        });*/
       }
-      commentList.value = res.result;
     })
     .finally(() => {
       loading.value = false;

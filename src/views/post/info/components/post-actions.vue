@@ -6,7 +6,7 @@
     :footer="false"
   >
     <template #title>评论区</template>
-    <post-comment />
+    <post-comment @getCommentNum="handleCommentSubmitted" />
   </a-drawer>
   <a-affix :offset-top="200">
     <a-space direction="vertical" size="large">
@@ -108,11 +108,20 @@ watch(
   }
 );
 const commentNum = ref<number>(0);
-onMounted(() => {
-  const postId = useRoute().query.postId as string;
-  OjPostCommentService.getNum(postId).then(res => {
+
+const route = useRoute();
+const postId = ref(route.query.postId as string);
+// 新增处理评论提交的方法
+const handleCommentSubmitted = async () => {
+  try {
+    const res = await OjPostCommentService.getNum(postId.value);
     commentNum.value = res.result;
-  });
+  } catch (error) {
+    console.error(error);
+  }
+};
+onMounted(() => {
+  handleCommentSubmitted();
 });
 
 const handleThumb = () => {
@@ -154,25 +163,25 @@ const handleCancelFavour = () => {
 
 <style scoped lang="less">
 .affix-button {
-  background-color: white;
   width: 50px;
   height: 50px;
   font-size: 20px;
+  background-color: white;
 
   &-thumb {
-    color: #165dff;
-    background-color: white;
     width: 50px;
     height: 50px;
     font-size: 20px;
+    color: #165dff;
+    background-color: white;
   }
 
   &-favour {
-    color: #ffb800;
-    background-color: white;
     width: 50px;
     height: 50px;
     font-size: 20px;
+    color: #ffb800;
+    background-color: white;
   }
 }
 </style>

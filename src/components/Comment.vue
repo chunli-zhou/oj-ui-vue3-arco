@@ -12,7 +12,7 @@
   >
     <template #avatar>
       <a-avatar
-        :image-url="comment.authorAvatar"
+        :image-url="'/api' + comment.authorAvatar"
         trigger-type="mask"
         @click="handleToUserInfo(comment.authorId)"
       >
