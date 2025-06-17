@@ -583,4 +583,8 @@ onMounted(() => {
   min-height: 130px;
   text-align: center;
 }
+
+.method-card:hover {
+  cursor: pointer;
+}
 </style>
