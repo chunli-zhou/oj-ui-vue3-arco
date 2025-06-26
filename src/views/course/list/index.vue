@@ -294,6 +294,7 @@ const handleDel = async (id: string) => {
     await deleteCourse(id);
     Message.success('删除成功');
     await pageData();
+    window.location.reload();
   } catch (error) {
     Message.error('删除失败');
   }
