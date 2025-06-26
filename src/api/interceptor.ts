@@ -7,7 +7,8 @@ import { getToken } from '@/utils/auth';
 // 创建axios的实例
 const service = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL || '',
-  timeout: 10000
+  timeout: 10000,
+  headers: { 'Content-Type': 'application/json' }
 });
 
 // 添加请求拦截器
