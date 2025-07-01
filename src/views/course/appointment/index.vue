@@ -351,7 +351,7 @@ const handleDelete = (record: AppointmentData) => {
     async onOk() {
       try {
         const res = await fetch(
-          `http://localhost:8996/api/course/courseReservation/deleteById?id=${record.id}`,
+          `/api/course/courseReservation/deleteById?id=${record.id}`,
           {
             method: 'DELETE'
           }
@@ -373,9 +373,7 @@ const handleDelete = (record: AppointmentData) => {
 const handleAdd = async () => {
   addVisible.value = true;
   // 获取课程下拉
-  const res = await fetch(
-    'http://localhost:8996/api/course/courseReservation/courseNameList'
-  );
+  const res = await fetch('/api/course/courseReservation/courseNameList');
   const data = await res.json();
   courseOptions.value = (data?.result || []).map((name: string) => ({
     label: name,
@@ -390,14 +388,11 @@ const handleAddCancel = () => {
 const handleAddOk = async () => {
   await addFormRef.value?.validate();
   // 发送POST请求
-  const res = await fetch(
-    'http://localhost:8996/api/course/courseReservation/add',
-    {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(addForm)
-    }
-  );
+  const res = await fetch('/api/course/courseReservation/add', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(addForm)
+  });
   const result = await res.json();
   if (result.code === 200) {
     Message.success('新增成功');
@@ -415,14 +410,11 @@ const handleEditCancel = () => {
 const handleEditOk = async () => {
   await editFormRef.value?.validate?.();
   // 发送POST请求
-  const res = await fetch(
-    'http://localhost:8996/api/course/courseReservation/modify',
-    {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(editForm)
-    }
-  );
+  const res = await fetch('/api/course/courseReservation/modify', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(editForm)
+  });
   const result = await res.json();
   if (result.code === 200) {
     Message.success('编辑成功');
@@ -457,7 +449,7 @@ onMounted(() => {
 .container {
   box-sizing: border-box;
   width: 100%;
-  min-width: 0;
+  min-width: 100vw;
   min-height: 100vh;
   padding: 0;
 }

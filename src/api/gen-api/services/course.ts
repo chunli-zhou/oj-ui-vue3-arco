@@ -112,10 +112,14 @@ export function uploadTeacherAvatar(courseId: string, file: File) {
   });
 }
 // 课程预约相关接口
-export function getCourseReservationList(params: CourseQuery) {
-  return service.get<CourseReservationData[]>('/api/course/reservation/list', {
-    params
-  });
+export function getCourseReservationList(params: {
+  courseName?: string;
+  studentName?: string;
+  school?: string;
+  pageNum?: number | string;
+  pageSize?: number | string;
+}) {
+  return service.post('/api/course/courseReservation/getList', params);
 }
 
 export function getCourseReservationDetail(courseId: string) {

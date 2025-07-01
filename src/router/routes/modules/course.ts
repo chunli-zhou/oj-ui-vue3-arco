@@ -34,16 +34,16 @@ const COURSE: AppRouteRecordRaw = {
         roles: [AUTH_CONST.SUPER_ADMIN, AUTH_CONST.ADMIN]
       }
     },
-    {
-      path: 'campus',
-      name: 'CourseCampus',
-      component: () => import('@/views/course/campus/index.vue'),
-      meta: {
-        locale: '校区安排',
-        requiresAuth: true,
-        roles: [AUTH_CONST.SUPER_ADMIN, AUTH_CONST.ADMIN]
-      }
-    },
+    // {
+    //   path: 'campus',
+    //   name: 'CourseCampus',
+    //   component: () => import('@/views/course/campus/index.vue'),
+    //   meta: {
+    //     locale: '校区安排',
+    //     requiresAuth: true,
+    //     roles: [AUTH_CONST.SUPER_ADMIN, AUTH_CONST.ADMIN]
+    //   }
+    // },
     {
       path: 'add',
       name: 'CourseAdd',

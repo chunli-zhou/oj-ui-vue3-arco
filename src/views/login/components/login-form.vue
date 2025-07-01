@@ -322,7 +322,7 @@ const handleSubmit = () => {
     await userStore
       .login(userInfoForm as LoginRequest)
       .then(() => {
-        router.push({ name: 'UserSetting' });
+        router.push({ name: 'FindProblem' });
         Message.success('登录成功！');
         const { rememberPassword } = loginConfig.value;
         const { username, password } = userInfoForm;
